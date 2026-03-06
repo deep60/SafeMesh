@@ -93,7 +93,7 @@ class AuthViewModel: ObservableObject {
         defer { isLoading = false }
 
         // Call API to send reset email
-        _ = try await apiClient.request(
+        let _: EmptyResponse = try await apiClient.request(
             endpoint: "/auth/forgot-password",
             method: .post,
             body: ForgotPasswordRequest(email: email)
@@ -104,7 +104,7 @@ class AuthViewModel: ObservableObject {
         isLoading = true
         defer { isLoading = false }
 
-        _ = try await apiClient.request(
+        let _: EmptyResponse = try await apiClient.request(
             endpoint: "/auth/reset-password",
             method: .post,
             body: ResetPasswordRequest(token: token, newPassword: newPassword)
@@ -186,7 +186,7 @@ class AuthViewModel: ObservableObject {
 
     private func performLogout() async {
         do {
-            _ = try await apiClient.request(
+            let _: EmptyResponse = try await apiClient.request(
                 endpoint: "/auth/logout",
                 method: .post,
                 body: nil
@@ -300,18 +300,6 @@ enum AuthError: LocalizedError {
 }
 
 // MARK: - Protocols
-protocol SecureStorageProtocol {
-    func save(key: SecureKey, value: String)
-    func load(key: SecureKey) -> String?
-    func delete(key: SecureKey)
-}
-
-enum SecureKey: String {
-    case accessToken = "access_token"
-    case refreshToken = "refresh_token"
-    case userId = "user_id"
-}
-
 protocol AuthManaging {
     func updateToken(_ token: String)
     func clearToken()

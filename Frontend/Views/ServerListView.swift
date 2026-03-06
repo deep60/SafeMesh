@@ -30,7 +30,7 @@ struct ServerListView: View {
     }
 
     private var regions: [String] {
-        Array(Set(viewModel.servers.map { $0.region })).sorted()
+        Array(Set(viewModel.servers.map { $0.region.rawValue })).sorted()
     }
 
     var body: some View {
@@ -79,8 +79,7 @@ region) {
                         ) {
                             viewModel.selectServer(server)
                         }
-                        .listRowInsets(EdgeInsets(top: 8, leading: 16, bottom: 8,
-trailing: 16))
+                        .listRowInsets(EdgeInsets(top: 8, leading: 16, bottom: 8, trailing: 16))
                         .listRowSeparator(.hidden)
                         .listRowBackground(Color.clear)
                     }

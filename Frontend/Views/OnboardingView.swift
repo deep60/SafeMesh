@@ -67,11 +67,9 @@ struct OnboardingView: View {
                 HStack(spacing: 8) {
                     ForEach(0..<pages.count, id: \.self) { index in
                         Circle()
-                            .fill(currentPage == index ? pages[currentPage].color :
-Color.gray.opacity(0.3))
+                            .fill(currentPage == index ? pages[currentPage].color : Color.gray.opacity(0.3))
                             .frame(width: currentPage == index ? 24 : 8, height: 8)
-                            .animation(.easeInOut(duration: 0.3), value:
-currentPage)
+                            .animation(.easeInOut(duration: 0.3), value: currentPage)
                     }
                 }
 
@@ -98,8 +96,7 @@ currentPage)
                     .padding()
                     .background(
                         LinearGradient(
-                            colors: [pages[currentPage].color,
-pages[currentPage].color.opacity(0.8)],
+                            colors: [pages[currentPage].color, pages[currentPage].color.opacity(0.8)],
                             startPoint: .leading,
                             endPoint: .trailing
                         )

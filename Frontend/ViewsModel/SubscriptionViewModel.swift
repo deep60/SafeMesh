@@ -23,13 +23,13 @@ class SubscriptionViewModel: ObservableObject {
 
     // MARK: - Private Properties
     private let apiClient: APIClientProtocol
-    private let authViewModel: AuthViewModel
+    private var authViewModel: AuthViewModel?
     private var cancellables = Set<AnyCancellable>()
 
     // MARK: - Initialization
     init(
         apiClient: APIClientProtocol = APIClient.shared,
-        authViewModel: AuthViewModel = AuthViewModel()
+        authViewModel: AuthViewModel? = nil
     ) {
         self.apiClient = apiClient
         self.authViewModel = authViewModel
@@ -70,7 +70,7 @@ class SubscriptionViewModel: ObservableObject {
     }
 
     func loadCurrentSubscription() async {
-        guard authViewModel.isAuthenticated else { return }
+        guard authViewModel?.isAuthenticated == true else { return }
 
         do {
             let response: SubscriptionResponse = try await apiClient.request(
@@ -177,7 +177,7 @@ class SubscriptionViewModel: ObservableObject {
     func updateBillingInfo() async {
         // Navigate to billing portal
         if let url = URL(string: "https://safemesh.com/billing") {
-            UIApplication.shared.open(url)
+            await UIApplication.shared.open(url)
         }
     }
 
@@ -187,7 +187,8 @@ class SubscriptionViewModel: ObservableObject {
     }
 
     var isPremium: Bool {
-        currentSubscription?.plan.isPremium ?? false
+        guard let plan = currentSubscription?.plan else { return false }
+        return !plan.isFree
     }
 
     var canAccessAllServers: Bool {
@@ -208,8 +209,7 @@ class SubscriptionViewModel: ObservableObject {
 
     var daysUntilRenewal: Int? {
         guard let endDate = renewalDate else { return nil }
-        return Calendar.current.dateComponents([.day], from: Date(), to:
-endDate).day
+        return Calendar.current.dateComponents([.day], from: Date(), to: endDate).day
     }
 
     // MARK: - Private Methods
@@ -261,7 +261,7 @@ class SubscriptionStoreViewModel: ObservableObject {
         }
     }
 
-    func purchase(_ product: Product) async throws -> Transaction? {
+    func purchase(_ product: Product) async throws -> StoreKit.Transaction? {
         let result = try await product.purchase()
 
         switch result {
@@ -285,7 +285,7 @@ class SubscriptionStoreViewModel: ObservableObject {
 
     private func listenForTransactions() -> Task<Void, Error> {
         return Task.detached {
-            for await result in Transaction.updates {
+            for await result in StoreKit.Transaction.updates {
                 do {
                     let transaction = try self.checkVerified(result)
                     await self.updatePurchasedProductIDs()
@@ -309,7 +309,7 @@ class SubscriptionStoreViewModel: ObservableObject {
     private func updatePurchasedProductIDs() async {
         var purchased: Set<String> = []
 
-        for await result in Transaction.currentEntitlements {
+        for await result in StoreKit.Transaction.currentEntitlements {
             do {
                 let transaction = try checkVerified(result)
                 purchased.insert(transaction.productID)

@@ -25,7 +25,7 @@ class VPNViewModel: ObservableObject {
     // MARK: - Private Properties
     private let vpnManager: VPNManaging
     private let configManager: ConfigManaging
-    private let statusObserver: StatusObserving
+    private var statusObserver: StatusObserver
     private var cancellables = Set<AnyCancellable>()
     private var connectionTimer: Timer?
     private var startTime: Date?
@@ -34,7 +34,7 @@ class VPNViewModel: ObservableObject {
     init(
         vpnManager: VPNManaging = VPNManager.shared,
         configManager: ConfigManaging = ConfigManager.shared,
-        statusObserver: StatusObserving = StatusObserver.shared
+        statusObserver: StatusObserver = StatusObserver.shared
     ) {
         self.vpnManager = vpnManager
         self.configManager = configManager
@@ -231,16 +231,6 @@ protocol VPNManaging {
     func connect(with config: VPNConfiguration) async throws
     func disconnect() async throws
     var isConnected: Bool { get }
-}
-
-protocol ConfigManaging {
-    func loadConfiguration(for server: VPNServer) async throws -> VPNConfiguration
-    func saveSelectedServerId(_ id: String)
-    func loadSelectedServerId() -> String?
-}
-
-protocol StatusObserving: ObservableObject {
-    var status: VPNStatus { get }
 }
 
 // MARK: - Computed Properties

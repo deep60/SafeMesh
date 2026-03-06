@@ -57,7 +57,7 @@ class VPNManager: ObservableObject {
 
     // MARK: - Public Methods
     func loadManager() async throws {
-        try await withCheckedThrowingContinuation { continuation in
+        try await withCheckedThrowingContinuation { (continuation: CheckedContinuation<Void, Error>) in
             manager.loadFromPreferences { error in
                 if let error = error {
                     continuation.resume(throwing: error)
@@ -108,7 +108,7 @@ class VPNManager: ObservableObject {
 
     // MARK: - Protocol Configuration
     private func createProtocolConfiguration(_ config: VPNConfiguration) throws -> NEVPNProtocol {
-        let protocolConfig = NEPacketTunnelProviderProtocol()
+        let protocolConfig = NETunnelProviderProtocol()
 
         protocolConfig.serverAddress = config.server.ipAddress
         protocolConfig.providerBundleIdentifier = Bundle.main.bundleIdentifier! + ".PacketTunnel"
@@ -136,7 +136,7 @@ class VPNManager: ObservableObject {
 
     // MARK: - Private Methods
     private func saveManager() async throws {
-        try await withCheckedThrowingContinuation { continuation in
+        try await withCheckedThrowingContinuation { (continuation: CheckedContinuation<Void, Error>) in
             manager.saveToPreferences { error in
                 if let error = error {
                     continuation.resume(throwing: error)
@@ -204,12 +204,4 @@ enum VPNError: LocalizedError {
 }
 
 // MARK: - VPNManaging Implementation
-extension VPNManager: VPNManaging {
-    func connect(with config: VPNConfiguration) async throws {
-        try await connect(with: config)
-    }
-
-    func disconnect() async throws {
-        try await disconnect()
-    }
-}
+extension VPNManager: VPNManaging {}

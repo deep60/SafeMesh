@@ -22,8 +22,8 @@ class ServerViewModel: ObservableObject {
     
     // MARK: Private properties
     private let apiClient: APIClientProtocol
-    private let apiClient: ConfigManaging
-    private var apiClient = Set<AnyCancellable>()
+    private let configManager: ConfigManaging
+    private var cancellables = Set<AnyCancellable>()
     
     // MARK: Computed Properties
     var filteredServers: [VPNServer] {
@@ -79,7 +79,8 @@ class ServerViewModel: ObservableObject {
         do {
             let response: ServersListResponse = try await apiClient.request(
                 endpoint: "/servers",
-                method: .get
+                method: .get,
+                body: nil
             )
 
             withAnimation {
@@ -169,12 +170,6 @@ class ServerViewModel: ObservableObject {
         errorMessage = error.localizedDescription
         showErrorMessage = true
     }
-}
-
-// MARK: API Client Protocol
-
-protocol APIClientProtocol {
-    func request<T: Codable>(endpoint: String, method: HTTPMethod, body: Encodable?) async throws -> T
 }
 
 // MARK: Mock API Client

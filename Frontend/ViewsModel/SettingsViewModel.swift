@@ -39,12 +39,12 @@ class SettingsViewModel: ObservableObject {
 
     // MARK: - Private Properties
     private let userDefaults: UserDefaults
-    private let authViewModel: AuthViewModel
+    private var authViewModel: AuthViewModel?
 
     // MARK: - Initialization
     init(
         userDefaults: UserDefaults = .standard,
-        authViewModel: AuthViewModel = AuthViewModel()
+        authViewModel: AuthViewModel? = nil
     ) {
         self.userDefaults = userDefaults
         self.authViewModel = authViewModel
@@ -56,7 +56,7 @@ class SettingsViewModel: ObservableObject {
 
     // MARK: - Public Methods
     func logout() {
-        authViewModel.logout()
+        authViewModel?.logout()
     }
 
     func updateAutoConnect(_ enabled: Bool) {
@@ -139,7 +139,7 @@ as? Bool ?? true
     }
 
     private func loadUserInfo() {
-        if let user = authViewModel.user {
+        if let user = authViewModel?.user {
             userName = user.name
             userEmail = user.email
         }

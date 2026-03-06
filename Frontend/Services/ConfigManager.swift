@@ -8,8 +8,15 @@
 import Foundation
 import CryptoKit
 
+// MARK: - Config Managing Protocol
+protocol ConfigManaging {
+    func loadConfiguration(for server: VPNServer) async throws -> VPNConfiguration
+    func saveSelectedServerId(_ id: String)
+    func loadSelectedServerId() -> String?
+}
+
 // MARK: - Config Manager
-class ConfigManager {
+class ConfigManager: ConfigManaging {
     // MARK: - Singleton
     static let shared = ConfigManager()
 

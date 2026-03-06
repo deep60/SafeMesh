@@ -15,7 +15,7 @@ struct HomeView: View {
         ZStack {
             // Background gradient
             LinearGradient(
-                colors: viewModel.isConnected
+                colors: viewModel.status.isConnected
                     ? [Color.blue.opacity(0.3), Color.purple.opacity(0.2)]
                     : [Color.gray.opacity(0.1), Color.gray.opacity(0.05)],
                 startPoint: .topLeading,
@@ -34,7 +34,7 @@ struct HomeView: View {
                     // Connection button
                     VStack(spacing: 20) {
                         ConnectionButton(
-                            isConnected: viewModel.isConnected,
+                            isConnected: viewModel.status.isConnected,
                             isConnecting: viewModel.isConnecting,
                             isDisconnecting: viewModel.isDisconnecting,
                             onTap: {
@@ -55,7 +55,7 @@ struct HomeView: View {
                     Spacer(minLength: 20)
 
                     // Connection stats
-                    if viewModel.isConnected {
+                    if viewModel.status.isConnected {
                         ConnectionStatsView(viewModel: viewModel)
                             .padding(.horizontal, 24)
                     }
@@ -68,6 +68,7 @@ struct HomeView: View {
             ServerListView()
         }
         .task {
+            // Load server info asynchronously to avoid blocking UI
             await viewModel.loadCurrentServer()
         }
     }
@@ -85,7 +86,7 @@ struct ConnectionStatsView: View {
                     value: formatBytes(viewModel.downloadBytes),
                     color: .green
                 )
-                
+
                 StatCard(
                     icon: "arrow.up.circle.fill",
                     title: "Upload",
@@ -93,7 +94,7 @@ struct ConnectionStatsView: View {
                     color: .blue
                 )
             }
-            
+
             HStack {
                 StatCard(
                     icon: "clock.fill",
@@ -101,7 +102,7 @@ struct ConnectionStatsView: View {
                     value: viewModel.connectedDuration,
                     color: .purple
                 )
-                
+
                 StatCard(
                     icon: "location.fill",
                     title: "IP Address",
@@ -120,36 +121,36 @@ struct ConnectionStatsView: View {
     }
 }
 
-  struct StatCard: View {
-      let icon: String
-      let title: String
-      let value: String
-      let color: Color
+struct StatCard: View {
+    let icon: String
+    let title: String
+    let value: String
+    let color: Color
 
-      var body: some View {
-          VStack(spacing: 8) {
-              Image(systemName: icon)
-                  .font(.title2)
-                  .foregroundColor(color)
+    var body: some View {
+        VStack(spacing: 8) {
+            Image(systemName: icon)
+                .font(.title2)
+                .foregroundColor(color)
 
-              Text(title)
-                  .font(.caption)
-                  .foregroundColor(.secondary)
+            Text(title)
+                .font(.caption)
+                .foregroundColor(.secondary)
 
-              Text(value)
-                  .font(.subheadline)
-                  .fontWeight(.semibold)
-          }
-          .frame(maxWidth: .infinity)
-          .padding()
-          .background(
-              RoundedRectangle(cornerRadius: 12)
-                  .fill(Color(.systemBackground))
-                  .shadow(color: Color.black.opacity(0.05), radius: 4)
-          )
-      }
-  }
+            Text(value)
+                .font(.subheadline)
+                .fontWeight(.semibold)
+        }
+        .frame(maxWidth: .infinity)
+        .padding()
+        .background(
+            RoundedRectangle(cornerRadius: 12)
+                .fill(Color(.systemBackground))
+                .shadow(color: Color.black.opacity(0.05), radius: 4)
+        )
+    }
+}
 
-  #Preview {
-      HomeView()
-  }
+#Preview {
+    HomeView()
+}

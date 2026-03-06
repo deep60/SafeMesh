@@ -8,8 +8,22 @@
 import Foundation
 import Security
 
+// MARK: - Secure Key
+enum SecureKey: String {
+    case accessToken = "access_token"
+    case refreshToken = "refresh_token"
+    case userId = "user_id"
+}
+
+// MARK: - Secure Storage Protocol
+protocol SecureStorageProtocol {
+    func save(key: SecureKey, value: String)
+    func load(key: SecureKey) -> String?
+    func delete(key: SecureKey)
+}
+
 // MARK: - Secure Storage
-final class SecureStorage {
+final class SecureStorage: SecureStorageProtocol {
     // MARK: - Singleton
     static let shared = SecureStorage()
 
@@ -113,8 +127,7 @@ class KeychainService {
         self.accessGroup = nil
         #else
         // For production, use app group for sharing with extension
-        self.accessGroup = Bundle.main.object(forInfoDictionaryKey:
-"AppGroupIdentifier") as? String
+        self.accessGroup = Bundle.main.object(forInfoDictionaryKey: "AppGroupIdentifier") as? String
         #endif
     }
 
@@ -142,16 +155,14 @@ class KeychainService {
         // Try to update first
         let status = SecItemUpdate(query as CFDictionary, [
             kSecValueData as String: value,
-            kSecAttrAccessible as String:
-kSecAttrAccessibleWhenUnlockedThisDeviceOnly
+            kSecAttrAccessible as String: kSecAttrAccessibleWhenUnlockedThisDeviceOnly
         ] as CFDictionary)
 
         if status == errSecItemNotFound {
             // Item doesn't exist, create it
             var createQuery = createQuery(for: key)
             createQuery[kSecValueData as String] = value
-            createQuery[kSecAttrAccessible as String] =
-kSecAttrAccessibleWhenUnlockedThisDeviceOnly
+            createQuery[kSecAttrAccessible as String] = kSecAttrAccessibleWhenUnlockedThisDeviceOnly
 
             let createStatus = SecItemAdd(createQuery as CFDictionary, nil)
 

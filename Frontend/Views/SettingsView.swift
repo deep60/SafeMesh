@@ -195,20 +195,12 @@ struct SettingsView: View {
 }
 
 struct ProtocolSelectionView: View {
-    @Binding var selectedVPNProtocol: VPNProtocol  // Renamed parameter
+    @Binding var selectedVPNProtocol: VPNProtocol  // Uses the global VPNProtocol enum
     @Environment(\.dismiss) private var dismiss
-
-    enum VPNProtocol: String, CaseIterable, Identifiable {
-        case wireGuard = "WireGuard"
-        case openVPN = "OpenVPN"
-        case ikev2 = "IKEv2"
-
-        var id: String { rawValue }
-    }
 
     var body: some View {
         List {
-            ForEach(VPNProtocol.allCases) { item in  // Changed from 'protocol' to 'item'
+            ForEach(VPNProtocol.allCases) { item in
                 Button {
                     selectedVPNProtocol = item
                 } label: {

@@ -194,7 +194,7 @@ struct LoginView: View {
         .alert("Login Failed", isPresented: $viewModel.showError) {
             Button("OK", role: .cancel) {}
         } message: {
-            Text(viewModel.errorMessage)
+            Text(viewModel.errorMessage ?? "An unknown error occurred")
         }
     }
 }
@@ -248,20 +248,19 @@ struct SignupView: View {
     var body: some View {
         NavigationStack {
             Form {
-                Section("Create Account") {
+                Section {
                     TextField("Full Name", text: $name)
                     TextField("Email", text: $email)
                         .textInputAutocapitalization(.never)
                         .autocorrectionDisabled()
                         .keyboardType(.emailAddress)
-
+                    
                     HStack {
                         if showPassword {
                             TextField("Password", text: $password)
                         } else {
                             SecureField("Password", text: $password)
                         }
-
                         Button {
                             showPassword.toggle()
                         } label: {
@@ -269,14 +268,13 @@ struct SignupView: View {
                                 .foregroundColor(.secondary)
                         }
                     }
-
+                    
                     HStack {
                         if showConfirmPassword {
                             TextField("Confirm Password", text: $confirmPassword)
                         } else {
                             SecureField("Confirm Password", text: $confirmPassword)
                         }
-
                         Button {
                             showConfirmPassword.toggle()
                         } label: {

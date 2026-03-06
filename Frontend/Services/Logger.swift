@@ -109,9 +109,9 @@ fileManager.containerURL(forSecurityApplicationGroupIdentifier:
         try? fileManager.createDirectory(at: logsDirectory,
 withIntermediateDirectories: true)
 
-        // Get current log file
-        self.logFileURL =
-logsDirectory.appendingPathComponent("vpn_\(dateString()).log")
+        // Get current log file - moved dateString() call outside of property assignment
+        let currentDate = FileLogger.dateString()
+        self.logFileURL = logsDirectory.appendingPathComponent("vpn_\(currentDate).log")
 
         setupLogFile()
     }
@@ -121,8 +121,7 @@ logsDirectory.appendingPathComponent("vpn_\(dateString()).log")
 
         // Check if file exists and is too large
         if fileManager.fileExists(atPath: logFileURL.path) {
-            if let attributes = try? fileManager.attributesOfItem(atPath:
-logFileURL.path),
+            if let attributes = try? fileManager.attributesOfItem(atPath: logFileURL.path),
                let fileSize = attributes[.size] as? UInt64,
                fileSize > maxFileSize {
                 rotateLogs()
@@ -138,15 +137,14 @@ logFileURL.path),
         }
     }
 
-    private func dateString() -> String {
+    private static func dateString() -> String {
         let formatter = DateFormatter()
         formatter.dateFormat = "yyyy-MM-dd"
         return formatter.string(from: Date())
     }
 
     private func rotateLogs() {
-        guard let logsDirectory = logFileURL?.deletingLastPathComponent() else {
-return }
+        guard let logsDirectory = logFileURL?.deletingLastPathComponent() else { return }
 
         // Get all log files
         guard let logFiles = try? fileManager.contentsOfDirectory(
@@ -157,10 +155,8 @@ return }
 
         // Sort by modification date (oldest first)
         let sortedFiles = logFiles.sorted { file1, file2 in
-            guard let date1 = try? file1.resourceValues(forKeys:
-[.contentModificationDateKey]).contentModificationDate,
-                  let date2 = try? file2.resourceValues(forKeys:
-[.contentModificationDateKey]).contentModificationDate else {
+            guard let date1 = try? file1.resourceValues(forKeys: [.contentModificationDateKey]).contentModificationDate,
+                  let date2 = try? file2.resourceValues(forKeys: [.contentModificationDateKey]).contentModificationDate else {
                 return true
             }
             return date1 < date2
@@ -204,14 +200,11 @@ class LogViewer {
     static let shared = LogViewer()
 
     func getLogs(limit: Int = 1000) -> [String] {
-        guard let logsDirectory =
-FileManager.default.containerURL(forSecurityApplicationGroupIdentifier:
-"group.com.safemesh.app")?.appendingPathComponent("Logs") else {
+        guard let logsDirectory = FileManager.default.containerURL(forSecurityApplicationGroupIdentifier: "group.com.safemesh.app")?.appendingPathComponent("Logs") else {
             return []
         }
 
-        guard let files = try? FileManager.default.contentsOfDirectory(at:
-logsDirectory, includingPropertiesForKeys: nil) else {
+        guard let files = try? FileManager.default.contentsOfDirectory(at: logsDirectory, includingPropertiesForKeys: nil) else {
             return []
         }
 
@@ -220,17 +213,14 @@ logsDirectory, includingPropertiesForKeys: nil) else {
         // Read from all log files (newest first)
         for file in files.reversed() {
             guard let content = try? String(contentsOf: file) else { continue }
-            allLogs.append(contentsOf: content.components(separatedBy: "\n").filter
-{ !$0.isEmpty })
+            allLogs.append(contentsOf: content.components(separatedBy: "\n").filter { !$0.isEmpty })
         }
 
         return Array(allLogs.suffix(limit))
     }
 
     func clearLogs() {
-        guard let logsDirectory =
-FileManager.default.containerURL(forSecurityApplicationGroupIdentifier:
-"group.com.safemesh.app")?.appendingPathComponent("Logs") else {
+        guard let logsDirectory = FileManager.default.containerURL(forSecurityApplicationGroupIdentifier: "group.com.safemesh.app")?.appendingPathComponent("Logs") else {
             return
         }
 
@@ -238,19 +228,15 @@ FileManager.default.containerURL(forSecurityApplicationGroupIdentifier:
     }
 
     func exportLogs() -> URL? {
-        guard let logsDirectory =
-FileManager.default.containerURL(forSecurityApplicationGroupIdentifier:
-"group.com.safemesh.app")?.appendingPathComponent("Logs") else {
+        guard let logsDirectory = FileManager.default.containerURL(forSecurityApplicationGroupIdentifier: "group.com.safemesh.app")?.appendingPathComponent("Logs") else {
             return nil
         }
 
-        let tempURL = FileManager.default.temporaryDirectory.appendingPathComponent(
-"vpn_logs_\(Date().timeIntervalSince1970).txt")
+        let tempURL = FileManager.default.temporaryDirectory.appendingPathComponent("vpn_logs_\(Date().timeIntervalSince1970).txt")
 
         var allContent = ""
 
-        if let files = try? FileManager.default.contentsOfDirectory(at:
-logsDirectory, includingPropertiesForKeys: nil) {
+        if let files = try? FileManager.default.contentsOfDirectory(at: logsDirectory, includingPropertiesForKeys: nil) {
             for file in files {
                 if let content = try? String(contentsOf: file) {
                     allContent += "\n=== \(file.lastPathComponent) ===\n"

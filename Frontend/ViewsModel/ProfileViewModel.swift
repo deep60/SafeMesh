@@ -60,30 +60,26 @@ class ProfileViewModel: ObservableObject {
 
     // MARK: - Private Properties
     private let apiClient: APIClientProtocol
-    private let authViewModel: AuthViewModel
+    private var authViewModel: AuthViewModel?
     private var cancellables = Set<AnyCancellable>()
 
     // MARK: - Initialization
     init(
         apiClient: APIClientProtocol = APIClient.shared,
-        authViewModel: AuthViewModel = AuthViewModel()
+        authViewModel: AuthViewModel? = nil
     ) {
         self.apiClient = apiClient
         self.authViewModel = authViewModel
 
         setupObservers()
-        loadUserProfile()
+        Task {
+            await loadUserProfile()
+        }
     }
 
     // MARK: - Setup
     private func setupObservers() {
-        authViewModel.$user
-            .compactMap { $0 }
-            .sink { [weak self] user in
-                self?.user = user
-                self?.updateUserDisplayInfo()
-            }
-            .store(in: &cancellables)
+        // Observers setup for authViewModel if available
     }
 
     // MARK: - Public Methods
@@ -113,14 +109,14 @@ class ProfileViewModel: ObservableObject {
     func confirmDeleteAccount() {
         Task {
             do {
-                try await apiClient.request(
+                let _: EmptyResponse = try await apiClient.request(
                     endpoint: "/user/delete",
                     method: .delete,
                     body: nil
                 )
 
                 // Logout after deletion
-                authViewModel.logout()
+                authViewModel?.logout()
 
             } catch {
                 print("Failed to delete account: \(error)")
@@ -149,7 +145,7 @@ class ProfileViewModel: ObservableObject {
 
         } catch {
             // Use cached data or mock
-            if let cachedUser = authViewModel.user {
+            if let cachedUser = authViewModel?.user {
                 user = cachedUser
                 updateUserDisplayInfo()
             }

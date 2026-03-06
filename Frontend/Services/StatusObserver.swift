@@ -8,9 +8,14 @@ import Foundation
 import NetworkExtension
 import Combine
 
+// MARK: - Status Observing Protocol
+protocol StatusObserving: ObservableObject {
+    var status: VPNStatus { get }
+}
+
 // MARK: - Status Observer
 @MainActor
-class StatusObserver: ObservableObject {
+class StatusObserver: ObservableObject, StatusObserving {
     // MARK: - Singleton
     static let shared = StatusObserver()
 
@@ -300,11 +305,11 @@ class UsageTracker {
                 serverId: serverId
             )
 
-            _ = try await APIClient().request(
+            _ = try await APIClient.shared.request(
                 endpoint: "/usage/upload",
                 method: .post,
                 body: request
-            )
+            ) as EmptyResponse
         } catch {
             print("[UsageTracker] Failed to upload usage: \(error)")
         }

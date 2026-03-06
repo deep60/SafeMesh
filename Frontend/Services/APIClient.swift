@@ -9,6 +9,11 @@ import Foundation
 import Combine
 import Network
 
+// MARK: - API Client Protocol
+protocol APIClientProtocol {
+    func request<T: Codable>(endpoint: String, method: HTTPMethod, body: Encodable?) async throws -> T
+}
+
 // MARK: - API Client
 final class APIClient: ObservableObject, APIClientProtocol {
     // MARK: - Singleton
@@ -49,8 +54,17 @@ final class APIClient: ObservableObject, APIClientProtocol {
     func request<T: Codable>(
         endpoint: String,
         method: HTTPMethod,
-        body: Encodable? = nil,
-        requiresAuth: Bool = true
+        body: Encodable? = nil
+    ) async throws -> T {
+        let request = try createRequest(endpoint: endpoint, method: method, body: body, requiresAuth: true)
+        return try await performRequest(request)
+    }
+
+    func request<T: Codable>(
+        endpoint: String,
+        method: HTTPMethod,
+        body: Encodable?,
+        requiresAuth: Bool
     ) async throws -> T {
         let request = try createRequest(endpoint: endpoint, method: method, body: body, requiresAuth: requiresAuth)
         return try await performRequest(request)
@@ -182,6 +196,9 @@ private struct APIErrorResponse: Codable {
     let message: String
     let details: [String]?
 }
+
+/// Empty response type for API calls that don't return data
+struct EmptyResponse: Codable {}
 
 //// MARK: - APIClientProtocol Implementation
 //extension APIClient: APIClientProtocol {
