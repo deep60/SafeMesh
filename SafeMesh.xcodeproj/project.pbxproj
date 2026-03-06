@@ -58,6 +58,53 @@
 		DCABF40B2F4C6BE3000FDF4E /* APIServer.swift in Sources */ = {isa = PBXBuildFile; fileRef = DCABF3A72F4C6BE3000FDF4E /* APIServer.swift */; };
 		DCABF40C2F4C6BE3000FDF4E /* CountryFlag.swift in Sources */ = {isa = PBXBuildFile; fileRef = DCABF3A12F4C6BE3000FDF4E /* CountryFlag.swift */; };
 		DCABF40E2F4C6BE3000FDF4E /* Asset.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = DCABF3AF2F4C6BE3000FDF4E /* Asset.xcassets */; };
+		DCADEB062F5B6141004113B9 /* invoked.timestamp in Resources */ = {isa = PBXBuildFile; fileRef = DCADEACD2F5B6141004113B9 /* invoked.timestamp */; };
+		DCADEB072F5B6141004113B9 /* query-cache.bin in Resources */ = {isa = PBXBuildFile; fileRef = DCADEAE22F5B6141004113B9 /* query-cache.bin */; };
+		DCADEB082F5B6141004113B9 /* libBackend-05fcd87594f41224.rmeta in Resources */ = {isa = PBXBuildFile; fileRef = DCADEADC2F5B6141004113B9 /* libBackend-05fcd87594f41224.rmeta */; };
+		DCADEB092F5B6141004113B9 /* query-cache.bin in Resources */ = {isa = PBXBuildFile; fileRef = DCADEAF52F5B6141004113B9 /* query-cache.bin */; };
+		DCADEB0A2F5B6141004113B9 /* stderr in Resources */ = {isa = PBXBuildFile; fileRef = DCADEAFD2F5B6141004113B9 /* stderr */; };
+		DCADEB0B2F5B6141004113B9 /* dep-graph.bin in Resources */ = {isa = PBXBuildFile; fileRef = DCADEAEE2F5B6141004113B9 /* dep-graph.bin */; };
+		DCADEB0C2F5B6141004113B9 /* dep-graph.part.bin in Resources */ = {isa = PBXBuildFile; fileRef = DCADEAE92F5B6141004113B9 /* dep-graph.part.bin */; };
+		DCADEB0D2F5B6141004113B9 /* bin-Backend.json in Resources */ = {isa = PBXBuildFile; fileRef = DCADEACC2F5B6141004113B9 /* bin-Backend.json */; };
+		DCADEB0E2F5B6141004113B9 /* dep-test-lib-Backend in Resources */ = {isa = PBXBuildFile; fileRef = DCADEAC62F5B6141004113B9 /* dep-test-lib-Backend */; };
+		DCADEB0F2F5B6141004113B9 /* s-hg2do8oewv-1mvb6ve.lock in Resources */ = {isa = PBXBuildFile; fileRef = DCADEAF22F5B6141004113B9 /* s-hg2do8oewv-1mvb6ve.lock */; };
+		DCADEB102F5B6141004113B9 /* dep-test-bin-Backend in Resources */ = {isa = PBXBuildFile; fileRef = DCADEAC12F5B6141004113B9 /* dep-test-bin-Backend */; };
+		DCADEB112F5B6141004113B9 /* output-lib-Backend in Resources */ = {isa = PBXBuildFile; fileRef = DCADEAD42F5B6141004113B9 /* output-lib-Backend */; };
+		DCADEB122F5B6141004113B9 /* invoked.timestamp in Resources */ = {isa = PBXBuildFile; fileRef = DCADEAC72F5B6141004113B9 /* invoked.timestamp */; };
+		DCADEB132F5B6141004113B9 /* work-products.bin in Resources */ = {isa = PBXBuildFile; fileRef = DCADEAF62F5B6141004113B9 /* work-products.bin */; };
+		DCADEB142F5B6141004113B9 /* stdout in Resources */ = {isa = PBXBuildFile; fileRef = DCADEAFE2F5B6141004113B9 /* stdout */; };
+		DCADEB152F5B6141004113B9 /* work-products.bin in Resources */ = {isa = PBXBuildFile; fileRef = DCADEAE32F5B6141004113B9 /* work-products.bin */; };
+		DCADEB162F5B6141004113B9 /* Cargo.toml in Resources */ = {isa = PBXBuildFile; fileRef = DCADEB042F5B6141004113B9 /* Cargo.toml */; };
+		DCADEB172F5B6141004113B9 /* s-hg2do8xgzn-1p3o0dg.lock in Resources */ = {isa = PBXBuildFile; fileRef = DCADEAF82F5B6141004113B9 /* s-hg2do8xgzn-1p3o0dg.lock */; };
+		DCADEB182F5B6141004113B9 /* work-products.bin in Resources */ = {isa = PBXBuildFile; fileRef = DCADEAF02F5B6141004113B9 /* work-products.bin */; };
+		DCADEB192F5B6141004113B9 /* dep-graph.part.bin in Resources */ = {isa = PBXBuildFile; fileRef = DCADEAE72F5B6141004113B9 /* dep-graph.part.bin */; };
+		DCADEB1A2F5B6141004113B9 /* .rustc_info.json in Resources */ = {isa = PBXBuildFile; fileRef = DCADEB002F5B6141004113B9 /* .rustc_info.json */; };
+		DCADEB1B2F5B6141004113B9 /* s-hg2do8oe61-0wlp0j3.lock in Resources */ = {isa = PBXBuildFile; fileRef = DCADEAE52F5B6141004113B9 /* s-hg2do8oe61-0wlp0j3.lock */; };
+		DCADEB1C2F5B6141004113B9 /* dep-graph.bin in Resources */ = {isa = PBXBuildFile; fileRef = DCADEAE12F5B6141004113B9 /* dep-graph.bin */; };
+		DCADEB1D2F5B6141004113B9 /* s-hg2do8x3ba-08shyqs.lock in Resources */ = {isa = PBXBuildFile; fileRef = DCADEAEB2F5B6141004113B9 /* s-hg2do8x3ba-08shyqs.lock */; };
+		DCADEB1E2F5B6141004113B9 /* CACHEDIR.TAG in Resources */ = {isa = PBXBuildFile; fileRef = DCADEB012F5B6141004113B9 /* CACHEDIR.TAG */; };
+		DCADEB1F2F5B6141004113B9 /* lib-Backend in Resources */ = {isa = PBXBuildFile; fileRef = DCADEAD22F5B6141004113B9 /* lib-Backend */; };
+		DCADEB202F5B6141004113B9 /* test-lib-Backend in Resources */ = {isa = PBXBuildFile; fileRef = DCADEAC82F5B6141004113B9 /* test-lib-Backend */; };
+		DCADEB212F5B6141004113B9 /* invoked.timestamp in Resources */ = {isa = PBXBuildFile; fileRef = DCADEAC22F5B6141004113B9 /* invoked.timestamp */; };
+		DCADEB222F5B6141004113B9 /* libBackend-6448c8f08afe2c30.rmeta in Resources */ = {isa = PBXBuildFile; fileRef = DCADEADD2F5B6141004113B9 /* libBackend-6448c8f08afe2c30.rmeta */; };
+		DCADEB232F5B6141004113B9 /* invoked.timestamp in Resources */ = {isa = PBXBuildFile; fileRef = DCADEAD12F5B6141004113B9 /* invoked.timestamp */; };
+		DCADEB242F5B6141004113B9 /* libBackend-f978ca5a183958f5.rmeta in Resources */ = {isa = PBXBuildFile; fileRef = DCADEADE2F5B6141004113B9 /* libBackend-f978ca5a183958f5.rmeta */; };
+		DCADEB252F5B6141004113B9 /* lib-Backend.json in Resources */ = {isa = PBXBuildFile; fileRef = DCADEAD32F5B6141004113B9 /* lib-Backend.json */; };
+		DCADEB262F5B6141004113B9 /* dep-graph.bin in Resources */ = {isa = PBXBuildFile; fileRef = DCADEAF42F5B6141004113B9 /* dep-graph.bin */; };
+		DCADEB272F5B6141004113B9 /* bin-Backend in Resources */ = {isa = PBXBuildFile; fileRef = DCADEACB2F5B6141004113B9 /* bin-Backend */; };
+		DCADEB282F5B6141004113B9 /* .cargo-lock in Resources */ = {isa = PBXBuildFile; fileRef = DCADEAFB2F5B6141004113B9 /* .cargo-lock */; };
+		DCADEB292F5B6141004113B9 /* dep-lib-Backend in Resources */ = {isa = PBXBuildFile; fileRef = DCADEAD02F5B6141004113B9 /* dep-lib-Backend */; };
+		DCADEB2A2F5B6141004113B9 /* s-hg2do9kfnq-0j3ov5a.lock in Resources */ = {isa = PBXBuildFile; fileRef = DCADEAEC2F5B6141004113B9 /* s-hg2do9kfnq-0j3ov5a.lock */; };
+		DCADEB2B2F5B6141004113B9 /* test-lib-Backend.json in Resources */ = {isa = PBXBuildFile; fileRef = DCADEAC92F5B6141004113B9 /* test-lib-Backend.json */; };
+		DCADEB2C2F5B6141004113B9 /* test-bin-Backend in Resources */ = {isa = PBXBuildFile; fileRef = DCADEAC32F5B6141004113B9 /* test-bin-Backend */; };
+		DCADEB2D2F5B6141004113B9 /* output-bin-Backend in Resources */ = {isa = PBXBuildFile; fileRef = DCADEACE2F5B6141004113B9 /* output-bin-Backend */; };
+		DCADEB2E2F5B6141004113B9 /* Cargo.lock in Resources */ = {isa = PBXBuildFile; fileRef = DCADEB032F5B6141004113B9 /* Cargo.lock */; };
+		DCADEB2F2F5B6141004113B9 /* test-bin-Backend.json in Resources */ = {isa = PBXBuildFile; fileRef = DCADEAC42F5B6141004113B9 /* test-bin-Backend.json */; };
+		DCADEB302F5B6141004113B9 /* query-cache.bin in Resources */ = {isa = PBXBuildFile; fileRef = DCADEAEF2F5B6141004113B9 /* query-cache.bin */; };
+		DCADEB312F5B6141004113B9 /* Backend-bc351bd4dfdaf330.d in Sources */ = {isa = PBXBuildFile; fileRef = DCADEADA2F5B6141004113B9 /* Backend-bc351bd4dfdaf330.d */; };
+		DCADEB322F5B6141004113B9 /* Backend-f978ca5a183958f5.d in Sources */ = {isa = PBXBuildFile; fileRef = DCADEADB2F5B6141004113B9 /* Backend-f978ca5a183958f5.d */; };
+		DCADEB332F5B6141004113B9 /* Backend-05fcd87594f41224.d in Sources */ = {isa = PBXBuildFile; fileRef = DCADEAD82F5B6141004113B9 /* Backend-05fcd87594f41224.d */; };
+		DCADEB342F5B6141004113B9 /* Backend-6448c8f08afe2c30.d in Sources */ = {isa = PBXBuildFile; fileRef = DCADEAD92F5B6141004113B9 /* Backend-6448c8f08afe2c30.d */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -113,7 +160,54 @@
 		DCABF3D62F4C6BE3000FDF4E /* SettingsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsViewModel.swift; sourceTree = "<group>"; };
 		DCABF3D72F4C6BE3000FDF4E /* SubscriptionViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SubscriptionViewModel.swift; sourceTree = "<group>"; };
 		DCABF3D82F4C6BE3000FDF4E /* VPNViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VPNViewModel.swift; sourceTree = "<group>"; };
-		DCE3C5772F502D0800FDC470 /* SafeMesh.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; name = SafeMesh.app; path = /Users/arjun/Developer/SafeMesh/build/Debug/SafeMesh.app; sourceTree = "<absolute>"; };
+		DCADEAB62F5B60CD004113B9 /* SafeMesh.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SafeMesh.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		DCADEAC12F5B6141004113B9 /* dep-test-bin-Backend */ = {isa = PBXFileReference; lastKnownFileType = file; path = "dep-test-bin-Backend"; sourceTree = "<group>"; };
+		DCADEAC22F5B6141004113B9 /* invoked.timestamp */ = {isa = PBXFileReference; lastKnownFileType = text; path = invoked.timestamp; sourceTree = "<group>"; };
+		DCADEAC32F5B6141004113B9 /* test-bin-Backend */ = {isa = PBXFileReference; lastKnownFileType = text; path = "test-bin-Backend"; sourceTree = "<group>"; };
+		DCADEAC42F5B6141004113B9 /* test-bin-Backend.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = "test-bin-Backend.json"; sourceTree = "<group>"; };
+		DCADEAC62F5B6141004113B9 /* dep-test-lib-Backend */ = {isa = PBXFileReference; lastKnownFileType = file; path = "dep-test-lib-Backend"; sourceTree = "<group>"; };
+		DCADEAC72F5B6141004113B9 /* invoked.timestamp */ = {isa = PBXFileReference; lastKnownFileType = text; path = invoked.timestamp; sourceTree = "<group>"; };
+		DCADEAC82F5B6141004113B9 /* test-lib-Backend */ = {isa = PBXFileReference; lastKnownFileType = text; path = "test-lib-Backend"; sourceTree = "<group>"; };
+		DCADEAC92F5B6141004113B9 /* test-lib-Backend.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = "test-lib-Backend.json"; sourceTree = "<group>"; };
+		DCADEACB2F5B6141004113B9 /* bin-Backend */ = {isa = PBXFileReference; lastKnownFileType = text; path = "bin-Backend"; sourceTree = "<group>"; };
+		DCADEACC2F5B6141004113B9 /* bin-Backend.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = "bin-Backend.json"; sourceTree = "<group>"; };
+		DCADEACD2F5B6141004113B9 /* invoked.timestamp */ = {isa = PBXFileReference; lastKnownFileType = text; path = invoked.timestamp; sourceTree = "<group>"; };
+		DCADEACE2F5B6141004113B9 /* output-bin-Backend */ = {isa = PBXFileReference; lastKnownFileType = text; path = "output-bin-Backend"; sourceTree = "<group>"; };
+		DCADEAD02F5B6141004113B9 /* dep-lib-Backend */ = {isa = PBXFileReference; lastKnownFileType = file; path = "dep-lib-Backend"; sourceTree = "<group>"; };
+		DCADEAD12F5B6141004113B9 /* invoked.timestamp */ = {isa = PBXFileReference; lastKnownFileType = text; path = invoked.timestamp; sourceTree = "<group>"; };
+		DCADEAD22F5B6141004113B9 /* lib-Backend */ = {isa = PBXFileReference; lastKnownFileType = text; path = "lib-Backend"; sourceTree = "<group>"; };
+		DCADEAD32F5B6141004113B9 /* lib-Backend.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = "lib-Backend.json"; sourceTree = "<group>"; };
+		DCADEAD42F5B6141004113B9 /* output-lib-Backend */ = {isa = PBXFileReference; lastKnownFileType = text; path = "output-lib-Backend"; sourceTree = "<group>"; };
+		DCADEAD82F5B6141004113B9 /* Backend-05fcd87594f41224.d */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.dtrace; path = "Backend-05fcd87594f41224.d"; sourceTree = "<group>"; };
+		DCADEAD92F5B6141004113B9 /* Backend-6448c8f08afe2c30.d */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.dtrace; path = "Backend-6448c8f08afe2c30.d"; sourceTree = "<group>"; };
+		DCADEADA2F5B6141004113B9 /* Backend-bc351bd4dfdaf330.d */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.dtrace; path = "Backend-bc351bd4dfdaf330.d"; sourceTree = "<group>"; };
+		DCADEADB2F5B6141004113B9 /* Backend-f978ca5a183958f5.d */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.dtrace; path = "Backend-f978ca5a183958f5.d"; sourceTree = "<group>"; };
+		DCADEADC2F5B6141004113B9 /* libBackend-05fcd87594f41224.rmeta */ = {isa = PBXFileReference; lastKnownFileType = text; path = "libBackend-05fcd87594f41224.rmeta"; sourceTree = "<group>"; };
+		DCADEADD2F5B6141004113B9 /* libBackend-6448c8f08afe2c30.rmeta */ = {isa = PBXFileReference; lastKnownFileType = text; path = "libBackend-6448c8f08afe2c30.rmeta"; sourceTree = "<group>"; };
+		DCADEADE2F5B6141004113B9 /* libBackend-f978ca5a183958f5.rmeta */ = {isa = PBXFileReference; lastKnownFileType = file; path = "libBackend-f978ca5a183958f5.rmeta"; sourceTree = "<group>"; };
+		DCADEAE12F5B6141004113B9 /* dep-graph.bin */ = {isa = PBXFileReference; lastKnownFileType = archive.macbinary; path = "dep-graph.bin"; sourceTree = "<group>"; };
+		DCADEAE22F5B6141004113B9 /* query-cache.bin */ = {isa = PBXFileReference; lastKnownFileType = archive.macbinary; path = "query-cache.bin"; sourceTree = "<group>"; };
+		DCADEAE32F5B6141004113B9 /* work-products.bin */ = {isa = PBXFileReference; lastKnownFileType = archive.macbinary; path = "work-products.bin"; sourceTree = "<group>"; };
+		DCADEAE52F5B6141004113B9 /* s-hg2do8oe61-0wlp0j3.lock */ = {isa = PBXFileReference; lastKnownFileType = text; path = "s-hg2do8oe61-0wlp0j3.lock"; sourceTree = "<group>"; };
+		DCADEAE72F5B6141004113B9 /* dep-graph.part.bin */ = {isa = PBXFileReference; lastKnownFileType = archive.macbinary; path = "dep-graph.part.bin"; sourceTree = "<group>"; };
+		DCADEAE92F5B6141004113B9 /* dep-graph.part.bin */ = {isa = PBXFileReference; lastKnownFileType = archive.macbinary; path = "dep-graph.part.bin"; sourceTree = "<group>"; };
+		DCADEAEB2F5B6141004113B9 /* s-hg2do8x3ba-08shyqs.lock */ = {isa = PBXFileReference; lastKnownFileType = text; path = "s-hg2do8x3ba-08shyqs.lock"; sourceTree = "<group>"; };
+		DCADEAEC2F5B6141004113B9 /* s-hg2do9kfnq-0j3ov5a.lock */ = {isa = PBXFileReference; lastKnownFileType = text; path = "s-hg2do9kfnq-0j3ov5a.lock"; sourceTree = "<group>"; };
+		DCADEAEE2F5B6141004113B9 /* dep-graph.bin */ = {isa = PBXFileReference; lastKnownFileType = archive.macbinary; path = "dep-graph.bin"; sourceTree = "<group>"; };
+		DCADEAEF2F5B6141004113B9 /* query-cache.bin */ = {isa = PBXFileReference; lastKnownFileType = archive.macbinary; path = "query-cache.bin"; sourceTree = "<group>"; };
+		DCADEAF02F5B6141004113B9 /* work-products.bin */ = {isa = PBXFileReference; lastKnownFileType = archive.macbinary; path = "work-products.bin"; sourceTree = "<group>"; };
+		DCADEAF22F5B6141004113B9 /* s-hg2do8oewv-1mvb6ve.lock */ = {isa = PBXFileReference; lastKnownFileType = text; path = "s-hg2do8oewv-1mvb6ve.lock"; sourceTree = "<group>"; };
+		DCADEAF42F5B6141004113B9 /* dep-graph.bin */ = {isa = PBXFileReference; lastKnownFileType = archive.macbinary; path = "dep-graph.bin"; sourceTree = "<group>"; };
+		DCADEAF52F5B6141004113B9 /* query-cache.bin */ = {isa = PBXFileReference; lastKnownFileType = archive.macbinary; path = "query-cache.bin"; sourceTree = "<group>"; };
+		DCADEAF62F5B6141004113B9 /* work-products.bin */ = {isa = PBXFileReference; lastKnownFileType = archive.macbinary; path = "work-products.bin"; sourceTree = "<group>"; };
+		DCADEAF82F5B6141004113B9 /* s-hg2do8xgzn-1p3o0dg.lock */ = {isa = PBXFileReference; lastKnownFileType = text; path = "s-hg2do8xgzn-1p3o0dg.lock"; sourceTree = "<group>"; };
+		DCADEAFB2F5B6141004113B9 /* .cargo-lock */ = {isa = PBXFileReference; lastKnownFileType = text; path = ".cargo-lock"; sourceTree = "<group>"; };
+		DCADEAFD2F5B6141004113B9 /* stderr */ = {isa = PBXFileReference; lastKnownFileType = text; path = stderr; sourceTree = "<group>"; };
+		DCADEAFE2F5B6141004113B9 /* stdout */ = {isa = PBXFileReference; lastKnownFileType = text; path = stdout; sourceTree = "<group>"; };
+		DCADEB002F5B6141004113B9 /* .rustc_info.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = .rustc_info.json; sourceTree = "<group>"; };
+		DCADEB012F5B6141004113B9 /* CACHEDIR.TAG */ = {isa = PBXFileReference; lastKnownFileType = text; path = CACHEDIR.TAG; sourceTree = "<group>"; };
+		DCADEB032F5B6141004113B9 /* Cargo.lock */ = {isa = PBXFileReference; lastKnownFileType = text; path = Cargo.lock; sourceTree = "<group>"; };
+		DCADEB042F5B6141004113B9 /* Cargo.toml */ = {isa = PBXFileReference; lastKnownFileType = text; path = Cargo.toml; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -135,6 +229,8 @@
 				DCABF4612F4C6C7F000FDF4E /* Infrastructure */,
 				DCABF4622F4C6C7F000FDF4E /* VPN-Server */,
 				DCABF4632F4C6C7F000FDF4E /* Config Files */,
+				DCADEAB62F5B60CD004113B9 /* SafeMesh.app */,
+				DCADEB052F5B6141004113B9 /* Backend */,
 			);
 			sourceTree = "<group>";
 		};
@@ -305,6 +401,308 @@
 			path = "Config Files";
 			sourceTree = "<group>";
 		};
+		DCADEAB72F5B6141004113B9 /* config */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = config;
+			sourceTree = "<group>";
+		};
+		DCADEAB82F5B6141004113B9 /* db */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = db;
+			sourceTree = "<group>";
+		};
+		DCADEAB92F5B6141004113B9 /* errors */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = errors;
+			sourceTree = "<group>";
+		};
+		DCADEABA2F5B6141004113B9 /* middleware */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = middleware;
+			sourceTree = "<group>";
+		};
+		DCADEABB2F5B6141004113B9 /* migrations */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = migrations;
+			sourceTree = "<group>";
+		};
+		DCADEABC2F5B6141004113B9 /* seeds */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = seeds;
+			sourceTree = "<group>";
+		};
+		DCADEABD2F5B6141004113B9 /* services */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = services;
+			sourceTree = "<group>";
+		};
+		DCADEABE2F5B6141004113B9 /* tests */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = tests;
+			sourceTree = "<group>";
+		};
+		DCADEABF2F5B6141004113B9 /* utils */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = utils;
+			sourceTree = "<group>";
+		};
+		DCADEAC02F5B6141004113B9 /* Src */ = {
+			isa = PBXGroup;
+			children = (
+				DCADEAB72F5B6141004113B9 /* config */,
+				DCADEAB82F5B6141004113B9 /* db */,
+				DCADEAB92F5B6141004113B9 /* errors */,
+				DCADEABA2F5B6141004113B9 /* middleware */,
+				DCADEABB2F5B6141004113B9 /* migrations */,
+				DCADEABC2F5B6141004113B9 /* seeds */,
+				DCADEABD2F5B6141004113B9 /* services */,
+				DCADEABE2F5B6141004113B9 /* tests */,
+				DCADEABF2F5B6141004113B9 /* utils */,
+			);
+			path = Src;
+			sourceTree = "<group>";
+		};
+		DCADEAC52F5B6141004113B9 /* Backend-05fcd87594f41224 */ = {
+			isa = PBXGroup;
+			children = (
+				DCADEAC12F5B6141004113B9 /* dep-test-bin-Backend */,
+				DCADEAC22F5B6141004113B9 /* invoked.timestamp */,
+				DCADEAC32F5B6141004113B9 /* test-bin-Backend */,
+				DCADEAC42F5B6141004113B9 /* test-bin-Backend.json */,
+			);
+			path = "Backend-05fcd87594f41224";
+			sourceTree = "<group>";
+		};
+		DCADEACA2F5B6141004113B9 /* Backend-6448c8f08afe2c30 */ = {
+			isa = PBXGroup;
+			children = (
+				DCADEAC62F5B6141004113B9 /* dep-test-lib-Backend */,
+				DCADEAC72F5B6141004113B9 /* invoked.timestamp */,
+				DCADEAC82F5B6141004113B9 /* test-lib-Backend */,
+				DCADEAC92F5B6141004113B9 /* test-lib-Backend.json */,
+			);
+			path = "Backend-6448c8f08afe2c30";
+			sourceTree = "<group>";
+		};
+		DCADEACF2F5B6141004113B9 /* Backend-bc351bd4dfdaf330 */ = {
+			isa = PBXGroup;
+			children = (
+				DCADEACB2F5B6141004113B9 /* bin-Backend */,
+				DCADEACC2F5B6141004113B9 /* bin-Backend.json */,
+				DCADEACD2F5B6141004113B9 /* invoked.timestamp */,
+				DCADEACE2F5B6141004113B9 /* output-bin-Backend */,
+			);
+			path = "Backend-bc351bd4dfdaf330";
+			sourceTree = "<group>";
+		};
+		DCADEAD52F5B6141004113B9 /* Backend-f978ca5a183958f5 */ = {
+			isa = PBXGroup;
+			children = (
+				DCADEAD02F5B6141004113B9 /* dep-lib-Backend */,
+				DCADEAD12F5B6141004113B9 /* invoked.timestamp */,
+				DCADEAD22F5B6141004113B9 /* lib-Backend */,
+				DCADEAD32F5B6141004113B9 /* lib-Backend.json */,
+				DCADEAD42F5B6141004113B9 /* output-lib-Backend */,
+			);
+			path = "Backend-f978ca5a183958f5";
+			sourceTree = "<group>";
+		};
+		DCADEAD62F5B6141004113B9 /* .fingerprint */ = {
+			isa = PBXGroup;
+			children = (
+				DCADEAC52F5B6141004113B9 /* Backend-05fcd87594f41224 */,
+				DCADEACA2F5B6141004113B9 /* Backend-6448c8f08afe2c30 */,
+				DCADEACF2F5B6141004113B9 /* Backend-bc351bd4dfdaf330 */,
+				DCADEAD52F5B6141004113B9 /* Backend-f978ca5a183958f5 */,
+			);
+			path = .fingerprint;
+			sourceTree = "<group>";
+		};
+		DCADEAD72F5B6141004113B9 /* build */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = build;
+			sourceTree = "<group>";
+		};
+		DCADEADF2F5B6141004113B9 /* deps */ = {
+			isa = PBXGroup;
+			children = (
+				DCADEAD82F5B6141004113B9 /* Backend-05fcd87594f41224.d */,
+				DCADEAD92F5B6141004113B9 /* Backend-6448c8f08afe2c30.d */,
+				DCADEADA2F5B6141004113B9 /* Backend-bc351bd4dfdaf330.d */,
+				DCADEADB2F5B6141004113B9 /* Backend-f978ca5a183958f5.d */,
+				DCADEADC2F5B6141004113B9 /* libBackend-05fcd87594f41224.rmeta */,
+				DCADEADD2F5B6141004113B9 /* libBackend-6448c8f08afe2c30.rmeta */,
+				DCADEADE2F5B6141004113B9 /* libBackend-f978ca5a183958f5.rmeta */,
+			);
+			path = deps;
+			sourceTree = "<group>";
+		};
+		DCADEAE02F5B6141004113B9 /* examples */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = examples;
+			sourceTree = "<group>";
+		};
+		DCADEAE42F5B6141004113B9 /* s-hg2do8oe61-0wlp0j3-dz2xewts3fjnt3pv8seepwzh6 */ = {
+			isa = PBXGroup;
+			children = (
+				DCADEAE12F5B6141004113B9 /* dep-graph.bin */,
+				DCADEAE22F5B6141004113B9 /* query-cache.bin */,
+				DCADEAE32F5B6141004113B9 /* work-products.bin */,
+			);
+			path = "s-hg2do8oe61-0wlp0j3-dz2xewts3fjnt3pv8seepwzh6";
+			sourceTree = "<group>";
+		};
+		DCADEAE62F5B6141004113B9 /* Backend-0lyoovh2yk9nl */ = {
+			isa = PBXGroup;
+			children = (
+				DCADEAE42F5B6141004113B9 /* s-hg2do8oe61-0wlp0j3-dz2xewts3fjnt3pv8seepwzh6 */,
+				DCADEAE52F5B6141004113B9 /* s-hg2do8oe61-0wlp0j3.lock */,
+			);
+			path = "Backend-0lyoovh2yk9nl";
+			sourceTree = "<group>";
+		};
+		DCADEAE82F5B6141004113B9 /* s-hg2do8x3ba-08shyqs-working */ = {
+			isa = PBXGroup;
+			children = (
+				DCADEAE72F5B6141004113B9 /* dep-graph.part.bin */,
+			);
+			path = "s-hg2do8x3ba-08shyqs-working";
+			sourceTree = "<group>";
+		};
+		DCADEAEA2F5B6141004113B9 /* s-hg2do9kfnq-0j3ov5a-working */ = {
+			isa = PBXGroup;
+			children = (
+				DCADEAE92F5B6141004113B9 /* dep-graph.part.bin */,
+			);
+			path = "s-hg2do9kfnq-0j3ov5a-working";
+			sourceTree = "<group>";
+		};
+		DCADEAED2F5B6141004113B9 /* Backend-2rhs1u0ip5fe3 */ = {
+			isa = PBXGroup;
+			children = (
+				DCADEAE82F5B6141004113B9 /* s-hg2do8x3ba-08shyqs-working */,
+				DCADEAEA2F5B6141004113B9 /* s-hg2do9kfnq-0j3ov5a-working */,
+				DCADEAEB2F5B6141004113B9 /* s-hg2do8x3ba-08shyqs.lock */,
+				DCADEAEC2F5B6141004113B9 /* s-hg2do9kfnq-0j3ov5a.lock */,
+			);
+			path = "Backend-2rhs1u0ip5fe3";
+			sourceTree = "<group>";
+		};
+		DCADEAF12F5B6141004113B9 /* s-hg2do8oewv-1mvb6ve-5d7m8xmdthuf2g3u2l2tor8el */ = {
+			isa = PBXGroup;
+			children = (
+				DCADEAEE2F5B6141004113B9 /* dep-graph.bin */,
+				DCADEAEF2F5B6141004113B9 /* query-cache.bin */,
+				DCADEAF02F5B6141004113B9 /* work-products.bin */,
+			);
+			path = "s-hg2do8oewv-1mvb6ve-5d7m8xmdthuf2g3u2l2tor8el";
+			sourceTree = "<group>";
+		};
+		DCADEAF32F5B6141004113B9 /* Backend-2xsthncj96lqj */ = {
+			isa = PBXGroup;
+			children = (
+				DCADEAF12F5B6141004113B9 /* s-hg2do8oewv-1mvb6ve-5d7m8xmdthuf2g3u2l2tor8el */,
+				DCADEAF22F5B6141004113B9 /* s-hg2do8oewv-1mvb6ve.lock */,
+			);
+			path = "Backend-2xsthncj96lqj";
+			sourceTree = "<group>";
+		};
+		DCADEAF72F5B6141004113B9 /* s-hg2do8xgzn-1p3o0dg-a90zv2ify6xll6sprx4as3inm */ = {
+			isa = PBXGroup;
+			children = (
+				DCADEAF42F5B6141004113B9 /* dep-graph.bin */,
+				DCADEAF52F5B6141004113B9 /* query-cache.bin */,
+				DCADEAF62F5B6141004113B9 /* work-products.bin */,
+			);
+			path = "s-hg2do8xgzn-1p3o0dg-a90zv2ify6xll6sprx4as3inm";
+			sourceTree = "<group>";
+		};
+		DCADEAF92F5B6141004113B9 /* Backend-3aeulqqxqh2cy */ = {
+			isa = PBXGroup;
+			children = (
+				DCADEAF72F5B6141004113B9 /* s-hg2do8xgzn-1p3o0dg-a90zv2ify6xll6sprx4as3inm */,
+				DCADEAF82F5B6141004113B9 /* s-hg2do8xgzn-1p3o0dg.lock */,
+			);
+			path = "Backend-3aeulqqxqh2cy";
+			sourceTree = "<group>";
+		};
+		DCADEAFA2F5B6141004113B9 /* incremental */ = {
+			isa = PBXGroup;
+			children = (
+				DCADEAE62F5B6141004113B9 /* Backend-0lyoovh2yk9nl */,
+				DCADEAED2F5B6141004113B9 /* Backend-2rhs1u0ip5fe3 */,
+				DCADEAF32F5B6141004113B9 /* Backend-2xsthncj96lqj */,
+				DCADEAF92F5B6141004113B9 /* Backend-3aeulqqxqh2cy */,
+			);
+			path = incremental;
+			sourceTree = "<group>";
+		};
+		DCADEAFC2F5B6141004113B9 /* debug */ = {
+			isa = PBXGroup;
+			children = (
+				DCADEAD62F5B6141004113B9 /* .fingerprint */,
+				DCADEAD72F5B6141004113B9 /* build */,
+				DCADEADF2F5B6141004113B9 /* deps */,
+				DCADEAE02F5B6141004113B9 /* examples */,
+				DCADEAFA2F5B6141004113B9 /* incremental */,
+				DCADEAFB2F5B6141004113B9 /* .cargo-lock */,
+			);
+			path = debug;
+			sourceTree = "<group>";
+		};
+		DCADEAFF2F5B6141004113B9 /* flycheck0 */ = {
+			isa = PBXGroup;
+			children = (
+				DCADEAFD2F5B6141004113B9 /* stderr */,
+				DCADEAFE2F5B6141004113B9 /* stdout */,
+			);
+			path = flycheck0;
+			sourceTree = "<group>";
+		};
+		DCADEB022F5B6141004113B9 /* target */ = {
+			isa = PBXGroup;
+			children = (
+				DCADEAFC2F5B6141004113B9 /* debug */,
+				DCADEAFF2F5B6141004113B9 /* flycheck0 */,
+				DCADEB002F5B6141004113B9 /* .rustc_info.json */,
+				DCADEB012F5B6141004113B9 /* CACHEDIR.TAG */,
+			);
+			path = target;
+			sourceTree = "<group>";
+		};
+		DCADEB052F5B6141004113B9 /* Backend */ = {
+			isa = PBXGroup;
+			children = (
+				DCADEAC02F5B6141004113B9 /* Src */,
+				DCADEB022F5B6141004113B9 /* target */,
+				DCADEB032F5B6141004113B9 /* Cargo.lock */,
+				DCADEB042F5B6141004113B9 /* Cargo.toml */,
+			);
+			path = Backend;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -324,7 +722,7 @@
 			packageProductDependencies = (
 			);
 			productName = SafeMesh;
-			productReference = DCE3C5772F502D0800FDC470 /* SafeMesh.app */;
+			productReference = DCADEAB62F5B60CD004113B9 /* SafeMesh.app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
@@ -367,6 +765,49 @@
 			buildActionMask = 2147483647;
 			files = (
 				DCABF3972F4C6BBB000FDF4E /* Assets.xcassets in Resources */,
+				DCADEB062F5B6141004113B9 /* invoked.timestamp in Resources */,
+				DCADEB072F5B6141004113B9 /* query-cache.bin in Resources */,
+				DCADEB082F5B6141004113B9 /* libBackend-05fcd87594f41224.rmeta in Resources */,
+				DCADEB092F5B6141004113B9 /* query-cache.bin in Resources */,
+				DCADEB0A2F5B6141004113B9 /* stderr in Resources */,
+				DCADEB0B2F5B6141004113B9 /* dep-graph.bin in Resources */,
+				DCADEB0C2F5B6141004113B9 /* dep-graph.part.bin in Resources */,
+				DCADEB0D2F5B6141004113B9 /* bin-Backend.json in Resources */,
+				DCADEB0E2F5B6141004113B9 /* dep-test-lib-Backend in Resources */,
+				DCADEB0F2F5B6141004113B9 /* s-hg2do8oewv-1mvb6ve.lock in Resources */,
+				DCADEB102F5B6141004113B9 /* dep-test-bin-Backend in Resources */,
+				DCADEB112F5B6141004113B9 /* output-lib-Backend in Resources */,
+				DCADEB122F5B6141004113B9 /* invoked.timestamp in Resources */,
+				DCADEB132F5B6141004113B9 /* work-products.bin in Resources */,
+				DCADEB142F5B6141004113B9 /* stdout in Resources */,
+				DCADEB152F5B6141004113B9 /* work-products.bin in Resources */,
+				DCADEB162F5B6141004113B9 /* Cargo.toml in Resources */,
+				DCADEB172F5B6141004113B9 /* s-hg2do8xgzn-1p3o0dg.lock in Resources */,
+				DCADEB182F5B6141004113B9 /* work-products.bin in Resources */,
+				DCADEB192F5B6141004113B9 /* dep-graph.part.bin in Resources */,
+				DCADEB1A2F5B6141004113B9 /* .rustc_info.json in Resources */,
+				DCADEB1B2F5B6141004113B9 /* s-hg2do8oe61-0wlp0j3.lock in Resources */,
+				DCADEB1C2F5B6141004113B9 /* dep-graph.bin in Resources */,
+				DCADEB1D2F5B6141004113B9 /* s-hg2do8x3ba-08shyqs.lock in Resources */,
+				DCADEB1E2F5B6141004113B9 /* CACHEDIR.TAG in Resources */,
+				DCADEB1F2F5B6141004113B9 /* lib-Backend in Resources */,
+				DCADEB202F5B6141004113B9 /* test-lib-Backend in Resources */,
+				DCADEB212F5B6141004113B9 /* invoked.timestamp in Resources */,
+				DCADEB222F5B6141004113B9 /* libBackend-6448c8f08afe2c30.rmeta in Resources */,
+				DCADEB232F5B6141004113B9 /* invoked.timestamp in Resources */,
+				DCADEB242F5B6141004113B9 /* libBackend-f978ca5a183958f5.rmeta in Resources */,
+				DCADEB252F5B6141004113B9 /* lib-Backend.json in Resources */,
+				DCADEB262F5B6141004113B9 /* dep-graph.bin in Resources */,
+				DCADEB272F5B6141004113B9 /* bin-Backend in Resources */,
+				DCADEB282F5B6141004113B9 /* .cargo-lock in Resources */,
+				DCADEB292F5B6141004113B9 /* dep-lib-Backend in Resources */,
+				DCADEB2A2F5B6141004113B9 /* s-hg2do9kfnq-0j3ov5a.lock in Resources */,
+				DCADEB2B2F5B6141004113B9 /* test-lib-Backend.json in Resources */,
+				DCADEB2C2F5B6141004113B9 /* test-bin-Backend in Resources */,
+				DCADEB2D2F5B6141004113B9 /* output-bin-Backend in Resources */,
+				DCADEB2E2F5B6141004113B9 /* Cargo.lock in Resources */,
+				DCADEB2F2F5B6141004113B9 /* test-bin-Backend.json in Resources */,
+				DCADEB302F5B6141004113B9 /* query-cache.bin in Resources */,
 				DCABF40E2F4C6BE3000FDF4E /* Asset.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -393,6 +834,10 @@
 				DCABF3E72F4C6BE3000FDF4E /* Configuration.swift in Sources */,
 				DCABF3E82F4C6BE3000FDF4E /* VPNStatus.swift in Sources */,
 				DCABF3E92F4C6BE3000FDF4E /* VPNServer.swift in Sources */,
+				DCADEB312F5B6141004113B9 /* Backend-bc351bd4dfdaf330.d in Sources */,
+				DCADEB322F5B6141004113B9 /* Backend-f978ca5a183958f5.d in Sources */,
+				DCADEB332F5B6141004113B9 /* Backend-05fcd87594f41224.d in Sources */,
+				DCADEB342F5B6141004113B9 /* Backend-6448c8f08afe2c30.d in Sources */,
 				DCABF3EA2F4C6BE3000FDF4E /* StatusObserver.swift in Sources */,
 				DCABF3EB2F4C6BE3000FDF4E /* PacketHandler.swift in Sources */,
 				DCABF3EC2F4C6BE3000FDF4E /* Formatter.swift in Sources */,
