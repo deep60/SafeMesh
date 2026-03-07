@@ -160,7 +160,7 @@
 		DCABF3D62F4C6BE3000FDF4E /* SettingsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsViewModel.swift; sourceTree = "<group>"; };
 		DCABF3D72F4C6BE3000FDF4E /* SubscriptionViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SubscriptionViewModel.swift; sourceTree = "<group>"; };
 		DCABF3D82F4C6BE3000FDF4E /* VPNViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VPNViewModel.swift; sourceTree = "<group>"; };
-		DCADEAB62F5B60CD004113B9 /* SafeMesh.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SafeMesh.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		DCADEAB62F5B60CD004113B9 /* SafeMesh.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; name = SafeMesh.app; path = /Users/arjun/Developer/SafeMesh/build/Debug/SafeMesh.app; sourceTree = "<absolute>"; };
 		DCADEAC12F5B6141004113B9 /* dep-test-bin-Backend */ = {isa = PBXFileReference; lastKnownFileType = file; path = "dep-test-bin-Backend"; sourceTree = "<group>"; };
 		DCADEAC22F5B6141004113B9 /* invoked.timestamp */ = {isa = PBXFileReference; lastKnownFileType = text; path = invoked.timestamp; sourceTree = "<group>"; };
 		DCADEAC32F5B6141004113B9 /* test-bin-Backend */ = {isa = PBXFileReference; lastKnownFileType = text; path = "test-bin-Backend"; sourceTree = "<group>"; };
@@ -224,12 +224,9 @@
 		DCABF3862F4C6BBA000FDF4E = {
 			isa = PBXGroup;
 			children = (
+				DCADEB362F5C0094004113B9 /* Database */,
+				DCADEB352F5C0087004113B9 /* Infrastructure */,
 				DCABF3DC2F4C6BE3000FDF4E /* Frontend */,
-				DCABF4602F4C6C7F000FDF4E /* Documentation */,
-				DCABF4612F4C6C7F000FDF4E /* Infrastructure */,
-				DCABF4622F4C6C7F000FDF4E /* VPN-Server */,
-				DCABF4632F4C6C7F000FDF4E /* Config Files */,
-				DCADEAB62F5B60CD004113B9 /* SafeMesh.app */,
 				DCADEB052F5B6141004113B9 /* Backend */,
 			);
 			sourceTree = "<group>";
@@ -371,34 +368,6 @@
 				DCABF3962F4C6BBB000FDF4E /* Assets.xcassets */,
 			);
 			path = Frontend;
-			sourceTree = "<group>";
-		};
-		DCABF4602F4C6C7F000FDF4E /* Documentation */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = Documentation;
-			sourceTree = "<group>";
-		};
-		DCABF4612F4C6C7F000FDF4E /* Infrastructure */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = Infrastructure;
-			sourceTree = "<group>";
-		};
-		DCABF4622F4C6C7F000FDF4E /* VPN-Server */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = "VPN-Server";
-			sourceTree = "<group>";
-		};
-		DCABF4632F4C6C7F000FDF4E /* Config Files */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = "Config Files";
 			sourceTree = "<group>";
 		};
 		DCADEAB72F5B6141004113B9 /* config */ = {
@@ -701,6 +670,68 @@
 				DCADEB042F5B6141004113B9 /* Cargo.toml */,
 			);
 			path = Backend;
+			sourceTree = "<group>";
+		};
+		DCADEB352F5C0087004113B9 /* Infrastructure */ = {
+			isa = PBXGroup;
+			children = (
+				DCADEB3C2F5C02FC004113B9 /* CI-CD */,
+				DCADEB3B2F5C02EF004113B9 /* Monitoring */,
+				DCADEB3A2F5C02E6004113B9 /* nginx */,
+				DCADEB392F5C02D9004113B9 /* Terraform */,
+				DCADEB382F5C02C3004113B9 /* K8s */,
+				DCADEB372F5C02BD004113B9 /* Docker */,
+			);
+			path = Infrastructure;
+			sourceTree = "<group>";
+		};
+		DCADEB362F5C0094004113B9 /* Database */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Database;
+			sourceTree = "<group>";
+		};
+		DCADEB372F5C02BD004113B9 /* Docker */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Docker;
+			sourceTree = "<group>";
+		};
+		DCADEB382F5C02C3004113B9 /* K8s */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = K8s;
+			sourceTree = "<group>";
+		};
+		DCADEB392F5C02D9004113B9 /* Terraform */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Terraform;
+			sourceTree = "<group>";
+		};
+		DCADEB3A2F5C02E6004113B9 /* nginx */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = nginx;
+			sourceTree = "<group>";
+		};
+		DCADEB3B2F5C02EF004113B9 /* Monitoring */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Monitoring;
+			sourceTree = "<group>";
+		};
+		DCADEB3C2F5C02FC004113B9 /* CI-CD */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = "CI-CD";
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
