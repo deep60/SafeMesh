@@ -12,9 +12,9 @@ enum Constants {
     // MARK: - API Configuration
     enum API {
         #if DEBUG
-        static let baseURL = "https://api-dev.safemesh.com"
+        static let baseURL = "http://localhost:8080/api/v1"
         #else
-        static let baseURL = "https://api.safemesh.com"
+        static let baseURL = "https://api.safemesh.com/api/v1"
         #endif
         static let timeout: TimeInterval = 30
         static let version = "v1"

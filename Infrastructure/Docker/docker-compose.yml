@@ -1,0 +1,88 @@
+version: '3.8'
+
+services:
+  # ─── SafeMesh Backend API ───
+  backend:
+    build:
+      context: ../../Backend
+      dockerfile: ../Infrastructure/Docker/Dockerfile
+    container_name: safemesh-backend
+    ports:
+      - "8080:8080"
+    environment:
+      - HOST=0.0.0.0
+      - PORT=8080
+      - DATABASE_URL=sqlite:/app/data/vpn.db
+      - JWT_SECRET=${JWT_SECRET:-change_me_in_production}
+      - JWT_EXPIRES_IN=${JWT_EXPIRES_IN:-3600}
+      - REFRESH_TOKEN_EXPIRES_DAYS=${REFRESH_TOKEN_EXPIRES_DAYS:-30}
+    volumes:
+      - safemesh-db:/app/data
+    networks:
+      - safemesh-network
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8080/api/v1/health"]
+      interval: 30s
+      timeout: 5s
+      retries: 3
+      start_period: 10s
+
+  # ─── Nginx Reverse Proxy ───
+  nginx:
+    image: nginx:1.25-alpine
+    container_name: safemesh-nginx
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ../nginx/nginx.conf:/etc/nginx/nginx.conf:ro
+      - ../nginx/ssl:/etc/nginx/ssl:ro
+    depends_on:
+      backend:
+        condition: service_healthy
+    networks:
+      - safemesh-network
+    restart: unless-stopped
+
+  # ─── Prometheus Monitoring ───
+  prometheus:
+    image: prom/prometheus:v2.48.0
+    container_name: safemesh-prometheus
+    ports:
+      - "9090:9090"
+    volumes:
+      - ../Monitoring/prometheus.yml:/etc/prometheus/prometheus.yml:ro
+      - prometheus-data:/prometheus
+    networks:
+      - safemesh-network
+    restart: unless-stopped
+
+  # ─── Grafana Dashboard ───
+  grafana:
+    image: grafana/grafana:10.2.0
+    container_name: safemesh-grafana
+    ports:
+      - "3000:3000"
+    environment:
+      - GF_SECURITY_ADMIN_PASSWORD=${GRAFANA_PASSWORD:-admin}
+      - GF_USERS_ALLOW_SIGN_UP=false
+    volumes:
+      - grafana-data:/var/lib/grafana
+    depends_on:
+      - prometheus
+    networks:
+      - safemesh-network
+    restart: unless-stopped
+
+volumes:
+  safemesh-db:
+    driver: local
+  prometheus-data:
+    driver: local
+  grafana-data:
+    driver: local
+
+networks:
+  safemesh-network:
+    driver: bridge

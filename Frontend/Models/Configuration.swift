@@ -11,6 +11,8 @@ import Foundation
 struct VPNConfiguration: Codable {
       let server: VPNServer
       let vpnProtocol: VPNProtocol
+      let interfaceAddressV4: String
+      let interfaceAddressV6: String
       let privateKey: String
       let publicKey: String
       let presharedKey: String?
@@ -25,7 +27,7 @@ struct VPNConfiguration: Codable {
           var config = """
           [Interface]
           PrivateKey = \(privateKey)
-          Address = 10.0.0.2/32
+          Address = \(interfaceAddressV4)
           DNS = \(dnsServers.joined(separator: ", "))
           MTU = \(mtu)
           """
@@ -99,9 +101,9 @@ struct AppConfiguration {
 
       private init() {
           #if DEBUG
-          self.apiBaseURL = "https://api-dev.safemesh.com"
+          self.apiBaseURL = "http://localhost:8080/api/v1"
           #else
-          self.apiBaseURL = "https://api.safemesh.com"
+          self.apiBaseURL = "https://api.safemesh.com/api/v1"
           #endif
 
           self.apiTimeout = 30.0

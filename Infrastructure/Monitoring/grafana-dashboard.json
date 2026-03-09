@@ -1,0 +1,106 @@
+{
+    "annotations": {
+        "list": []
+    },
+    "title": "SafeMesh VPN Dashboard",
+    "uid": "safemesh-vpn",
+    "version": 1,
+    "panels": [
+        {
+            "title": "API Health Status",
+            "type": "stat",
+            "gridPos": {
+                "h": 4,
+                "w": 6,
+                "x": 0,
+                "y": 0
+            },
+            "targets": [
+                {
+                    "expr": "up{job='safemesh-backend'}",
+                    "legendFormat": "Backend"
+                }
+            ]
+        },
+        {
+            "title": "Active VPN Sessions",
+            "type": "gauge",
+            "gridPos": {
+                "h": 4,
+                "w": 6,
+                "x": 6,
+                "y": 0
+            },
+            "targets": [
+                {
+                    "expr": "safemesh_active_sessions",
+                    "legendFormat": "Sessions"
+                }
+            ]
+        },
+        {
+            "title": "API Request Rate",
+            "type": "graph",
+            "gridPos": {
+                "h": 8,
+                "w": 12,
+                "x": 0,
+                "y": 4
+            },
+            "targets": [
+                {
+                    "expr": "rate(safemesh_http_requests_total[5m])",
+                    "legendFormat": "{{method}} {{path}}"
+                }
+            ]
+        },
+        {
+            "title": "API Response Time (p95)",
+            "type": "graph",
+            "gridPos": {
+                "h": 8,
+                "w": 12,
+                "x": 12,
+                "y": 4
+            },
+            "targets": [
+                {
+                    "expr": "histogram_quantile(0.95, rate(safemesh_http_request_duration_seconds_bucket[5m]))",
+                    "legendFormat": "p95 latency"
+                }
+            ]
+        },
+        {
+            "title": "Server Load Distribution",
+            "type": "bargauge",
+            "gridPos": {
+                "h": 8,
+                "w": 12,
+                "x": 0,
+                "y": 12
+            },
+            "targets": [
+                {
+                    "expr": "safemesh_server_load_percentage",
+                    "legendFormat": "{{server_name}}"
+                }
+            ]
+        },
+        {
+            "title": "Authentication Events",
+            "type": "graph",
+            "gridPos": {
+                "h": 8,
+                "w": 12,
+                "x": 12,
+                "y": 12
+            },
+            "targets": [
+                {
+                    "expr": "rate(safemesh_auth_events_total[5m])",
+                    "legendFormat": "{{event_type}}"
+                }
+            ]
+        }
+    ]
+}

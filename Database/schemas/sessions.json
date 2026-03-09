@@ -1,0 +1,77 @@
+{
+    "table": "user_sessions",
+    "description": "VPN connection sessions tracking user activity",
+    "columns": [
+        {
+            "name": "id",
+            "type": "TEXT",
+            "primary_key": true,
+            "description": "UUID v4 primary key"
+        },
+        {
+            "name": "user_id",
+            "type": "TEXT",
+            "nullable": false,
+            "description": "FK to users.id"
+        },
+        {
+            "name": "server_id",
+            "type": "TEXT",
+            "nullable": false,
+            "description": "FK to vpn_servers.id"
+        },
+        {
+            "name": "connect_time",
+            "type": "TEXT",
+            "nullable": false,
+            "description": "ISO 8601 connection start"
+        },
+        {
+            "name": "disconnect_time",
+            "type": "TEXT",
+            "nullable": true,
+            "description": "ISO 8601 disconnect time, null if active"
+        },
+        {
+            "name": "ip_address",
+            "type": "TEXT",
+            "nullable": false,
+            "description": "Client IP address"
+        },
+        {
+            "name": "bytes_in",
+            "type": "INTEGER",
+            "nullable": false,
+            "default": 0,
+            "description": "Bytes received"
+        },
+        {
+            "name": "bytes_out",
+            "type": "INTEGER",
+            "nullable": false,
+            "default": 0,
+            "description": "Bytes sent"
+        },
+        {
+            "name": "status",
+            "type": "TEXT",
+            "nullable": false,
+            "default": "'active'",
+            "description": "Session status: active, disconnected, expired"
+        }
+    ],
+    "indexes": [
+        {
+            "name": "idx_sessions_user",
+            "columns": [
+                "user_id"
+            ]
+        },
+        {
+            "name": "idx_sessions_status",
+            "columns": [
+                "status"
+            ]
+        }
+    ]
+}

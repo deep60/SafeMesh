@@ -119,6 +119,8 @@ class VPNManager: ObservableObject {
             "serverPort": config.server.port,
             "serverPublicKey": config.server.publicKey,
             "privateKey": config.privateKey,
+            "interfaceAddressV4": config.interfaceAddressV4,
+            "interfaceAddressV6": config.interfaceAddressV6,
             "allowedIPs": config.allowedIPs.joined(separator: ","),
             "dnsServers": config.dnsServers.joined(separator: ","),
             "mtu": config.mtu,

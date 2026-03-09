@@ -129,6 +129,8 @@ extension PacketTunnelProvider {
             serverPublicKey: providerDict["serverPublicKey"] as? String ?? "",
             privateKey: providerDict["privateKey"] as? String ?? "",
             presharedKey: providerDict["presharedKey"] as? String,
+            interfaceAddressV4: providerDict["interfaceAddressV4"] as? String ?? "10.0.0.2",
+            interfaceAddressV6: providerDict["interfaceAddressV6"] as? String ?? "fd00::2",
             allowedIPs: (providerDict["allowedIPs"] as? String ?? "").components(separatedBy: ","),
             dnsServers: (providerDict["dnsServers"] as? String ?? "").components(separatedBy: ","),
             mtu: providerDict["mtu"] as? Int ?? 1280,
@@ -155,18 +157,20 @@ extension PacketTunnelProvider {
         // Set MTU
         networkSettings.mtu = NSNumber(value: config.mtu)
 
-        // Configure IPv4
+        // Configure IPv4 — use the interface IP assigned by the backend
+        let ipv4Address = config.interfaceAddressV4.components(separatedBy: "/").first ?? config.interfaceAddressV4
         let ipv4Settings = NEIPv4Settings(
-            addresses: ["10.0.0.2"],
-            subnetMasks: ["255.255.255.0"]
+            addresses: [ipv4Address],
+            subnetMasks: ["255.255.255.255"]
         )
         ipv4Settings.includedRoutes = config.allowedIPs.map { NEIPv4Route(destinationAddress: $0, subnetMask: "0.0.0.0") }
         networkSettings.ipv4Settings = ipv4Settings
 
-        // Configure IPv6
+        // Configure IPv6 — use the interface IP assigned by the backend
+        let ipv6Address = config.interfaceAddressV6.components(separatedBy: "/").first ?? config.interfaceAddressV6
         let ipv6Settings = NEIPv6Settings(
-            addresses: ["fd00::2"],
-            networkPrefixLengths: [64]
+            addresses: [ipv6Address],
+            networkPrefixLengths: [128]
         )
         ipv6Settings.includedRoutes = config.allowedIPs.map { NEIPv6Route(destinationAddress: $0, networkPrefixLength: 0) }
         networkSettings.ipv6Settings = ipv6Settings

@@ -15,6 +15,8 @@ struct TunnelConfiguration: Codable {
     let serverPublicKey: String
     let privateKey: String
     let presharedKey: String?
+    let interfaceAddressV4: String
+    let interfaceAddressV6: String
     let allowedIPs: [String]
     let dnsServers: [String]
     let mtu: Int
@@ -69,7 +71,7 @@ struct TunnelConfiguration: Codable {
         var config = """
         [Interface]
         PrivateKey = \(privateKey)
-        Address = 10.0.0.2/32, fd00::2/128
+        Address = \(interfaceAddressV4), \(interfaceAddressV6)
         DNS = \(formattedDNS)
         MTU = \(mtu)
         """
@@ -162,6 +164,8 @@ struct TunnelConfiguration: Codable {
             serverPublicKey: serverPublicKey,
             privateKey: privateKey,
             presharedKey: presharedKey,
+            interfaceAddressV4: "10.0.0.2/32",  // Default for imported configs
+            interfaceAddressV6: "fd00::2/128",
             allowedIPs: allowedIPs,
             dnsServers: dnsServers,
             mtu: mtu,
@@ -205,6 +209,8 @@ class TunnelConfigurationBuilder {
     private var serverPublicKey: String = ""
     private var privateKey: String = ""
     private var presharedKey: String? = nil
+    private var interfaceAddressV4: String = "10.0.0.2/32"
+    private var interfaceAddressV6: String = "fd00::2/128"
     private var allowedIPs: [String] = ["0.0.0.0/0", "::/0"]
     private var dnsServers: [String] = ["1.1.1.1", "1.0.0.1"]
     private var mtu: Int = 1280
@@ -262,6 +268,8 @@ class TunnelConfigurationBuilder {
             serverPublicKey: serverPublicKey,
             privateKey: privateKey,
             presharedKey: presharedKey,
+            interfaceAddressV4: interfaceAddressV4,
+            interfaceAddressV6: interfaceAddressV6,
             allowedIPs: allowedIPs,
             dnsServers: dnsServers,
             mtu: mtu,
