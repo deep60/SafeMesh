@@ -1,11 +1,13 @@
-use actix_web::{web, HttpRequest, HttpResponse};
 use crate::config::Config;
 use crate::database::DbPool;
-use crate::models::*;
 use crate::middleware::get_user_id;
-use crate::services::{AuthService, UserService, VpnService, SubscriptionService};
-use uuid::Uuid;
+use crate::models::*;
+use crate::services::{
+    AuthService, ConnectionHistoryService, SubscriptionService, UserService, VpnService,
+};
+use actix_web::{web, HttpRequest, HttpResponse};
 use chrono::Utc;
+use uuid::Uuid;
 
 // ─────────────────────────────────────────────
 // Auth Handlers (public — no middleware)
@@ -16,9 +18,19 @@ pub async fn signup(
     config: web::Data<Config>,
     body: web::Json<RegisterRequest>,
 ) -> HttpResponse {
-    match AuthService::register(pool.get_ref(), body.into_inner(), &config.jwt_secret, config.jwt_expires_in).await {
+    match AuthService::register(
+        pool.get_ref(),
+        body.into_inner(),
+        &config.jwt_secret,
+        config.jwt_expires_in,
+    )
+    .await
+    {
         Ok(response) => HttpResponse::Created().json(response),
-        Err(e) => HttpResponse::BadRequest().json(ApiResponse::<()>::error("registration_failed", &e.to_string())),
+        Err(e) => HttpResponse::BadRequest().json(ApiResponse::<()>::error(
+            "registration_failed",
+            &e.to_string(),
+        )),
     }
 }
 
@@ -27,9 +39,17 @@ pub async fn login(
     config: web::Data<Config>,
     body: web::Json<LoginRequest>,
 ) -> HttpResponse {
-    match AuthService::login(pool.get_ref(), body.into_inner(), &config.jwt_secret, config.jwt_expires_in).await {
+    match AuthService::login(
+        pool.get_ref(),
+        body.into_inner(),
+        &config.jwt_secret,
+        config.jwt_expires_in,
+    )
+    .await
+    {
         Ok(response) => HttpResponse::Ok().json(response),
-        Err(e) => HttpResponse::Unauthorized().json(ApiResponse::<()>::error("auth_failed", &e.to_string())),
+        Err(e) => HttpResponse::Unauthorized()
+            .json(ApiResponse::<()>::error("auth_failed", &e.to_string())),
     }
 }
 
@@ -38,17 +58,26 @@ pub async fn refresh_token(
     config: web::Data<Config>,
     body: web::Json<RefreshTokenRequest>,
 ) -> HttpResponse {
-    match AuthService::refresh(pool.get_ref(), &body.refresh_token, &config.jwt_secret, config.jwt_expires_in).await {
+    match AuthService::refresh(
+        pool.get_ref(),
+        &body.refresh_token,
+        &config.jwt_secret,
+        config.jwt_expires_in,
+    )
+    .await
+    {
         Ok(response) => HttpResponse::Ok().json(response),
-        Err(e) => HttpResponse::Unauthorized().json(ApiResponse::<()>::error("refresh_failed", &e.to_string())),
+        Err(e) => HttpResponse::Unauthorized()
+            .json(ApiResponse::<()>::error("refresh_failed", &e.to_string())),
     }
 }
 
 pub async fn forgot_password(
     pool: web::Data<DbPool>,
+    smtp_config: web::Data<crate::email::SmtpConfig>,
     body: web::Json<ForgotPasswordRequest>,
 ) -> HttpResponse {
-    match AuthService::forgot_password(pool.get_ref(), &body.email).await {
+    match AuthService::forgot_password(pool.get_ref(), &body.email, smtp_config.get_ref()).await {
         Ok(_) => HttpResponse::Ok().json(ApiResponse::ok_with_message(
             serde_json::Value::Null,
             "If an account with this email exists, a reset link has been sent",
@@ -73,7 +102,8 @@ pub async fn reset_password(
             serde_json::Value::Null,
             "Password has been reset successfully",
         )),
-        Err(e) => HttpResponse::BadRequest().json(ApiResponse::<()>::error("reset_failed", &e.to_string())),
+        Err(e) => HttpResponse::BadRequest()
+            .json(ApiResponse::<()>::error("reset_failed", &e.to_string())),
     }
 }
 
@@ -81,10 +111,7 @@ pub async fn reset_password(
 // Protected Auth Handler (requires JWT via middleware)
 // ─────────────────────────────────────────────
 
-pub async fn logout(
-    pool: web::Data<DbPool>,
-    req: HttpRequest,
-) -> HttpResponse {
+pub async fn logout(pool: web::Data<DbPool>, req: HttpRequest) -> HttpResponse {
     let user_id = get_user_id(&req);
     match AuthService::logout(pool.get_ref(), user_id).await {
         Ok(_) => HttpResponse::Ok().json(ApiResponse::ok(serde_json::Value::Null)),
@@ -97,14 +124,13 @@ pub async fn logout(
 // User Handlers (protected — user_id from middleware)
 // ─────────────────────────────────────────────
 
-pub async fn get_user_profile(
-    pool: web::Data<DbPool>,
-    req: HttpRequest,
-) -> HttpResponse {
+pub async fn get_user_profile(pool: web::Data<DbPool>, req: HttpRequest) -> HttpResponse {
     let user_id = get_user_id(&req);
     match UserService::get_profile(pool.get_ref(), user_id).await {
         Ok(Some(user)) => HttpResponse::Ok().json(ApiResponse::ok(UserResponse::from(&user))),
-        Ok(None) => HttpResponse::NotFound().json(ApiResponse::<()>::error("not_found", "User not found")),
+        Ok(None) => {
+            HttpResponse::NotFound().json(ApiResponse::<()>::error("not_found", "User not found"))
+        }
         Err(e) => HttpResponse::InternalServerError()
             .json(ApiResponse::<()>::error("server_error", &e.to_string())),
     }
@@ -125,7 +151,9 @@ pub async fn update_user_profile(
     .await
     {
         Ok(Some(user)) => HttpResponse::Ok().json(ApiResponse::ok(UserResponse::from(&user))),
-        Ok(None) => HttpResponse::NotFound().json(ApiResponse::<()>::error("not_found", "User not found")),
+        Ok(None) => {
+            HttpResponse::NotFound().json(ApiResponse::<()>::error("not_found", "User not found"))
+        }
         Err(e) => HttpResponse::InternalServerError()
             .json(ApiResponse::<()>::error("server_error", &e.to_string())),
     }
@@ -138,7 +166,8 @@ pub async fn update_user_profile(
 pub async fn get_servers(pool: web::Data<DbPool>) -> HttpResponse {
     match VpnService::list_servers(pool.get_ref()).await {
         Ok(servers) => {
-            let response: Vec<VpnServerResponse> = servers.iter().map(VpnServerResponse::from).collect();
+            let response: Vec<VpnServerResponse> =
+                servers.iter().map(VpnServerResponse::from).collect();
             HttpResponse::Ok().json(VpnServerListResponse { servers: response })
         }
         Err(e) => HttpResponse::InternalServerError()
@@ -158,8 +187,10 @@ pub async fn connect_to_server(
     let user_id = get_user_id(&req);
     let server_id = match Uuid::parse_str(&path.into_inner()) {
         Ok(id) => id,
-        Err(_) => return HttpResponse::BadRequest()
-            .json(ApiResponse::<()>::error("bad_request", "Invalid server ID")),
+        Err(_) => {
+            return HttpResponse::BadRequest()
+                .json(ApiResponse::<()>::error("bad_request", "Invalid server ID"))
+        }
     };
 
     let client_ip = req
@@ -184,18 +215,31 @@ pub async fn connect_to_server(
 
 pub async fn disconnect_from_server(
     pool: web::Data<DbPool>,
+    req: HttpRequest,
     path: web::Path<String>,
 ) -> HttpResponse {
+    let user_id = get_user_id(&req);
     let session_id = match Uuid::parse_str(&path.into_inner()) {
         Ok(id) => id,
-        Err(_) => return HttpResponse::BadRequest()
-            .json(ApiResponse::<()>::error("bad_request", "Invalid session ID")),
+        Err(_) => {
+            return HttpResponse::BadRequest().json(ApiResponse::<()>::error(
+                "bad_request",
+                "Invalid session ID",
+            ))
+        }
     };
 
-    match VpnService::disconnect(pool.get_ref(), session_id).await {
+    match VpnService::disconnect(pool.get_ref(), session_id, user_id).await {
         Ok(_) => HttpResponse::Ok().json(ApiResponse::ok(serde_json::Value::Null)),
-        Err(e) => HttpResponse::InternalServerError()
-            .json(ApiResponse::<()>::error("server_error", &e.to_string())),
+        Err(e) => {
+            let msg = e.to_string();
+            if msg.contains("do not own") {
+                HttpResponse::Forbidden().json(ApiResponse::<()>::error("forbidden", &msg))
+            } else {
+                HttpResponse::InternalServerError()
+                    .json(ApiResponse::<()>::error("server_error", &msg))
+            }
+        }
     }
 }
 
@@ -212,8 +256,10 @@ pub async fn get_vpn_config(
 
     let server_id = match Uuid::parse_str(&body.server_id) {
         Ok(id) => id,
-        Err(_) => return HttpResponse::BadRequest()
-            .json(ApiResponse::<()>::error("bad_request", "Invalid server ID")),
+        Err(_) => {
+            return HttpResponse::BadRequest()
+                .json(ApiResponse::<()>::error("bad_request", "Invalid server ID"))
+        }
     };
 
     match VpnService::generate_config(pool.get_ref(), server_id, &body.public_key).await {
@@ -224,19 +270,47 @@ pub async fn get_vpn_config(
 }
 
 // ─────────────────────────────────────────────
-// Subscription Handler (protected)
+// Connection History Handler (protected)
 // ─────────────────────────────────────────────
 
-pub async fn get_subscriptions(
-    pool: web::Data<DbPool>,
-    req: HttpRequest,
-) -> HttpResponse {
+pub async fn get_connection_history(pool: web::Data<DbPool>, req: HttpRequest) -> HttpResponse {
+    let user_id = get_user_id(&req);
+    match ConnectionHistoryService::get_history(pool.get_ref(), user_id).await {
+        Ok(sessions) => {
+            let response: Vec<ConnectionHistoryEntry> =
+                sessions.iter().map(ConnectionHistoryEntry::from).collect();
+            HttpResponse::Ok().json(ApiResponse::ok(response))
+        }
+        Err(e) => HttpResponse::InternalServerError()
+            .json(ApiResponse::<()>::error("server_error", &e.to_string())),
+    }
+}
+
+// ─────────────────────────────────────────────
+// Subscription Handlers (protected)
+// ─────────────────────────────────────────────
+
+pub async fn get_subscriptions(pool: web::Data<DbPool>, req: HttpRequest) -> HttpResponse {
     let user_id = get_user_id(&req);
     match SubscriptionService::get_user_subscription(pool.get_ref(), user_id).await {
         Ok(Some(sub)) => HttpResponse::Ok().json(ApiResponse::ok(SubscriptionResponse::from(&sub))),
         Ok(None) => HttpResponse::Ok().json(ApiResponse::ok(serde_json::Value::Null)),
         Err(e) => HttpResponse::InternalServerError()
             .json(ApiResponse::<()>::error("server_error", &e.to_string())),
+    }
+}
+
+pub async fn purchase_subscription(
+    pool: web::Data<DbPool>,
+    req: HttpRequest,
+    body: web::Json<PurchaseSubscriptionRequest>,
+) -> HttpResponse {
+    let user_id = get_user_id(&req);
+    match SubscriptionService::purchase_subscription(pool.get_ref(), user_id, &body.plan_type).await
+    {
+        Ok(sub) => HttpResponse::Created().json(ApiResponse::ok(SubscriptionResponse::from(&sub))),
+        Err(e) => HttpResponse::BadRequest()
+            .json(ApiResponse::<()>::error("purchase_failed", &e.to_string())),
     }
 }
 

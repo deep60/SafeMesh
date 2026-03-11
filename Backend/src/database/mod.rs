@@ -653,3 +653,152 @@ pub async fn update_user_password(
         .await?;
     Ok(())
 }
+
+pub async fn seed_servers_if_empty(pool: &DbPool) -> Result<(), sqlx::Error> {
+    let count: (i64,) = sqlx::query_as("SELECT COUNT(*) FROM vpn_servers")
+        .fetch_one(pool)
+        .await?;
+    if count.0 > 0 {
+        tracing::info!("Database already has {} servers, skipping seed", count.0);
+        return Ok(());
+    }
+    tracing::info!("Seeding VPN servers...");
+    sqlx::query(
+        r#"INSERT OR IGNORE INTO vpn_servers (id, name, city, country, country_code, region, ip_address, port, public_key, endpoint, dns_servers, protocol, protocols, latency, load_percentage, max_connections, current_connections, is_active, is_premium, status, created_at, updated_at) VALUES
+        ('550e8400-e29b-41d4-a716-446655440001', 'US East 1', 'New York', 'United States', 'US', 'North America', '198.51.100.1', 51820, 'wg-pubkey-us-east-1', '198.51.100.1:51820', '1.1.1.1,1.0.0.1', 'WireGuard', 'WireGuard,OpenVPN', 25, 45, 1000, 234, 1, 0, 'online', datetime('now'), datetime('now')),
+        ('550e8400-e29b-41d4-a716-446655440002', 'US West 1', 'Los Angeles', 'United States', 'US', 'North America', '198.51.100.2', 51820, 'wg-pubkey-us-west-1', '198.51.100.2:51820', '1.1.1.1,1.0.0.1', 'WireGuard', 'WireGuard,OpenVPN', 35, 62, 1000, 456, 1, 0, 'online', datetime('now'), datetime('now')),
+        ('550e8400-e29b-41d4-a716-446655440003', 'UK London 1', 'London', 'United Kingdom', 'GB', 'Europe', '198.51.100.3', 51820, 'wg-pubkey-uk-lon-1', '198.51.100.3:51820', '1.1.1.1,1.0.0.1', 'WireGuard', 'WireGuard,OpenVPN', 120, 38, 1000, 178, 1, 0, 'online', datetime('now'), datetime('now')),
+        ('550e8400-e29b-41d4-a716-446655440004', 'DE Frankfurt 1', 'Frankfurt', 'Germany', 'DE', 'Europe', '198.51.100.4', 51820, 'wg-pubkey-de-fra-1', '198.51.100.4:51820', '1.1.1.1,1.0.0.1', 'WireGuard', 'WireGuard', 130, 28, 1000, 90, 1, 0, 'online', datetime('now'), datetime('now')),
+        ('550e8400-e29b-41d4-a716-446655440005', 'JP Tokyo 1', 'Tokyo', 'Japan', 'JP', 'Asia', '198.51.100.5', 51820, 'wg-pubkey-jp-tyo-1', '198.51.100.5:51820', '1.1.1.1,1.0.0.1', 'WireGuard', 'WireGuard', 180, 55, 1000, 320, 1, 1, 'online', datetime('now'), datetime('now')),
+        ('550e8400-e29b-41d4-a716-446655440006', 'SG Singapore 1', 'Singapore', 'Singapore', 'SG', 'Asia', '198.51.100.6', 51820, 'wg-pubkey-sg-1', '198.51.100.6:51820', '1.1.1.1,1.0.0.1', 'WireGuard', 'WireGuard,OpenVPN', 160, 41, 1000, 205, 1, 1, 'online', datetime('now'), datetime('now')),
+        ('550e8400-e29b-41d4-a716-446655440007', 'IN Mumbai 1', 'Mumbai', 'India', 'IN', 'Asia', '198.51.100.7', 51820, 'wg-pubkey-in-mum-1', '198.51.100.7:51820', '1.1.1.1,1.0.0.1', 'WireGuard', 'WireGuard', 50, 72, 1000, 510, 1, 0, 'online', datetime('now'), datetime('now')),
+        ('550e8400-e29b-41d4-a716-446655440008', 'AU Sydney 1', 'Sydney', 'Australia', 'AU', 'Oceania', '198.51.100.8', 51820, 'wg-pubkey-au-syd-1', '198.51.100.8:51820', '1.1.1.1,1.0.0.1', 'WireGuard', 'WireGuard', 200, 22, 1000, 67, 1, 1, 'online', datetime('now'), datetime('now'))
+        "#
+    )
+    .execute(pool)
+    .await?;
+    tracing::info!("✅ Seeded 8 VPN servers.");
+    Ok(())
+}
+
+pub async fn get_session_by_id(
+    pool: &DbPool,
+    session_id: Uuid,
+) -> Result<Option<UserSession>, sqlx::Error> {
+    let row = sqlx::query("SELECT * FROM user_sessions WHERE id = ?1")
+        .bind(session_id.to_string())
+        .fetch_optional(pool)
+        .await?;
+    match row {
+        Some(row) => {
+            let id: String = row.get("id");
+            let uid: String = row.get("user_id");
+            let sid: String = row.get("server_id");
+            let conn: String = row.get("connect_time");
+            let disc: Option<String> = row.get("disconnect_time");
+            let ip: String = row.get("ip_address");
+            Ok(Some(UserSession {
+                id: Uuid::from_str(&id).map_err(|e| sqlx::Error::Decode(Box::new(e)))?,
+                user_id: Uuid::from_str(&uid).map_err(|e| sqlx::Error::Decode(Box::new(e)))?,
+                server_id: Uuid::from_str(&sid).map_err(|e| sqlx::Error::Decode(Box::new(e)))?,
+                connect_time: parse_datetime(&conn)
+                    .map_err(|e| sqlx::Error::Decode(Box::new(e)))?,
+                disconnect_time: disc
+                    .map(|s| parse_datetime(&s))
+                    .transpose()
+                    .map_err(|e| sqlx::Error::Decode(Box::new(e)))?,
+                ip_address: ip,
+                bytes_in: row.get("bytes_in"),
+                bytes_out: row.get("bytes_out"),
+                status: row.get("status"),
+            }))
+        }
+        None => Ok(None),
+    }
+}
+
+pub async fn get_user_sessions(
+    pool: &DbPool,
+    user_id: Uuid,
+) -> Result<Vec<UserSession>, sqlx::Error> {
+    let rows = sqlx::query(
+        "SELECT * FROM user_sessions WHERE user_id = ?1 ORDER BY connect_time DESC LIMIT 50",
+    )
+    .bind(user_id.to_string())
+    .fetch_all(pool)
+    .await?;
+    let mut sessions = Vec::new();
+    for row in rows {
+        let id: String = row.get("id");
+        let uid: String = row.get("user_id");
+        let sid: String = row.get("server_id");
+        let conn: String = row.get("connect_time");
+        let disc: Option<String> = row.get("disconnect_time");
+        let ip: String = row.get("ip_address");
+        sessions.push(UserSession {
+            id: Uuid::from_str(&id).map_err(|e| sqlx::Error::Decode(Box::new(e)))?,
+            user_id: Uuid::from_str(&uid).map_err(|e| sqlx::Error::Decode(Box::new(e)))?,
+            server_id: Uuid::from_str(&sid).map_err(|e| sqlx::Error::Decode(Box::new(e)))?,
+            connect_time: parse_datetime(&conn).map_err(|e| sqlx::Error::Decode(Box::new(e)))?,
+            disconnect_time: disc
+                .map(|s| parse_datetime(&s))
+                .transpose()
+                .map_err(|e| sqlx::Error::Decode(Box::new(e)))?,
+            ip_address: ip,
+            bytes_in: row.get("bytes_in"),
+            bytes_out: row.get("bytes_out"),
+            status: row.get("status"),
+        });
+    }
+    Ok(sessions)
+}
+
+pub async fn create_subscription(
+    pool: &DbPool,
+    user_id: Uuid,
+    plan_type: &str,
+    max_bandwidth: i64,
+    max_connections: i32,
+    features: &str,
+) -> Result<Subscription, sqlx::Error> {
+    let id = Uuid::new_v4();
+    let now = Utc::now().to_rfc3339();
+    let end_date = if plan_type != "free" {
+        Some((Utc::now() + chrono::Duration::days(30)).to_rfc3339())
+    } else {
+        None
+    };
+    sqlx::query(
+        "INSERT INTO subscriptions (id, user_id, plan_type, status, start_date, end_date, auto_renew, max_bandwidth, max_connections, features, is_active, created_at, updated_at) VALUES (?1, ?2, ?3, ?4, ?5, ?6, ?7, ?8, ?9, ?10, ?11, ?12, ?13)"
+    )
+    .bind(id.to_string())
+    .bind(user_id.to_string())
+    .bind(plan_type)
+    .bind("active")
+    .bind(&now)
+    .bind(&end_date)
+    .bind(1)
+    .bind(max_bandwidth)
+    .bind(max_connections)
+    .bind(features)
+    .bind(1)
+    .bind(&now)
+    .bind(&now)
+    .execute(pool)
+    .await?;
+    Ok(Subscription {
+        id,
+        user_id,
+        plan_type: plan_type.to_string(),
+        status: "active".to_string(),
+        start_date: Utc::now(),
+        end_date: end_date.map(|_| Utc::now() + chrono::Duration::days(30)),
+        auto_renew: true,
+        max_bandwidth,
+        max_connections,
+        features: features.to_string(),
+        is_active: true,
+        created_at: Utc::now(),
+        updated_at: Utc::now(),
+    })
+}

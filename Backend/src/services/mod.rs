@@ -1,10 +1,10 @@
-use crate::models::*;
-use crate::database::DbPool;
 use crate::auth;
-use uuid::Uuid;
-use chrono::{Utc, Duration};
-use sha2::{Sha256, Digest};
+use crate::database::DbPool;
+use crate::models::*;
+use chrono::{Duration, Utc};
 use rand::{distributions::Alphanumeric, thread_rng, Rng};
+use sha2::{Digest, Sha256};
+use uuid::Uuid;
 
 // ─────────────────────────────────────────────
 // Auth Service — authentication business logic
@@ -20,7 +20,10 @@ impl AuthService {
         jwt_expires_in: i64,
     ) -> Result<AuthResponse, Box<dyn std::error::Error>> {
         // Validate: check if email already exists
-        if crate::database::get_user_by_email(pool, &request.email).await?.is_some() {
+        if crate::database::get_user_by_email(pool, &request.email)
+            .await?
+            .is_some()
+        {
             return Err("A user with this email already exists".into());
         }
 
@@ -28,7 +31,9 @@ impl AuthService {
         let password_hash = auth::hash_password(&request.password)?;
 
         // Persist the user
-        let user = crate::database::create_user(pool, &request.name, &request.email, &password_hash).await?;
+        let user =
+            crate::database::create_user(pool, &request.name, &request.email, &password_hash)
+                .await?;
 
         // Generate tokens
         let token = auth::generate_jwt(user.id, jwt_secret, jwt_expires_in)?;
@@ -99,7 +104,11 @@ impl AuthService {
         Ok(())
     }
 
-    pub async fn forgot_password(pool: &DbPool, email: &str) -> Result<(), Box<dyn std::error::Error>> {
+    pub async fn forgot_password(
+        pool: &DbPool,
+        email: &str,
+        smtp_config: &crate::email::SmtpConfig,
+    ) -> Result<(), Box<dyn std::error::Error>> {
         // Find user — always return success to prevent email enumeration
         let user = match crate::database::get_user_by_email(pool, email).await? {
             Some(u) => u,
@@ -116,13 +125,8 @@ impl AuthService {
 
         crate::database::store_password_reset_token(pool, user.id, &token_hash, expires_at).await?;
 
-        // In production: send email with reset link containing `raw_token`
-        // e.g. https://safemesh.com/reset-password?token={raw_token}
-        tracing::info!(
-            "Password reset token generated for user {}. Token (dev only): {}",
-            user.id,
-            raw_token
-        );
+        // Send the reset email (falls back to console in dev mode)
+        crate::email::send_password_reset_email(email, &raw_token, smtp_config).await?;
 
         Ok(())
     }
@@ -218,7 +222,10 @@ impl VpnService {
         crate::database::get_all_servers(pool).await
     }
 
-    pub async fn get_server(pool: &DbPool, server_id: Uuid) -> Result<Option<VpnServer>, sqlx::Error> {
+    pub async fn get_server(
+        pool: &DbPool,
+        server_id: Uuid,
+    ) -> Result<Option<VpnServer>, sqlx::Error> {
         crate::database::get_server_by_id(pool, server_id).await
     }
 
@@ -240,8 +247,19 @@ impl VpnService {
         Ok((session, server))
     }
 
-    pub async fn disconnect(pool: &DbPool, session_id: Uuid) -> Result<(), sqlx::Error> {
-        crate::database::disconnect_session(pool, session_id).await
+    pub async fn disconnect(
+        pool: &DbPool,
+        session_id: Uuid,
+        user_id: Uuid,
+    ) -> Result<(), Box<dyn std::error::Error>> {
+        let session = crate::database::get_session_by_id(pool, session_id)
+            .await?
+            .ok_or("Session not found")?;
+        if session.user_id != user_id {
+            return Err("You do not own this session".into());
+        }
+        crate::database::disconnect_session(pool, session_id).await?;
+        Ok(())
     }
 
     /// Generate a real WireGuard VPN configuration for the client.
@@ -268,7 +286,11 @@ impl VpnService {
         // Generate server-side WireGuard keypair for this peer relationship.
         // In production, the server's private key is managed by the WireGuard server process.
         let server_response = VpnServerResponse::from(&server);
-        let dns_servers = server.dns_servers.split(',').map(|s| s.trim().to_string()).collect();
+        let dns_servers = server
+            .dns_servers
+            .split(',')
+            .map(|s| s.trim().to_string())
+            .collect();
 
         let config = VpnConfigurationData {
             server: server_response,
@@ -304,5 +326,46 @@ impl SubscriptionService {
         user_id: Uuid,
     ) -> Result<Option<Subscription>, sqlx::Error> {
         crate::database::get_user_subscription(pool, user_id).await
+    }
+
+    pub async fn purchase_subscription(
+        pool: &DbPool,
+        user_id: Uuid,
+        plan_type: &str,
+    ) -> Result<Subscription, Box<dyn std::error::Error>> {
+        let (max_bw, max_conn, features) = match plan_type {
+            "free" => (1_073_741_824i64, 1, "basic_vpn"),
+            "pro" => (
+                107_374_182_400i64,
+                5,
+                "basic_vpn,premium_servers,kill_switch",
+            ),
+            "premium" => (
+                i64::MAX,
+                10,
+                "basic_vpn,premium_servers,kill_switch,split_tunnel,dedicated_ip",
+            ),
+            _ => return Err("Invalid plan type. Choose: free, pro, premium".into()),
+        };
+        let sub = crate::database::create_subscription(
+            pool, user_id, plan_type, max_bw, max_conn, features,
+        )
+        .await?;
+        Ok(sub)
+    }
+}
+
+// ─────────────────────────────────────────────
+// Connection History Service
+// ─────────────────────────────────────────────
+
+pub struct ConnectionHistoryService;
+
+impl ConnectionHistoryService {
+    pub async fn get_history(
+        pool: &DbPool,
+        user_id: Uuid,
+    ) -> Result<Vec<UserSession>, sqlx::Error> {
+        crate::database::get_user_sessions(pool, user_id).await
     }
 }

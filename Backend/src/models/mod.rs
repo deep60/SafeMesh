@@ -388,3 +388,44 @@ pub struct ServiceStatus {
     pub status: String,
     pub latency: f64,
 }
+
+#[derive(Debug, Clone, Serialize)]
+pub struct ConnectionHistoryEntry {
+    pub id: String,
+    #[serde(rename = "serverId")]
+    pub server_id: String,
+    #[serde(rename = "connectTime")]
+    pub connect_time: DateTime<Utc>,
+    #[serde(rename = "disconnectTime")]
+    pub disconnect_time: Option<DateTime<Utc>>,
+    #[serde(rename = "bytesIn")]
+    pub bytes_in: i64,
+    #[serde(rename = "bytesOut")]
+    pub bytes_out: i64,
+    pub status: String,
+    pub duration: Option<i64>,
+}
+
+impl From<&UserSession> for ConnectionHistoryEntry {
+    fn from(s: &UserSession) -> Self {
+        let duration = s
+            .disconnect_time
+            .map(|dt| (dt - s.connect_time).num_seconds());
+        Self {
+            id: s.id.to_string(),
+            server_id: s.server_id.to_string(),
+            connect_time: s.connect_time,
+            disconnect_time: s.disconnect_time,
+            bytes_in: s.bytes_in,
+            bytes_out: s.bytes_out,
+            status: s.status.clone(),
+            duration,
+        }
+    }
+}
+
+#[derive(Debug, Clone, Deserialize)]
+pub struct PurchaseSubscriptionRequest {
+    #[serde(rename = "planType")]
+    pub plan_type: String,
+}

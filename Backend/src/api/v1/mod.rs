@@ -35,7 +35,15 @@ pub fn config(cfg: &mut web::ServiceConfig, jwt_secret: &str) {
                         web::post().to(handlers::disconnect_from_server),
                     )
                     .route("/vpn/config", web::post().to(handlers::get_vpn_config))
-                    .route("/subscriptions", web::get().to(handlers::get_subscriptions)),
+                    .route(
+                        "/connections/history",
+                        web::get().to(handlers::get_connection_history),
+                    )
+                    .route("/subscriptions", web::get().to(handlers::get_subscriptions))
+                    .route(
+                        "/subscriptions/purchase",
+                        web::post().to(handlers::purchase_subscription),
+                    ),
             ),
     );
 }
