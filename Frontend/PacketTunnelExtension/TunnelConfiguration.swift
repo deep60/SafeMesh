@@ -106,6 +106,8 @@ struct TunnelConfiguration: Codable {
         var presharedKey: String? = nil
         var allowedIPs: [String] = []
         var dnsServers: [String] = []
+        var interfaceAddressV4 = ""
+        var interfaceAddressV6 = ""
         var mtu = 1280
         var keepAlive = 25
 
@@ -133,8 +135,15 @@ struct TunnelConfiguration: Codable {
             case ("Interface", "privatekey"):
                 privateKey = value
             case ("Interface", "address"):
-                // Parse address
-                break
+                // Parse address — can be "10.0.0.2/32, fd00::2/128"
+                let addresses = value.components(separatedBy: ",").map { $0.trimmingCharacters(in: .whitespaces) }
+                for addr in addresses {
+                    if addr.contains(":") {
+                        interfaceAddressV6 = addr
+                    } else {
+                        interfaceAddressV4 = addr
+                    }
+                }
             case ("Interface", "dns"):
                 dnsServers = value.components(separatedBy: ",").map { $0.trimmingCharacters(in: .whitespaces) }
             case ("Interface", "mtu"):
@@ -164,8 +173,8 @@ struct TunnelConfiguration: Codable {
             serverPublicKey: serverPublicKey,
             privateKey: privateKey,
             presharedKey: presharedKey,
-            interfaceAddressV4: "10.0.0.2/32",  // Default for imported configs
-            interfaceAddressV6: "fd00::2/128",
+            interfaceAddressV4: interfaceAddressV4,
+            interfaceAddressV6: interfaceAddressV6,
             allowedIPs: allowedIPs,
             dnsServers: dnsServers,
             mtu: mtu,
@@ -209,8 +218,8 @@ class TunnelConfigurationBuilder {
     private var serverPublicKey: String = ""
     private var privateKey: String = ""
     private var presharedKey: String? = nil
-    private var interfaceAddressV4: String = "10.0.0.2/32"
-    private var interfaceAddressV6: String = "fd00::2/128"
+    private var interfaceAddressV4: String = ""
+    private var interfaceAddressV6: String = ""
     private var allowedIPs: [String] = ["0.0.0.0/0", "::/0"]
     private var dnsServers: [String] = ["1.1.1.1", "1.0.0.1"]
     private var mtu: Int = 1280
@@ -238,6 +247,16 @@ class TunnelConfigurationBuilder {
 
     func setPresharedKey(_ key: String?) -> Self {
         self.presharedKey = key
+        return self
+    }
+
+    func setInterfaceAddressV4(_ address: String) -> Self {
+        self.interfaceAddressV4 = address
+        return self
+    }
+
+    func setInterfaceAddressV6(_ address: String) -> Self {
+        self.interfaceAddressV6 = address
         return self
     }
 

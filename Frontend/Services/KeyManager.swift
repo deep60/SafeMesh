@@ -25,9 +25,9 @@ class KeyManager {
         self.keychain = keychain
     }
 
-    // MARK: - WireGuard Key Generation
+    // MARK: - WireGuard Key Generation (Curve25519)
     func generateWireGuardKeyPair() -> (privateKey: String, publicKey: String) {
-        let privateKey = P256.KeyAgreement.PrivateKey()
+        let privateKey = Curve25519.KeyAgreement.PrivateKey()
         let publicKey = privateKey.publicKey
 
         return (
@@ -37,7 +37,7 @@ class KeyManager {
     }
 
     func generateWireGuardPrivateKey() -> String {
-        let privateKey = P256.KeyAgreement.PrivateKey()
+        let privateKey = Curve25519.KeyAgreement.PrivateKey()
         return privateKey.rawRepresentation.base64EncodedString()
     }
 
@@ -47,8 +47,9 @@ class KeyManager {
         }
 
         do {
-            let privateKey = try P256.KeyAgreement.PrivateKey(rawRepresentation:
-privateKeyData)
+            let privateKey = try Curve25519.KeyAgreement.PrivateKey(
+                rawRepresentation: privateKeyData
+            )
             return privateKey.publicKey.rawRepresentation.base64EncodedString()
         } catch {
             return nil

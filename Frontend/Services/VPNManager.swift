@@ -68,7 +68,7 @@ class VPNManager: ObservableObject {
         }
     }
 
-    func connect(with config: VPNConfiguration) async throws {
+    func connect(with config: VPNConfiguration, killSwitchEnabled: Bool = false) async throws {
         try await loadManager()
 
         // Configure the VPN
@@ -76,7 +76,9 @@ class VPNManager: ObservableObject {
 
         manager.protocolConfiguration = protocolConfiguration
         manager.isEnabled = true
-        manager.isOnDemandEnabled = false
+
+        // Configure Kill Switch (On-Demand rules)
+        configureKillSwitch(enabled: killSwitchEnabled)
 
         // Save configuration
         try await saveManager()
@@ -113,25 +115,11 @@ class VPNManager: ObservableObject {
         protocolConfig.serverAddress = config.server.ipAddress
         protocolConfig.providerBundleIdentifier = Bundle.main.bundleIdentifier! + ".PacketTunnel"
 
-        // Pass configuration to extension
-        var configDict: [String: Any] = [
-            "serverAddress": config.server.ipAddress,
-            "serverPort": config.server.port,
-            "serverPublicKey": config.server.publicKey,
-            "privateKey": config.privateKey,
-            "interfaceAddressV4": config.interfaceAddressV4,
-            "interfaceAddressV6": config.interfaceAddressV6,
-            "allowedIPs": config.allowedIPs.joined(separator: ","),
-            "dnsServers": config.dnsServers.joined(separator: ","),
-            "mtu": config.mtu,
-            "keepAlive": config.keepAliveInterval
+        // Pass the complete wg-quick config string
+        // WireGuardKit's TunnelConfiguration(fromWgQuickConfig:) parses this format
+        protocolConfig.providerConfiguration = [
+            "wgQuickConfig": config.wireGuardConfig
         ]
-
-        if let psk = config.presharedKey {
-            configDict["presharedKey"] = psk
-        }
-
-        protocolConfig.providerConfiguration = configDict
 
         return protocolConfig
     }
@@ -171,6 +159,31 @@ class VPNManager: ObservableObject {
         }
 
         throw VPNError.timeout
+    }
+
+    // MARK: - Kill Switch
+    /// Configures on-demand rules that act as a kill switch.
+    /// When enabled, iOS will automatically reconnect the VPN if the tunnel drops,
+    /// effectively blocking unprotected traffic.
+    private func configureKillSwitch(enabled: Bool) {
+        if enabled {
+            // NEOnDemandRuleConnect: always reconnect if VPN drops
+            let connectRule = NEOnDemandRuleConnect()
+            connectRule.interfaceTypeMatch = .any
+
+            manager.onDemandRules = [connectRule]
+            manager.isOnDemandEnabled = true
+        } else {
+            manager.onDemandRules = []
+            manager.isOnDemandEnabled = false
+        }
+    }
+
+    /// Toggle kill switch at runtime without a full reconnect.
+    func setKillSwitch(enabled: Bool) async throws {
+        try await loadManager()
+        configureKillSwitch(enabled: enabled)
+        try await saveManager()
     }
 }
 

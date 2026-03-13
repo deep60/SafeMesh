@@ -67,6 +67,15 @@ class SettingsViewModel: ObservableObject {
     func updateKillSwitch(_ enabled: Bool) {
         killSwitch = enabled
         saveSetting(key: "killSwitch", value: enabled)
+
+        // Apply the on-demand rule to the VPN tunnel immediately
+        Task {
+            do {
+                try await VPNManager.shared.setKillSwitch(enabled: enabled)
+            } catch {
+                print("Failed to update kill switch: \(error)")
+            }
+        }
     }
 
     func updateBlockLAN(_ enabled: Bool) {

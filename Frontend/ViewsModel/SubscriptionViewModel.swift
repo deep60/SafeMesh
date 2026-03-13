@@ -26,6 +26,15 @@ class SubscriptionViewModel: ObservableObject {
     private var authViewModel: AuthViewModel?
     private var cancellables = Set<AnyCancellable>()
 
+    // StoreKit integration
+    @Published var storeViewModel = SubscriptionStoreViewModel()
+
+    /// Map plan IDs to App Store Connect product identifiers
+    private static let storeProductIDs: [String: String] = [
+        "plan_monthly": "com.safemesh.premium.monthly",
+        "plan_yearly": "com.safemesh.premium.yearly"
+    ]
+
     // MARK: - Initialization
     init(
         apiClient: APIClientProtocol = APIClient.shared,
@@ -35,6 +44,15 @@ class SubscriptionViewModel: ObservableObject {
         self.authViewModel = authViewModel
 
         loadData()
+        loadStoreProducts()
+    }
+
+    // MARK: - StoreKit Product Loading
+    private func loadStoreProducts() {
+        Task {
+            let productIDs = Array(Self.storeProductIDs.values)
+            await storeViewModel.loadProducts(productIDs: productIDs)
+        }
     }
 
     // MARK: - Public Methods
@@ -98,10 +116,20 @@ class SubscriptionViewModel: ObservableObject {
     }
 
     func purchasePlan(_ plan: SubscriptionPlan) async throws {
-        // In a real app, this would use StoreKit for in-app purchases
         isLoading = true
+        defer { isLoading = false }
 
-        do {
+        // Step 1: Try StoreKit in-app purchase first (paid plans only)
+        if let storeProductID = Self.storeProductIDs[plan.id],
+           let product = storeViewModel.products.first(where: { $0.id == storeProductID }) {
+
+            // Initiate Apple IAP flow
+            guard let transaction = try await storeViewModel.purchase(product) else {
+                // User cancelled or pending — do not activate
+                return
+            }
+
+            // Step 2: Validate receipt with backend and activate subscription
             let request = SubscriptionPurchaseRequest(planId: plan.id)
             let response: APIResponse<Subscription> = try await apiClient.request(
                 endpoint: "/subscription/purchase",
@@ -116,12 +144,22 @@ class SubscriptionViewModel: ObservableObject {
                 showSuccess(message: "Subscription activated successfully!")
             }
 
-        } catch {
-            showError(message: error.localizedDescription)
-            throw error
-        }
+        } else {
+            // Free plan or StoreKit product not found — activate directly via backend
+            let request = SubscriptionPurchaseRequest(planId: plan.id)
+            let response: APIResponse<Subscription> = try await apiClient.request(
+                endpoint: "/subscription/purchase",
+                method: .post,
+                body: request
+            )
 
-        isLoading = false
+            if let subscription = response.data {
+                withAnimation {
+                    self.currentSubscription = subscription
+                }
+                showSuccess(message: "Subscription activated successfully!")
+            }
+        }
     }
 
     func cancelSubscription() async {

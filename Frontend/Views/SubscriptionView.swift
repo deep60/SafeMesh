@@ -10,7 +10,6 @@ import SwiftUI
 struct SubscriptionView: View {
     @StateObject private var viewModel = SubscriptionViewModel()
     @State private var selectedPlan: SubscriptionPlan?
-    @State private var showSuccess = false
 
     var body: some View {
         ScrollView {
@@ -70,31 +69,57 @@ struct SubscriptionView: View {
                 Button {
                     if let plan = selectedPlan {
                         viewModel.subscribe(to: plan)
-                        showSuccess = true
                     }
                 } label: {
-                    Text("Subscribe Now")
-                        .font(.headline)
-                        .foregroundColor(.white)
-                        .frame(maxWidth: .infinity)
-                        .padding()
-                        .background(
-                            selectedPlan != nil
-                                ? LinearGradient(
+                    if viewModel.isLoading {
+                        ProgressView()
+                            .progressViewStyle(CircularProgressViewStyle(tint: .white))
+                            .frame(maxWidth: .infinity)
+                            .padding()
+                            .background(
+                                LinearGradient(
                                     colors: [.blue, .purple],
                                     startPoint: .leading,
                                     endPoint: .trailing
                                 )
-                                : LinearGradient(
-                                    colors: [Color.gray, Color.gray],
-                                    startPoint: .leading,
-                                    endPoint: .trailing
-                                )
-                        )
-                        .clipShape(RoundedRectangle(cornerRadius: 12))
+                            )
+                            .clipShape(RoundedRectangle(cornerRadius: 12))
+                    } else {
+                        Text("Subscribe Now")
+                            .font(.headline)
+                            .foregroundColor(.white)
+                            .frame(maxWidth: .infinity)
+                            .padding()
+                            .background(
+                                selectedPlan != nil
+                                    ? LinearGradient(
+                                        colors: [.blue, .purple],
+                                        startPoint: .leading,
+                                        endPoint: .trailing
+                                    )
+                                    : LinearGradient(
+                                        colors: [Color.gray, Color.gray],
+                                        startPoint: .leading,
+                                        endPoint: .trailing
+                                    )
+                            )
+                            .clipShape(RoundedRectangle(cornerRadius: 12))
+                    }
                 }
-                .disabled(selectedPlan == nil)
+                .disabled(selectedPlan == nil || viewModel.isLoading)
                 .padding(.horizontal)
+
+                // Restore Purchases button
+                Button {
+                    Task {
+                        await viewModel.restorePurchases()
+                    }
+                } label: {
+                    Text("Restore Purchases")
+                        .font(.subheadline)
+                        .foregroundColor(.blue)
+                }
+                .padding(.top, 4)
 
                 // Terms
                 Text("By subscribing, you agree to our Terms of Service. Subscription auto-renews unless cancelled.")
@@ -107,10 +132,15 @@ struct SubscriptionView: View {
         }
         .navigationTitle("Subscription")
         .navigationBarTitleDisplayMode(.inline)
-        .alert("Subscription Successful!", isPresented: $showSuccess) {
+        .alert("Subscription Successful!", isPresented: $viewModel.showSuccessMessage) {
             Button("OK") {}
         } message: {
-            Text("You now have access to all premium features.")
+            Text(viewModel.successMessage ?? "You now have access to all premium features.")
+        }
+        .alert("Error", isPresented: $viewModel.showErrorMessage) {
+            Button("OK") {}
+        } message: {
+            Text(viewModel.errorMessage ?? "Something went wrong.")
         }
     }
 }

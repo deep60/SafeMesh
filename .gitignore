@@ -1,0 +1,11 @@
+# At your project root
+cat >> .gitignore << 'EOF'
+DerivedData/
+*.xcarchive
+*.ipa
+*.dSYM
+build/
+Pods/
+*.o
+*.a
+EOF

@@ -228,8 +228,9 @@ seconds)
 
 // MARK: - Protocol Definitions
 protocol VPNManaging {
-    func connect(with config: VPNConfiguration) async throws
+    func connect(with config: VPNConfiguration, killSwitchEnabled: Bool) async throws
     func disconnect() async throws
+    func setKillSwitch(enabled: Bool) async throws
     var isConnected: Bool { get }
 }
 
