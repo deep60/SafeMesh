@@ -1,11 +1,31 @@
-# At your project root
-cat >> .gitignore << 'EOF'
+# SafeMesh
+
+# Xcode
 DerivedData/
+build/
 *.xcarchive
 *.ipa
 *.dSYM
-build/
-Pods/
 *.o
 *.a
-EOF
+xcuserdata/
+
+# Swift Package Manager
+.build/
+Packages/
+.swiftpm/
+
+# Rust
+Backend/target/
+
+# Environment & Secrets
+.env
+*.env.local
+
+# macOS
+.DS_Store
+*.swp
+*~
+
+# CocoaPods (if ever used)
+Pods/

@@ -55,25 +55,7 @@
 		DCABF40A2F4C6BE3000FDF4E /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = DCABF3C32F4C6BE3000FDF4E /* Extensions.swift */; };
 		DCABF40B2F4C6BE3000FDF4E /* APIServer.swift in Sources */ = {isa = PBXBuildFile; fileRef = DCABF3A72F4C6BE3000FDF4E /* APIServer.swift */; };
 		DCABF40C2F4C6BE3000FDF4E /* CountryFlag.swift in Sources */ = {isa = PBXBuildFile; fileRef = DCABF3A12F4C6BE3000FDF4E /* CountryFlag.swift */; };
-		DCAE07C82F63B5B700121298 /* mod.rs in Resources */ = {isa = PBXBuildFile; fileRef = DCAE07A92F63B5B700121298 /* mod.rs */; };
-		DCAE07C92F63B5B700121298 /* .env in Resources */ = {isa = PBXBuildFile; fileRef = DCAE07C22F63B5B700121298 /* .env */; };
-		DCAE07CA2F63B5B700121298 /* mod.rs in Resources */ = {isa = PBXBuildFile; fileRef = DCAE07BD2F63B5B700121298 /* mod.rs */; };
-		DCAE07CB2F63B5B700121298 /* mod.rs in Resources */ = {isa = PBXBuildFile; fileRef = DCAE07AD2F63B5B700121298 /* mod.rs */; };
-		DCAE07CC2F63B5B700121298 /* Cargo.toml in Resources */ = {isa = PBXBuildFile; fileRef = DCAE07C52F63B5B700121298 /* Cargo.toml */; };
-		DCAE07CD2F63B5B700121298 /* 20240307120000_init.sql in Resources */ = {isa = PBXBuildFile; fileRef = DCAE07A62F63B5B700121298 /* 20240307120000_init.sql */; };
-		DCAE07CE2F63B5B700121298 /* mod.rs in Resources */ = {isa = PBXBuildFile; fileRef = DCAE07B32F63B5B700121298 /* mod.rs */; };
-		DCAE07CF2F63B5B700121298 /* vpn.db in Resources */ = {isa = PBXBuildFile; fileRef = DCAE07C62F63B5B700121298 /* vpn.db */; };
-		DCAE07D02F63B5B700121298 /* .gitignore in Resources */ = {isa = PBXBuildFile; fileRef = DCAE07C32F63B5B700121298 /* .gitignore */; };
-		DCAE07D12F63B5B700121298 /* Cargo.lock in Resources */ = {isa = PBXBuildFile; fileRef = DCAE07C42F63B5B700121298 /* Cargo.lock */; };
-		DCAE07D22F63B5B700121298 /* mod.rs in Resources */ = {isa = PBXBuildFile; fileRef = DCAE07AF2F63B5B700121298 /* mod.rs */; };
-		DCAE07D32F63B5B700121298 /* mod.rs in Resources */ = {isa = PBXBuildFile; fileRef = DCAE07B52F63B5B700121298 /* mod.rs */; };
-		DCAE07D42F63B5B700121298 /* mod.rs in Resources */ = {isa = PBXBuildFile; fileRef = DCAE07BB2F63B5B700121298 /* mod.rs */; };
-		DCAE07D52F63B5B700121298 /* mod.rs in Resources */ = {isa = PBXBuildFile; fileRef = DCAE07B72F63B5B700121298 /* mod.rs */; };
-		DCAE07D62F63B5B700121298 /* main.rs in Resources */ = {isa = PBXBuildFile; fileRef = DCAE07C02F63B5B700121298 /* main.rs */; };
-		DCAE07D72F63B5B700121298 /* mod.rs in Resources */ = {isa = PBXBuildFile; fileRef = DCAE07B92F63B5B700121298 /* mod.rs */; };
-		DCAE07D82F63B5B700121298 /* lib.rs in Resources */ = {isa = PBXBuildFile; fileRef = DCAE07BF2F63B5B700121298 /* lib.rs */; };
-		DCAE07D92F63B5B700121298 /* mod.rs in Resources */ = {isa = PBXBuildFile; fileRef = DCAE07B12F63B5B700121298 /* mod.rs */; };
-		DCAE07DA2F63B5B700121298 /* mod.rs in Resources */ = {isa = PBXBuildFile; fileRef = DCAE07AB2F63B5B700121298 /* mod.rs */; };
+
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -332,7 +314,6 @@
 				DC92F0462F6174E100D2F445 /* PacketTunnelExtension */,
 				DC92F0432F6174E100D2F445 /* Frameworks */,
 				DCAE07972F63A1E500121298 /* SafeMesh.app */,
-				DCAE07C72F63B5B700121298 /* Backend */,
 			);
 			sourceTree = "<group>";
 		};
@@ -725,25 +706,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				DCAE07C82F63B5B700121298 /* mod.rs in Resources */,
-				DCAE07C92F63B5B700121298 /* .env in Resources */,
-				DCAE07CA2F63B5B700121298 /* mod.rs in Resources */,
-				DCAE07CB2F63B5B700121298 /* mod.rs in Resources */,
-				DCAE07CC2F63B5B700121298 /* Cargo.toml in Resources */,
-				DCAE07CD2F63B5B700121298 /* 20240307120000_init.sql in Resources */,
-				DCAE07CE2F63B5B700121298 /* mod.rs in Resources */,
-				DCAE07CF2F63B5B700121298 /* vpn.db in Resources */,
-				DCAE07D02F63B5B700121298 /* .gitignore in Resources */,
-				DCAE07D12F63B5B700121298 /* Cargo.lock in Resources */,
-				DCAE07D22F63B5B700121298 /* mod.rs in Resources */,
-				DCAE07D32F63B5B700121298 /* mod.rs in Resources */,
-				DCAE07D42F63B5B700121298 /* mod.rs in Resources */,
-				DCAE07D52F63B5B700121298 /* mod.rs in Resources */,
-				DCAE07D62F63B5B700121298 /* main.rs in Resources */,
-				DCAE07D72F63B5B700121298 /* mod.rs in Resources */,
-				DCAE07D82F63B5B700121298 /* lib.rs in Resources */,
-				DCAE07D92F63B5B700121298 /* mod.rs in Resources */,
-				DCAE07DA2F63B5B700121298 /* mod.rs in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -825,12 +787,12 @@
 		DC92F0512F6174E200D2F445 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				CODE_SIGN_ENTITLEMENTS = PacketTunnelExtension/PacketTunnelExtension.entitlements;
+				CODE_SIGN_ENTITLEMENTS = Frontend/PacketTunnelExtension/PacketTunnel.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = LHG395YCPD;
 				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_FILE = PacketTunnelExtension/Info.plist;
+				INFOPLIST_FILE = Frontend/PacketTunnelExtension/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = PacketTunnelExtension;
 				INFOPLIST_KEY_NSHumanReadableCopyright = "";
 				IPHONEOS_DEPLOYMENT_TARGET = 26.2;
@@ -856,12 +818,12 @@
 		DC92F0522F6174E200D2F445 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				CODE_SIGN_ENTITLEMENTS = PacketTunnelExtension/PacketTunnelExtension.entitlements;
+				CODE_SIGN_ENTITLEMENTS = Frontend/PacketTunnelExtension/PacketTunnel.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = LHG395YCPD;
 				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_FILE = PacketTunnelExtension/Info.plist;
+				INFOPLIST_FILE = Frontend/PacketTunnelExtension/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = PacketTunnelExtension;
 				INFOPLIST_KEY_NSHumanReadableCopyright = "";
 				IPHONEOS_DEPLOYMENT_TARGET = 26.2;
@@ -1030,16 +992,6 @@
 				"LD_RUNPATH_SEARCH_PATHS[sdk=macosx*]" = "@executable_path/../Frameworks";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
-					"$(PROJECT_DIR)/Backend/target/debug/deps",
-					"$(PROJECT_DIR)/Backend/target/debug/build/ring-a6c650e2c40b88a2/out",
-					"$(PROJECT_DIR)/Backend/target/debug/build/zstd-sys-8889c8ab5ae73dda/out",
-					"$(PROJECT_DIR)/Backend/target/debug/build/zstd-sys-7f5358ca0453116b/out",
-					"$(PROJECT_DIR)/Backend/target/debug",
-					"$(PROJECT_DIR)/Backend/target/debug/build/ring-ad285169e58889a7/out",
-					"$(PROJECT_DIR)/Backend/target/debug/build/ring-20cd49d4bbc893b3/out",
-					"$(PROJECT_DIR)/Backend/target/debug/build/ring-878cb5e8034a9f2c/out",
-					"$(PROJECT_DIR)/Backend/target/debug/build/libsqlite3-sys-af0105c5b82df891/out",
-					"$(PROJECT_DIR)/Backend/target/debug/build/libsqlite3-sys-cc2f9010d20b1012/out",
 				);
 				MACOSX_DEPLOYMENT_TARGET = 26.2;
 				MARKETING_VERSION = 1.0;
@@ -1091,16 +1043,6 @@
 				"LD_RUNPATH_SEARCH_PATHS[sdk=macosx*]" = "@executable_path/../Frameworks";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
-					"$(PROJECT_DIR)/Backend/target/debug/deps",
-					"$(PROJECT_DIR)/Backend/target/debug/build/ring-a6c650e2c40b88a2/out",
-					"$(PROJECT_DIR)/Backend/target/debug/build/zstd-sys-8889c8ab5ae73dda/out",
-					"$(PROJECT_DIR)/Backend/target/debug/build/zstd-sys-7f5358ca0453116b/out",
-					"$(PROJECT_DIR)/Backend/target/debug",
-					"$(PROJECT_DIR)/Backend/target/debug/build/ring-ad285169e58889a7/out",
-					"$(PROJECT_DIR)/Backend/target/debug/build/ring-20cd49d4bbc893b3/out",
-					"$(PROJECT_DIR)/Backend/target/debug/build/ring-878cb5e8034a9f2c/out",
-					"$(PROJECT_DIR)/Backend/target/debug/build/libsqlite3-sys-af0105c5b82df891/out",
-					"$(PROJECT_DIR)/Backend/target/debug/build/libsqlite3-sys-cc2f9010d20b1012/out",
 				);
 				MACOSX_DEPLOYMENT_TARGET = 26.2;
 				MARKETING_VERSION = 1.0;
