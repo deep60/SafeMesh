@@ -429,3 +429,42 @@ pub struct PurchaseSubscriptionRequest {
     #[serde(rename = "planType")]
     pub plan_type: String,
 }
+
+#[derive(Debug, Clone, Deserialize)]
+pub struct UsageUploadRequest {
+    #[serde(rename = "bytesUploaded")]
+    pub bytes_uploaded: i64,
+    #[serde(rename = "bytesDownloaded")]
+    pub bytes_downloaded: i64,
+    pub duration: f64,
+    #[serde(rename = "serverId")]
+    pub server_id: Option<String>,
+}
+
+/// Subscription plan info for the plans listing endpoint
+#[derive(Debug, Clone, Serialize)]
+pub struct SubscriptionPlanInfo {
+    pub id: String,
+    pub name: String,
+    #[serde(rename = "planType")]
+    pub plan_type: String,
+    pub price: f64,
+    pub currency: String,
+    #[serde(rename = "billingPeriod")]
+    pub billing_period: String,
+    #[serde(rename = "maxBandwidth")]
+    pub max_bandwidth: i64,
+    #[serde(rename = "maxConnections")]
+    pub max_connections: i32,
+    pub features: Vec<String>,
+    #[serde(rename = "sortOrder")]
+    pub sort_order: i32,
+    #[serde(rename = "isFree")]
+    pub is_free: bool,
+}
+
+#[derive(Debug, Clone, Serialize)]
+pub struct SubscriptionPlansResponse {
+    pub plans: Vec<SubscriptionPlanInfo>,
+    pub subscription: Option<SubscriptionResponse>,
+}

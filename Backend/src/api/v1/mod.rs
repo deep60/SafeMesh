@@ -26,6 +26,7 @@ pub fn config(cfg: &mut web::ServiceConfig, jwt_secret: &str) {
                     .route("/auth/logout", web::post().to(handlers::logout))
                     .route("/user/me", web::get().to(handlers::get_user_profile))
                     .route("/user/me", web::put().to(handlers::update_user_profile))
+                    .route("/user/me", web::delete().to(handlers::delete_user_profile))
                     .route(
                         "/connect/{server_id}",
                         web::post().to(handlers::connect_to_server),
@@ -41,8 +42,24 @@ pub fn config(cfg: &mut web::ServiceConfig, jwt_secret: &str) {
                     )
                     .route("/subscriptions", web::get().to(handlers::get_subscriptions))
                     .route(
+                        "/subscriptions/plans",
+                        web::get().to(handlers::get_subscription_plans),
+                    )
+                    .route(
                         "/subscriptions/purchase",
                         web::post().to(handlers::purchase_subscription),
+                    )
+                    .route(
+                        "/subscriptions/cancel",
+                        web::post().to(handlers::cancel_subscription),
+                    )
+                    .route(
+                        "/subscriptions/restore",
+                        web::post().to(handlers::restore_subscription),
+                    )
+                    .route(
+                        "/usage/upload",
+                        web::post().to(handlers::upload_usage),
                     ),
             ),
     );

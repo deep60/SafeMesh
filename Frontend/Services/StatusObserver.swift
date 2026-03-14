@@ -294,6 +294,11 @@ class UsageTracker {
     }
 
     private func uploadUsageStats() async {
+        // Skip upload when backend is not running
+        if AppConfiguration.useMockData {
+            return
+        }
+
         do {
             let configManager = ConfigManager.shared
             let serverId = configManager.loadSelectedServerId()

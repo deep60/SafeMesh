@@ -14,27 +14,27 @@ struct OnboardingView: View {
     private let pages: [OnboardingPage] = [
         OnboardingPage(
             icon: "shield.fill",
-            title: "Your Privacy Matters",
-            description: "Secure your internet connection with military-grade encryption and protect your data from prying eyes.",
-            color: .blue
+            title: "SYSTEM SECURED",
+            description: "CONNECTION ENCRYPTED WITH MILITARY-GRADE PROTOCOLS. NO UNAUTHORIZED DATA BREACHES DETECTED.",
+            color: Theme.Colors.neonCyan
         ),
         OnboardingPage(
             icon: "globe.americas.fill",
-            title: "Access Any Content",
-            description: "Connect to servers in over 50 countries and access content from anywhere in the world.",
-            color: .purple
+            title: "GLOBAL NETWORKS",
+            description: "UPLINK ESTABLISHED WITH 50+ REGIONAL NODES. ACCESS TO RESTRICTED DATA GRANTED.",
+            color: Theme.Colors.neonMagenta
         ),
         OnboardingPage(
             icon: "bolt.fill",
-            title: "Lightning Fast",
-            description: "Enjoy ultra-fast connection speeds with our optimized network infrastructure.",
-            color: .orange
+            title: "HYPER-SPEED ACTIVE",
+            description: "OPTIMIZED NETWORK INFRASTRUCTURE ROUTING. LATENCY MINIMIZED TO SUB-MILLISECOND THRESHOLDS.",
+            color: Theme.Colors.neonOrange
         ),
         OnboardingPage(
             icon: "eye.slash.fill",
-            title: "No Logs Policy",
-            description: "We never track, collect, or share your browsing data. Your privacy is our priority.",
-            color: .green
+            title: "ZERO TRACE PROTOCOL",
+            description: "ALL TELEMETRY DISCARDED INDEFINITELY. YOUR PRESENCE IN THE MESH REMAINS UNDETECTED.",
+            color: Theme.Colors.neonLime
         )
     ]
 
@@ -44,10 +44,14 @@ struct OnboardingView: View {
             HStack {
                 Spacer()
                 if currentPage < pages.count - 1 {
-                    Button("Skip") {
+                    Button(action: {
                         onComplete()
+                    }) {
+                        Text("BYPASS")
+                            .techFont(.caption)
+                            .foregroundColor(Theme.Colors.secondaryText)
+                            .underline()
                     }
-                    .foregroundColor(.secondary)
                 }
             }
             .padding()
@@ -66,12 +70,14 @@ struct OnboardingView: View {
                 // Page indicators
                 HStack(spacing: 8) {
                     ForEach(0..<pages.count, id: \.self) { index in
-                        Circle()
-                            .fill(currentPage == index ? pages[currentPage].color : Color.gray.opacity(0.3))
-                            .frame(width: currentPage == index ? 24 : 8, height: 8)
+                        Rectangle()
+                            .fill(currentPage == index ? pages[currentPage].color : Theme.Colors.secondaryText.opacity(0.3))
+                            .frame(width: currentPage == index ? 32 : 12, height: 4)
                             .animation(.easeInOut(duration: 0.3), value: currentPage)
+                            .neonGlow(color: currentPage == index ? pages[currentPage].color : .clear, radius: .sm)
                     }
                 }
+                .padding(.bottom, 16)
 
                 // Action button
                 Button {
@@ -84,31 +90,28 @@ struct OnboardingView: View {
                     }
                 } label: {
                     HStack {
-                        Text(currentPage < pages.count - 1 ? "Next" : "Get Started")
-                            .font(.headline)
+                        Text(currentPage < pages.count - 1 ? "NEXT CYCLE" : "INITIALIZE MESH")
+                            .techFont(.headline)
+                            .tracking(2)
 
                         if currentPage < pages.count - 1 {
-                            Image(systemName: "arrow.right")
+                            Image(systemName: "chevron.right")
                         }
                     }
-                    .foregroundColor(.white)
+                    .foregroundColor(Theme.Colors.primaryBackground)
                     .frame(maxWidth: .infinity)
                     .padding()
-                    .background(
-                        LinearGradient(
-                            colors: [pages[currentPage].color, pages[currentPage].color.opacity(0.8)],
-                            startPoint: .leading,
-                            endPoint: .trailing
-                        )
-                    )
-                    .clipShape(RoundedRectangle(cornerRadius: 16))
+                    .background(Theme.buttonGradient(color: pages[currentPage].color))
+                    .clipShape(RoundedRectangle(cornerRadius: Theme.Radius.lg))
+                    .neonGlow(color: pages[currentPage].color, radius: .md)
                 }
                 .padding(.horizontal, 24)
             }
             .padding(.bottom, 40)
         }
-        .background(Color(.systemBackground))
+        .background(Theme.Colors.primaryBackground)
         .ignoresSafeArea(.keyboard)
+        .preferredColorScheme(.dark)
     }
 }
 
@@ -122,30 +125,34 @@ struct OnboardingPageView: View {
             // Icon
             ZStack {
                 Circle()
-                    .fill(page.color.opacity(0.15))
+                    .strokeBorder(page.color.opacity(0.3), lineWidth: 4)
                     .frame(width: 180, height: 180)
+                    .neonGlow(color: page.color, radius: .lg)
 
                 Circle()
-                    .fill(page.color.opacity(0.1))
+                    .strokeBorder(page.color.opacity(0.6), lineWidth: 2)
                     .frame(width: 140, height: 140)
 
                 Image(systemName: page.icon)
                     .font(.system(size: 60))
                     .foregroundColor(page.color)
+                    .neonGlow(color: page.color, radius: .sm)
             }
 
             // Content
             VStack(spacing: 16) {
                 Text(page.title)
-                    .font(.title)
-                    .fontWeight(.bold)
+                    .techFont(.title2)
+                    .foregroundColor(.white)
                     .multilineTextAlignment(.center)
+                    .tracking(2)
 
                 Text(page.description)
-                    .font(.body)
-                    .foregroundColor(.secondary)
+                    .techFont(.body)
+                    .foregroundColor(Theme.Colors.secondaryText)
                     .multilineTextAlignment(.center)
                     .padding(.horizontal, 32)
+                    .lineSpacing(6)
             }
 
             Spacer()

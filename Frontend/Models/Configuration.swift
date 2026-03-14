@@ -86,6 +86,14 @@ struct AppConfiguration {
       let apiTimeout: TimeInterval
       let apiVersion: String
 
+      /// Set to `true` when running in the Simulator without a local backend.
+      /// All API calls will return mock data instead of hitting the network.
+      #if DEBUG
+      static let useMockData: Bool = true
+      #else
+      static let useMockData: Bool = false
+      #endif
+
       // VPN Configuration
       let defaultProtocol: VPNProtocol
       let defaultDNS: [String]
@@ -101,8 +109,13 @@ struct AppConfiguration {
 
       private init() {
           #if DEBUG
+          // Development: local backend. Set useMockData = true above if backend is not running.
           self.apiBaseURL = "http://localhost:8080/api/v1"
+          #elseif STAGING
+          // Staging: internal QA environment (set -DSTAGING in Other Swift Flags)
+          self.apiBaseURL = "https://api-staging.safemesh.com/api/v1"
           #else
+          // Production
           self.apiBaseURL = "https://api.safemesh.com/api/v1"
           #endif
 

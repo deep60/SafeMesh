@@ -66,9 +66,17 @@ class SubscriptionViewModel: ObservableObject {
     func loadPlans() async {
         isLoading = true
 
+        if AppConfiguration.useMockData {
+            withAnimation {
+                self.plans = SubscriptionPlan.allPlans
+            }
+            isLoading = false
+            return
+        }
+
         do {
             let response: SubscriptionResponse = try await apiClient.request(
-                endpoint: "/subscription/plans",
+                endpoint: "/subscriptions/plans",
                 method: .get,
                 body: nil
             )
@@ -90,9 +98,16 @@ class SubscriptionViewModel: ObservableObject {
     func loadCurrentSubscription() async {
         guard authViewModel?.isAuthenticated == true else { return }
 
+        if AppConfiguration.useMockData {
+            withAnimation {
+                self.currentSubscription = nil
+            }
+            return
+        }
+
         do {
             let response: SubscriptionResponse = try await apiClient.request(
-                endpoint: "/subscription/current",
+                endpoint: "/subscriptions",
                 method: .get,
                 body: nil
             )
@@ -132,7 +147,7 @@ class SubscriptionViewModel: ObservableObject {
             // Step 2: Validate receipt with backend and activate subscription
             let request = SubscriptionPurchaseRequest(planId: plan.id)
             let response: APIResponse<Subscription> = try await apiClient.request(
-                endpoint: "/subscription/purchase",
+                endpoint: "/subscriptions/purchase",
                 method: .post,
                 body: request
             )
@@ -148,7 +163,7 @@ class SubscriptionViewModel: ObservableObject {
             // Free plan or StoreKit product not found — activate directly via backend
             let request = SubscriptionPurchaseRequest(planId: plan.id)
             let response: APIResponse<Subscription> = try await apiClient.request(
-                endpoint: "/subscription/purchase",
+                endpoint: "/subscriptions/purchase",
                 method: .post,
                 body: request
             )
@@ -163,11 +178,16 @@ class SubscriptionViewModel: ObservableObject {
     }
 
     func cancelSubscription() async {
+        if AppConfiguration.useMockData {
+            showSuccess(message: "Subscription will be canceled at the end of the billing period.")
+            return
+        }
+
         isLoading = true
 
         do {
             let response: APIResponse<Subscription> = try await apiClient.request(
-                endpoint: "/subscription/cancel",
+                endpoint: "/subscriptions/cancel",
                 method: .post,
                 body: nil
             )
@@ -186,11 +206,16 @@ class SubscriptionViewModel: ObservableObject {
     }
 
     func restorePurchases() async {
+        if AppConfiguration.useMockData {
+            showSuccess(message: "No active subscription found.")
+            return
+        }
+
         isLoading = true
 
         do {
             let response: APIResponse<Subscription> = try await apiClient.request(
-                endpoint: "/subscription/restore",
+                endpoint: "/subscriptions/restore",
                 method: .post,
                 body: nil
             )

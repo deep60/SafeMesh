@@ -330,3 +330,91 @@ pub async fn health_check() -> HttpResponse {
         }],
     })
 }
+
+// ─────────────────────────────────────────────
+// Delete User Account (protected)
+// ─────────────────────────────────────────────
+
+pub async fn delete_user_profile(pool: web::Data<DbPool>, req: HttpRequest) -> HttpResponse {
+    let user_id = get_user_id(&req);
+    match UserService::delete_account(pool.get_ref(), user_id).await {
+        Ok(_) => HttpResponse::Ok().json(ApiResponse::ok(serde_json::Value::Null)),
+        Err(e) => HttpResponse::InternalServerError()
+            .json(ApiResponse::<()>::error("delete_failed", &e.to_string())),
+    }
+}
+
+// ─────────────────────────────────────────────
+// Subscription Plans (protected)
+// ─────────────────────────────────────────────
+
+pub async fn get_subscription_plans() -> HttpResponse {
+    let plans = SubscriptionService::get_available_plans();
+    HttpResponse::Ok().json(SubscriptionPlansResponse {
+        plans,
+        subscription: None,
+    })
+}
+
+pub async fn cancel_subscription(pool: web::Data<DbPool>, req: HttpRequest) -> HttpResponse {
+    let user_id = get_user_id(&req);
+    match SubscriptionService::cancel_subscription(pool.get_ref(), user_id).await {
+        Ok(sub) => {
+            let response = sub.map(|s| SubscriptionResponse::from(&s));
+            HttpResponse::Ok().json(ApiResponse::ok(response))
+        }
+        Err(e) => HttpResponse::BadRequest()
+            .json(ApiResponse::<()>::error("cancel_failed", &e.to_string())),
+    }
+}
+
+pub async fn restore_subscription(pool: web::Data<DbPool>, req: HttpRequest) -> HttpResponse {
+    let user_id = get_user_id(&req);
+    match SubscriptionService::restore_subscription(pool.get_ref(), user_id).await {
+        Ok(sub) => {
+            let response = sub.map(|s| SubscriptionResponse::from(&s));
+            HttpResponse::Ok().json(ApiResponse::ok(response))
+        }
+        Err(e) => HttpResponse::BadRequest()
+            .json(ApiResponse::<()>::error("restore_failed", &e.to_string())),
+    }
+}
+
+// ─────────────────────────────────────────────
+// Usage Upload (protected)
+// ─────────────────────────────────────────────
+
+pub async fn upload_usage(
+    pool: web::Data<DbPool>,
+    req: HttpRequest,
+    body: web::Json<UsageUploadRequest>,
+) -> HttpResponse {
+    let user_id = get_user_id(&req);
+
+    // Log usage for analytics. In production, store in a usage_logs table.
+    tracing::info!(
+        user_id = %user_id,
+        bytes_up = body.bytes_uploaded,
+        bytes_down = body.bytes_downloaded,
+        duration = body.duration,
+        server_id = ?body.server_id,
+        "Usage data received"
+    );
+
+    // If a server_id was provided and we can find an active session, update it
+    if let Some(ref server_id_str) = body.server_id {
+        if let Ok(server_id) = Uuid::parse_str(server_id_str) {
+            let _ = sqlx::query(
+                "UPDATE user_sessions SET bytes_in = $1, bytes_out = $2 WHERE user_id = $3 AND server_id = $4 AND status = 'active'"
+            )
+            .bind(body.bytes_downloaded)
+            .bind(body.bytes_uploaded)
+            .bind(user_id)
+            .bind(server_id)
+            .execute(pool.get_ref())
+            .await;
+        }
+    }
+
+    HttpResponse::Ok().json(ApiResponse::ok(serde_json::Value::Null))
+}

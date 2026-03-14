@@ -18,7 +18,8 @@ struct AlertView: View {
     var body: some View {
         ZStack {
             if isPresented {
-                Color.black.opacity(0.4)
+                Color.black.opacity(0.7)
+                    .background(.ultraThinMaterial)
                     .ignoresSafeArea()
                     .transition(.opacity)
                     .onTapGesture {
@@ -27,58 +28,80 @@ struct AlertView: View {
                         }
                     }
 
-                VStack(spacing: 20) {
-                    // Icon
+                VStack(spacing: 24) {
+                    // Icon (Glowing Warning)
                     ZStack {
                         Circle()
-                            .fill(primaryButton.accentColor.opacity(0.15))
+                            .strokeBorder(primaryButton.accentColor.opacity(0.3), lineWidth: 4)
                             .frame(width: 80, height: 80)
+                            .neonGlow(color: primaryButton.accentColor, radius: .lg)
 
                         Image(systemName: icon)
-                            .font(.system(size: 36))
+                            .font(.system(size: 32, weight: .bold))
                             .foregroundColor(primaryButton.accentColor)
+                            .neonGlow(color: primaryButton.accentColor, radius: .sm)
                     }
+                    .padding(.bottom, 8)
 
                     // Content
-                    VStack(spacing: 8) {
-                        Text(title)
-                            .font(.headline)
+                    VStack(spacing: 12) {
+                        Text(title.uppercased())
+                            .techFont(.title3)
+                            .foregroundColor(.white)
                             .multilineTextAlignment(.center)
+                            .tracking(2)
 
-                        Text(message)
-                            .font(.subheadline)
-                            .foregroundColor(.secondary)
+                        Text(message.uppercased())
+                            .techFont(.footnote)
+                            .foregroundColor(Theme.Colors.secondaryText)
                             .multilineTextAlignment(.center)
+                            .lineSpacing(4)
                     }
                     .padding(.horizontal)
 
                     // Buttons
-                    VStack(spacing: 12) {
-                        Button(primaryButton.title) {
+                    VStack(spacing: 16) {
+                        Button(action: {
                             primaryButton.action()
                             isPresented = false
+                        }) {
+                            Text(primaryButton.title.uppercased())
+                                .techFont(.headline)
+                                .frame(maxWidth: .infinity)
+                                .padding(.vertical, 16)
+                                .background(primaryButton.accentColor.opacity(0.2))
+                                .overlay(
+                                    RoundedRectangle(cornerRadius: 8)
+                                        .strokeBorder(primaryButton.accentColor, lineWidth: 2)
+                                )
+                                .foregroundColor(primaryButton.accentColor)
+                                .neonGlow(color: primaryButton.accentColor, radius: .sm)
                         }
-                        .buttonStyle(.borderedProminent)
-                        .controlSize(.large)
-                        .tint(primaryButton.accentColor)
 
                         if let secondaryButton {
-                            Button(secondaryButton.title) {
+                            Button(action: {
                                 secondaryButton.action()
                                 isPresented = false
+                            }) {
+                                Text(secondaryButton.title.uppercased())
+                                    .techFont(.headline)
+                                    .frame(maxWidth: .infinity)
+                                    .padding(.vertical, 16)
+                                    .foregroundColor(Theme.Colors.secondaryText)
                             }
-                            .buttonStyle(.bordered)
-                            .controlSize(.large)
                         }
                     }
+                    .padding(.top, 8)
                 }
-                .padding(24)
-                .background(
-                    RoundedRectangle(cornerRadius: 20)
-                        .fill(Color(.systemBackground))
-                        .shadow(radius: 30)
+                .padding(32)
+                .themedCard(
+                    cornerRadius: 16,
+                    borderColor: primaryButton.accentColor.opacity(0.5),
+                    borderWidth: 2,
+                    glowColor: primaryButton.accentColor.opacity(0.3),
+                    glowRadius: 20
                 )
-                .padding(.horizontal, 40)
+                .padding(.horizontal, 32)
                 .transition(.scale.combined(with: .opacity))
             }
         }
@@ -97,9 +120,9 @@ struct AlertButton {
 
     var accentColor: Color {
         switch style {
-        case .primary: return .blue
-        case .cancel: return .gray
-        case .destructive: return .red
+        case .primary: return Theme.Colors.neonCyan
+        case .cancel: return Theme.Colors.statusGray
+        case .destructive: return Theme.Colors.neonMagenta
         }
     }
 }
@@ -108,9 +131,9 @@ struct AlertButton {
       AlertView(
           icon: "exclamationmark.triangle",
           title: "Connection Failed",
-          message: "Unable to connect to the VPN server. Please check your internet connection and try again.",
-          primaryButton: AlertButton(title: "Retry", action: {}, style: .primary),
-          secondaryButton: AlertButton(title: "Cancel", action: {}, style: .cancel),
+          message: "Unable to establish uplink. Check network and try again.",
+          primaryButton: AlertButton(title: "Retry Link", action: {}, style: .primary),
+          secondaryButton: AlertButton(title: "Abort", action: {}, style: .cancel),
           isPresented: .constant(true)
       )
   }

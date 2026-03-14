@@ -45,13 +45,12 @@ struct ServerListView: View {
                 ScrollView(.horizontal, showsIndicators: false) {
                     HStack(spacing: 12) {
                         FilterChip(title: "All", isSelected: selectedRegion == nil)
-{
+                        {
                             selectedRegion = nil
                         }
 
                         ForEach(regions, id: \.self) { region in
-                            FilterChip(title: region, isSelected: selectedRegion ==
-region) {
+                            FilterChip(title: region, isSelected: selectedRegion == region) {
                                 selectedRegion = region
                             }
                         }
@@ -112,10 +111,13 @@ struct SearchBar: View {
 
     var body: some View {
         HStack(spacing: 8) {
-            Image(systemName: "magnifyingglass")
-                .foregroundColor(.secondary)
+            Image(systemName: "terminal")
+                .foregroundColor(Theme.Colors.neonCyan)
+                .neonGlow(color: Theme.Colors.neonCyan, radius: .sm)
 
-            TextField("Search servers...", text: $text)
+            TextField("LOCATE NODE...", text: $text)
+                .techFont(.body)
+                .foregroundColor(.white)
                 .textFieldStyle(.plain)
 
             if !text.isEmpty {
@@ -123,15 +125,15 @@ struct SearchBar: View {
                     text = ""
                 } label: {
                     Image(systemName: "xmark.circle.fill")
-                        .foregroundColor(.secondary)
+                        .foregroundColor(Theme.Colors.neonMagenta)
                 }
             }
         }
-        .padding(.horizontal, 12)
-        .padding(.vertical, 10)
-        .background(
-            RoundedRectangle(cornerRadius: 10)
-                .fill(Color(.systemGray6))
+        .padding(.horizontal, 16)
+        .padding(.vertical, 14)
+        .themedCard(
+            borderColor: Theme.Colors.neonCyan.opacity(0.5),
+            borderWidth: 1
         )
     }
 }
@@ -143,16 +145,20 @@ struct FilterChip: View {
 
     var body: some View {
         Button(action: onTap) {
-            Text(title)
-                .font(.subheadline)
-                .fontWeight(.medium)
-                .padding(.horizontal, 16)
-                .padding(.vertical, 8)
+            Text(title.uppercased())
+                .techFont(.subheadline)
+                .padding(.horizontal, 20)
+                .padding(.vertical, 10)
                 .background(
                     Capsule()
-                        .fill(isSelected ? Color.blue : Color(.systemGray5))
+                        .fill(isSelected ? Theme.Colors.neonCyan.opacity(0.2) : Theme.Colors.secondaryBackground)
                 )
-                .foregroundColor(isSelected ? .white : .primary)
+                .overlay(
+                    Capsule()
+                        .strokeBorder(isSelected ? Theme.Colors.neonCyan : Theme.Colors.statusGray, lineWidth: isSelected ? 2 : 1)
+                )
+                .foregroundColor(isSelected ? Theme.Colors.neonCyan : .white)
+                .neonGlow(color: isSelected ? Theme.Colors.neonCyan : .clear, radius: .sm)
         }
     }
 }
@@ -165,15 +171,18 @@ struct EmptyStateView: View {
     var body: some View {
         VStack(spacing: 16) {
             Image(systemName: icon)
-                .font(.system(size: 60))
-                .foregroundColor(.secondary.opacity(0.5))
+                .font(.system(size: 60, weight: .light))
+                .foregroundColor(Theme.Colors.neonMagenta)
+                .neonGlow(color: Theme.Colors.neonMagenta, radius: .md)
 
-            Text(title)
-                .font(.headline)
+            Text(title.uppercased())
+                .techFont(.headline)
+                .foregroundColor(.white)
+                .tracking(2)
 
-            Text(message)
-                .font(.subheadline)
-                .foregroundColor(.secondary)
+            Text(message.uppercased())
+                .techFont(.subheadline)
+                .foregroundColor(Theme.Colors.secondaryText)
                 .multilineTextAlignment(.center)
         }
         .padding()

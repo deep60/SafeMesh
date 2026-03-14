@@ -13,26 +13,27 @@ struct HomeView: View {
 
     var body: some View {
         ZStack {
-            // Background gradient
-            LinearGradient(
-                colors: viewModel.status.isConnected
-                    ? [Color.blue.opacity(0.3), Color.purple.opacity(0.2)]
-                    : [Color.gray.opacity(0.1), Color.gray.opacity(0.05)],
-                startPoint: .topLeading,
-                endPoint: .bottomTrailing
-            )
-            .ignoresSafeArea()
+            // Alien background gradient
+            Theme.primaryGradient(isConnected: viewModel.status.isConnected)
+                .ignoresSafeArea()
 
             ScrollView {
-                VStack(spacing: 24) {
+                VStack(spacing: 32) {
                     Spacer(minLength: 40)
 
-                    // Status indicator
-                    StatusIndicator(status: viewModel.status)
-                        .padding(.horizontal)
+                    // Futuristic HUD Header
+                    VStack(spacing: 8) {
+                        Text("M E S H   U P L I N K")
+                            .techFont(.caption2)
+                            .foregroundColor(Theme.Colors.neonCyan.opacity(0.8))
+                            .tracking(4)
+                        
+                        StatusIndicator(status: viewModel.status)
+                    }
+                    .padding(.horizontal)
 
-                    // Connection button
-                    VStack(spacing: 20) {
+                    // Alien Interface Core (Button & Server)
+                    VStack(spacing: 24) {
                         ConnectionButton(
                             isConnected: viewModel.status.isConnected,
                             isConnecting: viewModel.isConnecting,
@@ -41,9 +42,9 @@ struct HomeView: View {
                                 viewModel.toggleConnection()
                             }
                         )
-                        .padding(.horizontal, 24)
+                        .padding(.horizontal, 40)
 
-                        // Current server info
+                        // Current node config
                         if let currentServer = viewModel.currentServer {
                             ServerCard(server: currentServer, isSelected: true) {
                                 showServerSelector = true
@@ -54,10 +55,11 @@ struct HomeView: View {
 
                     Spacer(minLength: 20)
 
-                    // Connection stats
+                    // Telemetry
                     if viewModel.status.isConnected {
                         ConnectionStatsView(viewModel: viewModel)
                             .padding(.horizontal, 24)
+                            .transition(.move(edge: .bottom).combined(with: .opacity))
                     }
 
                     Spacer(minLength: 40)
@@ -66,6 +68,7 @@ struct HomeView: View {
         }
         .sheet(isPresented: $showServerSelector) {
             ServerListView()
+                .preferredColorScheme(.dark)
         }
         .task {
             // Load server info asynchronously to avoid blocking UI
@@ -79,35 +82,35 @@ struct ConnectionStatsView: View {
 
     var body: some View {
         VStack(spacing: 16) {
-            HStack {
+            HStack(spacing: 16) {
                 StatCard(
-                    icon: "arrow.down.circle.fill",
-                    title: "Download",
+                    icon: "arrow.down.to.line.alt",
+                    title: "DOWNLINK",
                     value: formatBytes(viewModel.downloadBytes),
-                    color: .green
+                    color: Theme.Colors.neonLime
                 )
 
                 StatCard(
-                    icon: "arrow.up.circle.fill",
-                    title: "Upload",
+                    icon: "arrow.up.to.line.alt",
+                    title: "UPLINK",
                     value: formatBytes(viewModel.uploadBytes),
-                    color: .blue
+                    color: Theme.Colors.neonCyan
                 )
             }
 
-            HStack {
+            HStack(spacing: 16) {
                 StatCard(
-                    icon: "clock.fill",
-                    title: "Duration",
+                    icon: "timelapse",
+                    title: "UPTIME",
                     value: viewModel.connectedDuration,
-                    color: .purple
+                    color: Theme.Colors.neonMagenta
                 )
 
                 StatCard(
-                    icon: "location.fill",
-                    title: "IP Address",
-                    value: viewModel.currentIP ?? "Unknown",
-                    color: .orange
+                    icon: "network",
+                    title: "G-NODE IP",
+                    value: viewModel.currentIP ?? "AWAITING...",
+                    color: Theme.Colors.neonOrange
                 )
             }
         }
@@ -128,25 +131,29 @@ struct StatCard: View {
     let color: Color
 
     var body: some View {
-        VStack(spacing: 8) {
+        VStack(spacing: 12) {
             Image(systemName: icon)
-                .font(.title2)
+                .font(.title2.weight(.light))
                 .foregroundColor(color)
+                .neonGlow(color: color, radius: .sm)
 
             Text(title)
-                .font(.caption)
-                .foregroundColor(.secondary)
+                .techFont(.caption2)
+                .foregroundColor(Theme.Colors.secondaryText)
+                .tracking(2)
 
             Text(value)
-                .font(.subheadline)
-                .fontWeight(.semibold)
+                .techFont(.headline)
+                .foregroundColor(Theme.Colors.primaryText)
         }
         .frame(maxWidth: .infinity)
-        .padding()
-        .background(
-            RoundedRectangle(cornerRadius: 12)
-                .fill(Color(.systemBackground))
-                .shadow(color: Color.black.opacity(0.05), radius: 4)
+        .padding(.vertical, 20)
+        .padding(.horizontal, 12)
+        .themedCard(
+            borderColor: color.opacity(0.3),
+            borderWidth: 1,
+            glowColor: color.opacity(0.1),
+            glowRadius: 10
         )
     }
 }

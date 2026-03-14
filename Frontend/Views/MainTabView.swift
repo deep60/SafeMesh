@@ -23,27 +23,30 @@ struct MainTabView: View {
                 showOnboarding = false
                 UserDefaults.standard.set(true, forKey: "hasCompletedOnboarding")
             }
+            .preferredColorScheme(.dark)
         } else {
             TabView(selection: $selectedTab) {
                 HomeView()
                     .tabItem {
-                        Label("Home", systemImage: Tab.home.rawValue)
+                        Label("System", systemImage: Tab.home.rawValue)
                     }
                     .tag(Tab.home)
 
                 ServerListView()
                     .tabItem {
-                        Label("Servers", systemImage: Tab.servers.rawValue)
+                        Label("Nodes", systemImage: Tab.servers.rawValue)
                     }
                     .tag(Tab.servers)
 
                 SettingsView()
                     .tabItem {
-                        Label("Settings", systemImage: Tab.settings.rawValue)
+                        Label("Config", systemImage: Tab.settings.rawValue)
                     }
                     .tag(Tab.settings)
             }
-            .accentColor(.blue)
+            .accentColor(Theme.Colors.neonCyan)
+            .preferredColorScheme(.dark)
+            .font(Theme.Typography.caption.font.monospaced())
         }
     }
 }

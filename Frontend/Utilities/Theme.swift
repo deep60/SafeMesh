@@ -7,44 +7,51 @@
 
 import SwiftUI
 
-// MARK: - Theme
+// MARK: - Theme (Alien/Cyberpunk Redesign)
 enum Theme {
     // MARK: - Colors
     enum Colors {
-        // Status Colors
-        static let statusBlue = Color.blue
-        static let statusGreen = Color.green
-        static let statusOrange = Color.orange
-        static let statusRed = Color.red
-        static let statusYellow = Color.yellow
-        static let statusGray = Color.gray
+        // Deep Space Backgrounds
+        static let primaryBackground = Color(red: 0.03, green: 0.02, blue: 0.06)
+        static let secondaryBackground = Color(red: 0.08, green: 0.07, blue: 0.12)
+        static let tertiaryBackground = Color(red: 0.12, green: 0.10, blue: 0.18)
 
-        // Background Colors
-        static let primaryBackground = Color(.systemBackground)
-        static let secondaryBackground = Color(.secondarySystemBackground)
-        static let tertiaryBackground = Color(.tertiarySystemBackground)
+        // Neon Accents
+        static let neonCyan = Color(red: 0.0, green: 1.0, blue: 1.0)
+        static let neonMagenta = Color(red: 1.0, green: 0.0, blue: 0.8)
+        static let neonLime = Color(red: 0.2, green: 1.0, blue: 0.2)
+        static let neonOrange = Color(red: 1.0, green: 0.4, blue: 0.0)
+        static let neonBlue = Color(red: 0.2, green: 0.4, blue: 1.0)
+
+        // Status Colors
+        static let statusBlue = neonBlue
+        static let statusGreen = neonLime
+        static let statusOrange = neonOrange
+        static let statusRed = neonMagenta
+        static let statusYellow = Color(red: 1.0, green: 1.0, blue: 0.0)
+        static let statusGray = Color(white: 0.3)
 
         // Text Colors
-        static let primaryText = Color.primary
-        static let secondaryText = Color.secondary
+        static let primaryText = Color.white
+        static let secondaryText = Color(white: 0.7)
 
         // Gradient Colors
-        static let gradientStart = Color.blue
-        static let gradientEnd = Color.purple
+        static let gradientStart = neonCyan
+        static let gradientEnd = neonBlue
 
         // Connection Status
-        static let connected = Color.green
-        static let disconnected = Color.gray
-        static let connecting = Color.orange
-        static let disconnecting = Color.orange
-        static let reconnecting = Color.yellow
-        static let error = Color.red
+        static let connected = neonCyan
+        static let disconnected = statusGray
+        static let connecting = neonMagenta
+        static let disconnecting = neonOrange
+        static let reconnecting = statusYellow
+        static let error = neonMagenta
 
-        // Accents
-        static let accent = Color.accentColor
-        static let success = Color.green
-        static let warning = Color.orange
-        static let danger = Color.red
+        // Semantic Accents
+        static let accent = neonCyan
+        static let success = neonLime
+        static let warning = neonOrange
+        static let danger = neonMagenta
     }
 
     // MARK: - Spacing
@@ -60,60 +67,49 @@ enum Theme {
 
     // MARK: - Corner Radius
     enum Radius {
-        static let sm: CGFloat = 10
+        static let sm: CGFloat = 8
         static let md: CGFloat = 12
-        static let lg: CGFloat = 16
-        static let pill: CGFloat = 100
+        static let lg: CGFloat = 18
+        static let xl: CGFloat = 24
+        static let pill: CGFloat = .infinity
     }
 
-    // MARK: - Shadows
+    // MARK: - Shadows (Neon Glows)
     enum Shadow {
-        case sm
-        case md
-        case lg
+        case sm, md, lg, intense
 
         var radius: CGFloat {
             switch self {
-            case .sm: return 4
-            case .md: return 8
-            case .lg: return 16
+            case .sm: return 6
+            case .md: return 12
+            case .lg: return 20
+            case .intense: return 30
             }
         }
 
         var opacity: Double {
             switch self {
-            case .sm: return 0.05
-            case .md: return 0.1
-            case .lg: return 0.15
+            case .sm: return 0.3
+            case .md: return 0.5
+            case .lg: return 0.7
+            case .intense: return 1.0
             }
-        }
-
-        var color: Color {
-            Color.black.opacity(opacity)
         }
     }
 
     // MARK: - Typography
     enum Typography {
-        case largeTitle
-        case title
-        case title2
-        case title3
-        case headline
-        case subheadline
-        case body
-        case callout
-        case footnote
-        case caption
-        case caption2
+        case largeTitle, title, title2, title3
+        case headline, subheadline, body
+        case callout, footnote, caption, caption2
 
         var font: Font {
             switch self {
-            case .largeTitle: return .largeTitle
-            case .title: return .title
-            case .title2: return .title2
-            case .title3: return .title3
-            case .headline: return .headline
+            case .largeTitle: return .largeTitle.weight(.bold)
+            case .title: return .title.weight(.bold)
+            case .title2: return .title2.weight(.bold)
+            case .title3: return .title3.weight(.semibold)
+            case .headline: return .headline.weight(.semibold)
             case .subheadline: return .subheadline
             case .body: return .body
             case .callout: return .callout
@@ -128,13 +124,13 @@ enum Theme {
     static func primaryGradient(isConnected: Bool = false) -> LinearGradient {
         if isConnected {
             return LinearGradient(
-                colors: [Colors.gradientStart.opacity(0.3), Colors.gradientEnd.opacity(0.2)],
-                startPoint: .topLeading,
-                endPoint: .bottomTrailing
+                colors: [Colors.neonCyan.opacity(0.15), Colors.neonBlue.opacity(0.05), Colors.primaryBackground],
+                startPoint: .top,
+                endPoint: .bottom
             )
         } else {
             return LinearGradient(
-                colors: [Colors.statusGray.opacity(0.1), Colors.statusGray.opacity(0.05)],
+                colors: [Colors.secondaryBackground, Colors.primaryBackground],
                 startPoint: .topLeading,
                 endPoint: .bottomTrailing
             )
@@ -143,7 +139,7 @@ enum Theme {
 
     static func buttonGradient(color: Color) -> LinearGradient {
         LinearGradient(
-            colors: [color, color.opacity(0.8)],
+            colors: [color.opacity(0.9), color.opacity(0.5)],
             startPoint: .topLeading,
             endPoint: .bottomTrailing
         )
@@ -153,18 +149,39 @@ enum Theme {
 // MARK: - View Extensions for Theme
 extension View {
     func themedCard(
-        cornerRadius: CGFloat = Theme.Radius.md,
-        shadow: Theme.Shadow = .sm
+        cornerRadius: CGFloat = Theme.Radius.lg,
+        borderColor: Color = .clear,
+        borderWidth: CGFloat = 0,
+        glowColor: Color = .clear,
+        glowRadius: CGFloat = 0,
+        blurMaterial: Material? = .ultraThin
     ) -> some View {
         self
             .background(
-                RoundedRectangle(cornerRadius: cornerRadius)
-                    .fill(Theme.Colors.primaryBackground)
-                    .shadow(color: shadow.color, radius: shadow.radius)
+                ZStack {
+                    if let material = blurMaterial {
+                        RoundedRectangle(cornerRadius: cornerRadius)
+                            .fill(material)
+                    }
+                    RoundedRectangle(cornerRadius: cornerRadius)
+                        .fill(Theme.Colors.secondaryBackground.opacity(blurMaterial == nil ? 1 : 0.6))
+                }
             )
+            .overlay(
+                RoundedRectangle(cornerRadius: cornerRadius)
+                    .strokeBorder(borderColor, lineWidth: borderWidth)
+            )
+            .shadow(color: glowColor.opacity(0.5), radius: glowRadius)
     }
 
-    func themedShadow(_ shadow: Theme.Shadow = .sm) -> some View {
-        self.shadow(color: shadow.color, radius: shadow.radius)
+    func neonGlow(color: Color, radius: Theme.Shadow = .md) -> some View {
+        self.shadow(color: color.opacity(radius.opacity), radius: radius.radius)
+    }
+    
+    // Applies the mono-spaced alien tech font style
+    func techFont(_ type: Theme.Typography = .body) -> some View {
+        self
+            .font(type.font)
+            .monospaced()
     }
 }

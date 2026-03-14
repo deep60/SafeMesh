@@ -13,71 +13,74 @@ struct ProfileView: View {
     @State private var showChangePassword = false
 
     var body: some View {
-        Form {
+        List {
             // Profile header
             Section {
                 HStack(spacing: 16) {
                     ZStack {
                         Circle()
-                            .fill(LinearGradient(
-                                colors: [.blue, .purple],
-                                startPoint: .topLeading,
-                                endPoint: .bottomTrailing
-                            ))
+                            .strokeBorder(Theme.Colors.neonCyan.opacity(0.8), lineWidth: 2)
+                            .background(Circle().fill(Theme.Colors.secondaryBackground))
                             .frame(width: 80, height: 80)
+                            .neonGlow(color: Theme.Colors.neonCyan, radius: .sm)
 
                         Text(String(viewModel.userInitials))
-                            .font(.title)
-                            .fontWeight(.bold)
-                            .foregroundColor(.white)
+                            .techFont(.title)
+                            .foregroundColor(Theme.Colors.neonCyan)
                     }
 
                     VStack(alignment: .leading, spacing: 4) {
-                        Text(viewModel.userName)
-                            .font(.headline)
+                        Text(viewModel.userName.uppercased())
+                            .techFont(.title2)
+                            .foregroundColor(.white)
+                            .tracking(2)
 
-                        Text(viewModel.userEmail)
-                            .font(.subheadline)
-                            .foregroundColor(.secondary)
+                        Text(viewModel.userEmail.uppercased())
+                            .techFont(.subheadline)
+                            .foregroundColor(Theme.Colors.neonCyan.opacity(0.8))
                     }
 
                     Spacer()
                 }
                 .padding(.vertical, 8)
             }
+            .listRowBackground(Color.clear)
 
             // User info
-            Section("Account Information") {
+            Section(header: Text("OPERATIVE DATA").techFont(.footnote).foregroundColor(Theme.Colors.neonCyan)) {
                 HStack {
-                    Text("Username")
+                    Text("DESIGNATION")
                     Spacer()
-                    Text(viewModel.userName)
-                        .foregroundColor(.secondary)
+                    Text(viewModel.userName.uppercased())
+                        .foregroundColor(Theme.Colors.neonCyan)
                 }
 
                 HStack {
-                    Text("Email")
+                    Text("CREDENTIAL")
                     Spacer()
-                    Text(viewModel.userEmail)
-                        .foregroundColor(.secondary)
+                    Text(viewModel.userEmail.uppercased())
+                        .foregroundColor(Theme.Colors.neonCyan)
                 }
 
                 HStack {
-                    Text("Member Since")
+                    Text("INITIALIZED")
                     Spacer()
-                    Text(viewModel.memberSince)
-                        .foregroundColor(.secondary)
+                    Text(viewModel.memberSince.uppercased())
+                        .foregroundColor(Theme.Colors.neonCyan)
                 }
             }
+            .listRowBackground(Theme.Colors.secondaryBackground)
+            .font(Theme.Typography.body.font.monospaced())
+            .foregroundColor(.white)
 
             // Subscription
-            Section("Subscription") {
+            Section(header: Text("CLEARANCE LEVEL").techFont(.footnote).foregroundColor(Theme.Colors.neonCyan)) {
                 HStack {
                     VStack(alignment: .leading, spacing: 4) {
-                        Text(viewModel.subscriptionPlan)
-                            .font(.headline)
-                        Text(viewModel.subscriptionStatus)
-                            .font(.caption)
+                        Text(viewModel.subscriptionPlan.uppercased())
+                            .techFont(.headline)
+                        Text(viewModel.subscriptionStatus.uppercased())
+                            .techFont(.caption)
                             .foregroundColor(viewModel.subscriptionStatusColor)
                     }
 
@@ -87,23 +90,28 @@ struct ProfileView: View {
                         Button {
                             // Manage subscription
                         } label: {
-                            Text("Manage")
-                                .font(.caption)
+                            Text("MANAGE")
+                                .techFont(.caption)
                                 .padding(.horizontal, 12)
                                 .padding(.vertical, 6)
-                                .background(Color.blue)
-                                .foregroundColor(.white)
-                                .cornerRadius(12)
+                                .background(Theme.Colors.neonCyan.opacity(0.2))
+                                .foregroundColor(Theme.Colors.neonCyan)
+                                .cornerRadius(4)
+                                .overlay(
+                                    RoundedRectangle(cornerRadius: 4)
+                                        .stroke(Theme.Colors.neonCyan, lineWidth: 1)
+                                )
+                                .neonGlow(color: Theme.Colors.neonCyan, radius: .sm)
                         }
                     }
                 }
 
                 if let expiryDate = viewModel.subscriptionExpiry {
                     HStack {
-                        Text("Renews on")
+                        Text("RENEWAL CYCLE")
                         Spacer()
-                        Text(expiryDate)
-                            .foregroundColor(.secondary)
+                        Text(expiryDate.uppercased())
+                            .foregroundColor(Theme.Colors.neonCyan)
                     }
                 }
 
@@ -113,52 +121,61 @@ struct ProfileView: View {
                     } label: {
                         HStack {
                             Image(systemName: "crown.fill")
-                                .foregroundColor(.yellow)
-                            Text("Upgrade to Premium")
-                                .foregroundColor(.blue)
+                                .foregroundColor(Theme.Colors.neonOrange)
+                                .neonGlow(color: Theme.Colors.neonOrange, radius: .sm)
+                            Text("ELEVATE CLEARANCE")
+                                .foregroundColor(Theme.Colors.neonOrange)
                         }
                     }
                 }
             }
+            .listRowBackground(Theme.Colors.secondaryBackground)
+            .font(Theme.Typography.body.font.monospaced())
+            .foregroundColor(.white)
 
             // Usage stats
-            Section("Usage This Month") {
+            Section(header: Text("BANDWIDTH TELEMETRY").techFont(.footnote).foregroundColor(Theme.Colors.neonCyan)) {
                 HStack {
                     VStack(alignment: .leading, spacing: 4) {
-                        Text("Data Used")
-                            .font(.subheadline)
-                            .foregroundColor(.secondary)
-                        Text(viewModel.dataUsed)
-                            .font(.headline)
+                        Text("TRANSMITTED")
+                            .techFont(.caption2)
+                            .foregroundColor(Theme.Colors.secondaryText)
+                        Text(viewModel.dataUsed.uppercased())
+                            .techFont(.headline)
+                            .foregroundColor(.white)
                     }
 
                     Spacer()
 
                     VStack(alignment: .trailing, spacing: 4) {
-                        Text("Remaining")
-                            .font(.subheadline)
-                            .foregroundColor(.secondary)
-                        Text(viewModel.dataRemaining)
-                            .font(.headline)
+                        Text("ALLOCATION")
+                            .techFont(.caption2)
+                            .foregroundColor(Theme.Colors.secondaryText)
+                        Text(viewModel.dataRemaining.uppercased())
+                            .techFont(.headline)
                             .foregroundColor(viewModel.dataRemainingColor)
+                            .neonGlow(color: viewModel.dataRemainingColor, radius: .sm)
                     }
                 }
 
                 ProgressView(value: viewModel.usagePercentage)
                     .tint(viewModel.usageColor)
             }
+            .listRowBackground(Theme.Colors.secondaryBackground)
+            .font(Theme.Typography.body.font.monospaced())
+            .foregroundColor(.white)
 
             // Account actions
-            Section("Account") {
+            Section(header: Text("SYSTEM CONTROLS").techFont(.footnote).foregroundColor(Theme.Colors.neonCyan)) {
                 Button {
                     showEditProfile = true
                 } label: {
                     HStack {
                         Image(systemName: "pencil")
-                        Text("Edit Profile")
+                        Text("MODIFY RECORD")
                         Spacer()
                         Image(systemName: "chevron.right")
-                            .foregroundColor(.secondary)
+                            .foregroundColor(Theme.Colors.neonCyan)
                     }
                 }
 
@@ -166,11 +183,11 @@ struct ProfileView: View {
                     showChangePassword = true
                 } label: {
                     HStack {
-                        Image(systemName: "lock")
-                        Text("Change Password")
+                        Image(systemName: "lock.fill")
+                        Text("ROTATE PASSPHRASE")
                         Spacer()
                         Image(systemName: "chevron.right")
-                            .foregroundColor(.secondary)
+                            .foregroundColor(Theme.Colors.neonCyan)
                     }
                 }
 
@@ -178,28 +195,37 @@ struct ProfileView: View {
                     viewModel.deleteAccount()
                 } label: {
                     HStack {
-                        Image(systemName: "trash")
-                            .foregroundColor(.red)
-                        Text("Delete Account")
-                            .foregroundColor(.red)
+                        Image(systemName: "trash.fill")
+                            .foregroundColor(Theme.Colors.neonMagenta)
+                            .neonGlow(color: Theme.Colors.neonMagenta, radius: .sm)
+                        Text("PURGE RECORD")
+                            .foregroundColor(Theme.Colors.neonMagenta)
                     }
                 }
             }
+            .listRowBackground(Theme.Colors.secondaryBackground)
+            .font(Theme.Typography.body.font.monospaced())
+            .foregroundColor(.white)
         }
-        .navigationTitle("Profile")
+        .scrollContentBackground(.hidden)
+        .background(Theme.Colors.primaryBackground)
+        .navigationTitle("OPERATIVE")
+        .navigationBarTitleDisplayMode(.large)
         .sheet(isPresented: $showEditProfile) {
             EditProfileView(user: viewModel.user)
+                .preferredColorScheme(.dark)
         }
         .sheet(isPresented: $showChangePassword) {
             ChangePasswordView()
+                .preferredColorScheme(.dark)
         }
-        .alert("Delete Account", isPresented: $viewModel.showDeleteAlert) {
-            Button("Cancel", role: .cancel) {}
-            Button("Delete", role: .destructive) {
+        .alert("PURGE RECORD", isPresented: $viewModel.showDeleteAlert) {
+            Button("ABORT", role: .cancel) {}
+            Button("CONFIRM PURGE", role: .destructive) {
                 viewModel.confirmDeleteAccount()
             }
         } message: {
-            Text("This action cannot be undone. All your data will be permanently deleted.")
+            Text("WARNING: ENTITY DATA WILL BE IRREVERSIBLY ERASED FROM THE MESH.")
         }
     }
 }
@@ -218,28 +244,43 @@ struct EditProfileView: View {
 
     var body: some View {
         NavigationStack {
-            Form {
-                Section {
-                    TextField("Name", text: $name)
-                    TextField("Email", text: $email)
-                        .textInputAutocapitalization(.never)
-                        .autocorrectionDisabled()
-                        .keyboardType(.emailAddress)
-                }
+            ScrollView {
+                VStack(spacing: 24) {
+                    VStack(spacing: 20) {
+                        NeonTextField(title: "DESIGNATION (NAME)", placeholder: "INPUT DATA...", text: $name, icon: "person.fill")
+                        
+                        NeonTextField(title: "CREDENTIAL (EMAIL)", placeholder: "INPUT DATA...", text: $email, icon: "terminal")
+                            .keyboardType(.emailAddress)
+                            .textInputAutocapitalization(.never)
+                    }
+                    .padding(.horizontal, 24)
+                    .padding(.top, 24)
 
-                Section {
-                    Button("Save Changes") {
+                    Button {
                         // Save
                         dismiss()
+                    } label: {
+                        Text("COMMIT CHANGES")
+                            .techFont(.headline)
+                            .tracking(2)
+                            .foregroundColor(Theme.Colors.primaryBackground)
+                            .frame(maxWidth: .infinity)
+                            .padding()
+                            .background(Theme.buttonGradient(color: Theme.Colors.neonCyan))
+                            .clipShape(RoundedRectangle(cornerRadius: Theme.Radius.lg))
+                            .neonGlow(color: Theme.Colors.neonCyan, radius: .sm)
                     }
+                    .padding(.horizontal, 24)
                 }
             }
-            .navigationTitle("Edit Profile")
+            .background(Theme.Colors.primaryBackground)
+            .navigationTitle("MODIFY RECORD")
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {
                 ToolbarItem(placement: .navigationBarTrailing) {
-                    Button("Cancel") {
-                        dismiss()
+                    Button(action: { dismiss() }) {
+                        Image(systemName: "xmark")
+                            .foregroundColor(Theme.Colors.neonCyan)
                     }
                 }
             }
@@ -252,6 +293,9 @@ struct ChangePasswordView: View {
     @State private var currentPassword = ""
     @State private var newPassword = ""
     @State private var confirmPassword = ""
+    @State private var showCurrentPassword = false
+    @State private var showNewPassword = false
+    @State private var showConfirmPassword = false
     @State private var showSuccess = false
     @State private var errorMessage: String?
 
@@ -264,45 +308,67 @@ struct ChangePasswordView: View {
 
     var body: some View {
         NavigationStack {
-            Form {
-                Section {
-                    SecureField("Current Password", text: $currentPassword)
-                    SecureField("New Password", text: $newPassword)
-                    SecureField("Confirm Password", text: $confirmPassword)
-                } header: {
-                    Text("Password must be at least 8 characters")
-                }
-
-                if let error = errorMessage {
-                    Section {
-                        Text(error)
-                            .foregroundColor(.red)
-                            .font(.caption)
+            ScrollView {
+                VStack(spacing: 24) {
+                    VStack(spacing: 20) {
+                        NeonSecureField(title: "CURRENT PASSPHRASE", placeholder: "INPUT DATA...", text: $currentPassword, isVisible: $showCurrentPassword)
+                        NeonSecureField(title: "NEW PASSPHRASE", placeholder: "INPUT DATA...", text: $newPassword, isVisible: $showNewPassword)
+                        NeonSecureField(title: "CONFIRM NEW PASSPHRASE", placeholder: "INPUT DATA...", text: $confirmPassword, isVisible: $showConfirmPassword)
+                        
+                        if let error = errorMessage {
+                            Text(error.uppercased())
+                                .techFont(.caption)
+                                .foregroundColor(Theme.Colors.neonMagenta)
+                                .frame(maxWidth: .infinity, alignment: .leading)
+                        } else if newPassword != confirmPassword && !confirmPassword.isEmpty {
+                            Text("MISMATCH DETECTED")
+                                .techFont(.caption)
+                                .foregroundColor(Theme.Colors.neonMagenta)
+                                .frame(maxWidth: .infinity, alignment: .leading)
+                        } else {
+                            Text("MINIMUM 8 CHARACTERS REQUIRED")
+                                .techFont(.caption2)
+                                .foregroundColor(Theme.Colors.secondaryText)
+                                .frame(maxWidth: .infinity, alignment: .leading)
+                        }
                     }
-                }
+                    .padding(.horizontal, 24)
+                    .padding(.top, 24)
 
-                Section {
-                    Button("Change Password") {
+                    Button {
                         // Change password
+                        showSuccess = true
+                    } label: {
+                        Text("ROTATE KEY")
+                            .techFont(.headline)
+                            .tracking(2)
+                            .foregroundColor(Theme.Colors.primaryBackground)
+                            .frame(maxWidth: .infinity)
+                            .padding()
+                            .background(Theme.buttonGradient(color: Theme.Colors.neonCyan))
+                            .clipShape(RoundedRectangle(cornerRadius: Theme.Radius.lg))
+                            .neonGlow(color: Theme.Colors.neonCyan, radius: .sm)
+                            .opacity(isValid ? 1.0 : 0.5)
                     }
                     .disabled(!isValid)
+                    .padding(.horizontal, 24)
                 }
             }
-            .navigationTitle("Change Password")
+            .background(Theme.Colors.primaryBackground)
+            .navigationTitle("ROTATE PASSPHRASE")
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {
                 ToolbarItem(placement: .navigationBarTrailing) {
-                    Button("Cancel") {
-                        dismiss()
+                    Button(action: { dismiss() }) {
+                        Image(systemName: "xmark")
+                            .foregroundColor(Theme.Colors.neonCyan)
                     }
                 }
             }
-            .alert("Success", isPresented: $showSuccess) {
-                Button("OK") {
-                    dismiss()
-                }
+            .alert("KEY ROTATION SUCCESS", isPresented: $showSuccess) {
+                Button("ACKNOWLEDGE") { dismiss() }
             } message: {
-                Text("Your password has been changed successfully.")
+                Text("PASSPHRASE HAS BEEN SUCCESSFULLY UPDATED IN THE SYSTEM.")
             }
         }
     }

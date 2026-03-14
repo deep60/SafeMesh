@@ -128,6 +128,13 @@ class AuthViewModel: ObservableObject {
 
     // MARK: - Private Methods
     private func checkAuthenticationStatus() {
+        // In mock mode, auto-authenticate with mock user
+        if AppConfiguration.useMockData {
+            self.user = User.mock
+            self.isAuthenticated = true
+            return
+        }
+
         if let token = secureStorage.load(key: .accessToken) {
             authManager.updateToken(token)
 
@@ -141,6 +148,14 @@ class AuthViewModel: ObservableObject {
     private func performLogin(email: String, password: String) async {
         isLoading = true
         errorMessage = nil
+
+        if AppConfiguration.useMockData {
+            try? await Task.sleep(nanoseconds: 500_000_000)
+            let mockUser = User.mock
+            await handleSuccessfulAuth(user: mockUser, token: "mock_token")
+            isLoading = false
+            return
+        }
 
         do {
             let request = LoginRequest(email: email, password: password)

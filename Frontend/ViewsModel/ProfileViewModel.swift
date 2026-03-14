@@ -88,11 +88,18 @@ class ProfileViewModel: ObservableObject {
     }
 
     func updateProfile(name: String, email: String) async throws {
+        // Skip real API call when using mock data
+        if AppConfiguration.useMockData {
+            userName = name
+            userEmail = email
+            return
+        }
+
         let request = UserProfileUpdate(name: name, avatarURL: nil)
 
         let response: APIResponse<User> = try await apiClient.request(
-            endpoint: "/user/profile",
-            method: .patch,
+            endpoint: "/user/me",
+            method: .put,
             body: request
         )
 
@@ -110,7 +117,7 @@ class ProfileViewModel: ObservableObject {
         Task {
             do {
                 let _: EmptyResponse = try await apiClient.request(
-                    endpoint: "/user/delete",
+                    endpoint: "/user/me",
                     method: .delete,
                     body: nil
                 )
@@ -131,6 +138,13 @@ class ProfileViewModel: ObservableObject {
 
     // MARK: - Private Methods
     private func loadUserProfile() async {
+        // Use mock data when backend is unavailable
+        if AppConfiguration.useMockData {
+            user = User.mock
+            updateUserDisplayInfo()
+            return
+        }
+
         do {
             let response: APIResponse<User> = try await apiClient.request(
                 endpoint: "/user/me",

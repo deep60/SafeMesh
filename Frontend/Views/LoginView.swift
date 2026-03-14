@@ -19,98 +19,99 @@ struct LoginView: View {
         NavigationStack {
             ScrollView {
                 VStack(spacing: 32) {
-                    // Logo
+                    // Logo (Glowing Alien Shield)
                     VStack(spacing: 16) {
                         ZStack {
                             Circle()
-                                .fill(LinearGradient(
-                                    colors: [.blue, .purple],
-                                    startPoint: .topLeading,
-                                    endPoint: .bottomTrailing
-                                ))
+                                .strokeBorder(Theme.Colors.neonCyan.opacity(0.5), lineWidth: 4)
                                 .frame(width: 80, height: 80)
+                                .neonGlow(color: Theme.Colors.neonCyan, radius: .lg)
 
                             Image(systemName: "shield.fill")
                                 .font(.system(size: 36))
-                                .foregroundColor(.white)
+                                .foregroundColor(Theme.Colors.neonCyan)
+                                .neonGlow(color: Theme.Colors.neonCyan, radius: .sm)
                         }
 
-                        Text("Welcome Back")
-                            .font(.title)
-                            .fontWeight(.bold)
+                        Text("MESH TERMINAL")
+                            .techFont(.title)
+                            .foregroundColor(.white)
+                            .tracking(4)
 
-                        Text("Sign in to continue")
-                            .font(.subheadline)
-                            .foregroundColor(.secondary)
+                        Text("AUTHENTICATE TO CONTINUE")
+                            .techFont(.caption)
+                            .foregroundColor(Theme.Colors.secondaryText)
+                            .tracking(2)
                     }
                     .padding(.top, 40)
 
                     // Form
-                    VStack(spacing: 20) {
+                    VStack(spacing: 24) {
                         // Email field
                         VStack(alignment: .leading, spacing: 8) {
-                            Text("Email")
-                                .font(.subheadline)
-                                .fontWeight(.medium)
+                            Text("CREDENTIAL (EMAIL)")
+                                .techFont(.subheadline)
+                                .foregroundColor(Theme.Colors.neonCyan)
 
                             HStack {
-                                Image(systemName: "envelope")
-                                    .foregroundColor(.secondary)
+                                Image(systemName: "terminal")
+                                    .foregroundColor(Theme.Colors.neonCyan)
                                     .frame(width: 24)
 
-                                TextField("Enter your email", text: $email)
+                                TextField("INPUT DATA...", text: $email)
+                                    .techFont(.body)
+                                    .foregroundColor(.white)
                                     .textInputAutocapitalization(.never)
                                     .autocorrectionDisabled()
                                     .keyboardType(.emailAddress)
                             }
                             .padding()
-                            .background(
-                                RoundedRectangle(cornerRadius: 10)
-                                    .fill(Color(.systemGray6))
-                            )
+                            .themedCard(borderColor: Theme.Colors.neonCyan.opacity(0.3), borderWidth: 1)
                         }
 
                         // Password field
                         VStack(alignment: .leading, spacing: 8) {
                             HStack {
-                                Text("Password")
-                                    .font(.subheadline)
-                                    .fontWeight(.medium)
+                                Text("PASSPHRASE")
+                                    .techFont(.subheadline)
+                                    .foregroundColor(Theme.Colors.neonCyan)
 
                                 Spacer()
 
                                 Button {
                                     showForgotPassword = true
                                 } label: {
-                                    Text("Forgot?")
-                                        .font(.subheadline)
-                                        .foregroundColor(.blue)
+                                    Text("OVERRIDE?")
+                                        .techFont(.caption)
+                                        .foregroundColor(Theme.Colors.neonMagenta)
+                                        .underline()
                                 }
                             }
 
                             HStack {
-                                Image(systemName: "lock")
-                                    .foregroundColor(.secondary)
+                                Image(systemName: "lock.fill")
+                                    .foregroundColor(Theme.Colors.neonCyan)
                                     .frame(width: 24)
 
                                 if showPassword {
-                                    TextField("Enter your password", text: $password)
+                                    TextField("INPUT DATA...", text: $password)
+                                        .techFont(.body)
+                                        .foregroundColor(.white)
                                 } else {
-                                    SecureField("Enter your password", text: $password)
+                                    SecureField("INPUT DATA...", text: $password)
+                                        .techFont(.body)
+                                        .foregroundColor(.white)
                                 }
 
                                 Button {
                                     showPassword.toggle()
                                 } label: {
                                     Image(systemName: showPassword ? "eye.slash" : "eye")
-                                        .foregroundColor(.secondary)
+                                        .foregroundColor(Theme.Colors.neonCyan)
                                 }
                             }
                             .padding()
-                            .background(
-                                RoundedRectangle(cornerRadius: 10)
-                                    .fill(Color(.systemGray6))
-                            )
+                            .themedCard(borderColor: Theme.Colors.neonCyan.opacity(0.3), borderWidth: 1)
                         }
 
                         // Login button
@@ -120,81 +121,83 @@ struct LoginView: View {
                             HStack {
                                 if viewModel.isLoading {
                                     ProgressView()
-                                        .progressViewStyle(CircularProgressViewStyle(tint: .white))
+                                        .progressViewStyle(CircularProgressViewStyle(tint: Theme.Colors.primaryBackground))
                                 } else {
-                                    Text("Sign In")
-                                        .font(.headline)
+                                    Text("INITIATE UPLINK")
+                                        .techFont(.headline)
+                                        .tracking(2)
                                 }
                             }
-                            .foregroundColor(.white)
+                            .foregroundColor(Theme.Colors.primaryBackground)
                             .frame(maxWidth: .infinity)
                             .padding()
-                            .background(
-                                LinearGradient(
-                                    colors: [.blue, .purple],
-                                    startPoint: .leading,
-                                    endPoint: .trailing
-                                )
-                            )
-                            .clipShape(RoundedRectangle(cornerRadius: 12))
+                            .background(Theme.buttonGradient(color: Theme.Colors.neonCyan))
+                            .clipShape(RoundedRectangle(cornerRadius: Theme.Radius.lg))
+                            .neonGlow(color: Theme.Colors.neonCyan, radius: .md)
                         }
                         .disabled(viewModel.isLoading || email.isEmpty || password.isEmpty)
+                        .padding(.top, 16)
                     }
                     .padding(.horizontal, 24)
 
                     // Divider
                     HStack {
-                        VStack { Divider() }
-                        Text("or continue with")
-                            .font(.caption)
-                            .foregroundColor(.secondary)
-                        VStack { Divider() }
+                        VStack { Divider().background(Theme.Colors.secondaryText) }
+                        Text("OR BYPASS WITH")
+                            .techFont(.caption2)
+                            .foregroundColor(Theme.Colors.secondaryText)
+                        VStack { Divider().background(Theme.Colors.secondaryText) }
                     }
                     .padding(.horizontal, 40)
 
                     // Social login
                     HStack(spacing: 16) {
-                        SocialLoginButton(icon: "applelogo", title: "Apple") {
+                        SocialLoginButton(icon: "applelogo", title: "APPLE") {
                             viewModel.signInWithApple()
                         }
 
-                        SocialLoginButton(icon: "globe", title: "Google") {
+                        SocialLoginButton(icon: "globe", title: "GOOGLE") {
                             viewModel.signInWithGoogle()
                         }
                     }
                     .padding(.horizontal, 24)
 
                     // Sign up
-                    HStack(spacing: 4) {
-                        Text("Don't have an account?")
-                            .font(.subheadline)
-                            .foregroundColor(.secondary)
+                    HStack(spacing: 8) {
+                        Text("NO RECORD FOUND?")
+                            .techFont(.subheadline)
+                            .foregroundColor(Theme.Colors.secondaryText)
 
                         Button {
                             showSignup = true
                         } label: {
-                            Text("Sign Up")
-                                .font(.subheadline)
-                                .fontWeight(.semibold)
-                                .foregroundColor(.blue)
+                            Text("GENERATE KEY")
+                                .techFont(.subheadline)
+                                .foregroundColor(Theme.Colors.neonLime)
+                                .neonGlow(color: Theme.Colors.neonLime, radius: .sm)
                         }
                     }
+                    .padding(.top, 16)
 
                     Spacer(minLength: 40)
                 }
             }
+            .background(Theme.Colors.primaryBackground)
             .navigationBarHidden(true)
         }
+        .preferredColorScheme(.dark)
         .sheet(isPresented: $showSignup) {
             SignupView()
+                .preferredColorScheme(.dark)
         }
         .sheet(isPresented: $showForgotPassword) {
             ForgotPasswordView()
+                .preferredColorScheme(.dark)
         }
-        .alert("Login Failed", isPresented: $viewModel.showError) {
-            Button("OK", role: .cancel) {}
+        .alert("AUTH FAILED", isPresented: $viewModel.showError) {
+            Button("ACKNOWLEDGE", role: .cancel) {}
         } message: {
-            Text(viewModel.errorMessage ?? "An unknown error occurred")
+            Text(viewModel.errorMessage ?? "SYSTEM ERROR")
         }
     }
 }
@@ -206,21 +209,17 @@ struct SocialLoginButton: View {
 
     var body: some View {
         Button(action: action) {
-            HStack(spacing: 8) {
+            HStack(spacing: 12) {
                 Image(systemName: icon)
                     .font(.title3)
 
                 Text(title)
-                    .font(.subheadline)
-                    .fontWeight(.medium)
+                    .techFont(.subheadline)
             }
-            .foregroundColor(.primary)
+            .foregroundColor(.white)
             .frame(maxWidth: .infinity)
             .padding()
-            .background(
-                RoundedRectangle(cornerRadius: 10)
-                    .fill(Color(.systemGray6))
-            )
+            .themedCard(borderColor: .white.opacity(0.2), borderWidth: 1)
         }
     }
 }
@@ -247,73 +246,155 @@ struct SignupView: View {
 
     var body: some View {
         NavigationStack {
-            Form {
-                Section {
-                    TextField("Full Name", text: $name)
-                    TextField("Email", text: $email)
-                        .textInputAutocapitalization(.never)
-                        .autocorrectionDisabled()
-                        .keyboardType(.emailAddress)
-                    
-                    HStack {
-                        if showPassword {
-                            TextField("Password", text: $password)
-                        } else {
-                            SecureField("Password", text: $password)
-                        }
-                        Button {
-                            showPassword.toggle()
-                        } label: {
-                            Image(systemName: showPassword ? "eye.slash" : "eye")
-                                .foregroundColor(.secondary)
-                        }
-                    }
-                    
-                    HStack {
-                        if showConfirmPassword {
-                            TextField("Confirm Password", text: $confirmPassword)
-                        } else {
-                            SecureField("Confirm Password", text: $confirmPassword)
-                        }
-                        Button {
-                            showConfirmPassword.toggle()
-                        } label: {
-                            Image(systemName: showConfirmPassword ? "eye.slash" : "eye")
-                                .foregroundColor(.secondary)
-                        }
-                    }
-                } header: {
-                    Text("Password must be at least 8 characters")
-                } footer: {
-                    if password != confirmPassword && !confirmPassword.isEmpty {
-                        Text("Passwords do not match")
-                            .foregroundColor(.red)
-                    }
-                }
+            ScrollView {
+                VStack(spacing: 24) {
+                    // Header
+                    Text("INITIATE NEW RECORD")
+                        .techFont(.title2)
+                        .foregroundColor(Theme.Colors.neonCyan)
+                        .tracking(2)
+                        .padding(.top, 24)
 
-                Section {
-                    Toggle("I agree to the Terms of Service and Privacy Policy", isOn: $agreeToTerms)
-                }
+                    // Form Fields
+                    VStack(spacing: 20) {
+                        NeonTextField(title: "DESIGNATION (NAME)", placeholder: "INPUT DATA...", text: $name, icon: "person.fill")
+                        
+                        NeonTextField(title: "CREDENTIAL (EMAIL)", placeholder: "INPUT DATA...", text: $email, icon: "terminal")
+                            .keyboardType(.emailAddress)
+                            .textInputAutocapitalization(.never)
+                        
+                        NeonSecureField(title: "PASSPHRASE", placeholder: "INPUT DATA...", text: $password, isVisible: $showPassword)
+                        
+                        NeonSecureField(title: "CONFIRM PASSPHRASE", placeholder: "INPUT DATA...", text: $confirmPassword, isVisible: $showConfirmPassword)
+                        
+                        if password != confirmPassword && !confirmPassword.isEmpty {
+                            Text("MISMATCH DETECTED")
+                                .techFont(.caption)
+                                .foregroundColor(Theme.Colors.neonMagenta)
+                                .frame(maxWidth: .infinity, alignment: .leading)
+                        } else {
+                            Text("MINIMUM 8 CHARACTERS REQUIRED")
+                                .techFont(.caption2)
+                                .foregroundColor(Theme.Colors.secondaryText)
+                                .frame(maxWidth: .infinity, alignment: .leading)
+                        }
+                    }
+                    .padding(.horizontal, 24)
 
-                Section {
+                    // Terms Toogle
+                    Toggle(isOn: $agreeToTerms) {
+                        Text("I ACCEPT THE PROTOCOLS AND PRIVACY DIRECTIVES")
+                            .techFont(.caption)
+                            .foregroundColor(Theme.Colors.secondaryText)
+                    }
+                    .tint(Theme.Colors.neonCyan)
+                    .padding(.horizontal, 24)
+                    .padding(.vertical, 8)
+
+                    // Submit Button
                     Button {
                         viewModel.signup(name: name, email: email, password: password)
                     } label: {
-                        Text("Create Account")
-                            .frame(maxWidth: .infinity)
+                        HStack {
+                            if viewModel.isLoading {
+                                ProgressView()
+                                    .progressViewStyle(CircularProgressViewStyle(tint: Theme.Colors.primaryBackground))
+                            } else {
+                                Text("GENERATE KEY")
+                                    .techFont(.headline)
+                                    .tracking(2)
+                            }
+                        }
+                        .foregroundColor(Theme.Colors.primaryBackground)
+                        .frame(maxWidth: .infinity)
+                        .padding()
+                        .background(Theme.buttonGradient(color: Theme.Colors.neonLime))
+                        .clipShape(RoundedRectangle(cornerRadius: Theme.Radius.lg))
+                        .neonGlow(color: Theme.Colors.neonLime, radius: .sm)
+                        .opacity(isValid ? 1.0 : 0.5)
                     }
                     .disabled(!isValid || viewModel.isLoading)
+                    .padding(.horizontal, 24)
+                    .padding(.top, 16)
                 }
             }
-            .navigationTitle("Sign Up")
+            .background(Theme.Colors.primaryBackground)
+            .navigationTitle("REGISTER")
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {
                 ToolbarItem(placement: .navigationBarTrailing) {
-                    Button("Cancel") {
-                        dismiss()
+                    Button(action: { dismiss() }) {
+                        Image(systemName: "xmark")
+                            .foregroundColor(Theme.Colors.neonCyan)
                     }
                 }
             }
+        }
+    }
+}
+
+// Reusable Components for Form
+struct NeonTextField: View {
+    let title: String
+    let placeholder: String
+    @Binding var text: String
+    let icon: String
+    
+    var body: some View {
+        VStack(alignment: .leading, spacing: 8) {
+            Text(title)
+                .techFont(.subheadline)
+                .foregroundColor(Theme.Colors.neonCyan)
+
+            HStack {
+                Image(systemName: icon)
+                    .foregroundColor(Theme.Colors.neonCyan)
+                    .frame(width: 24)
+
+                TextField(placeholder, text: $text)
+                    .techFont(.body)
+                    .foregroundColor(.white)
+            }
+            .padding()
+            .themedCard(borderColor: Theme.Colors.neonCyan.opacity(0.3), borderWidth: 1)
+        }
+    }
+}
+
+struct NeonSecureField: View {
+    let title: String
+    let placeholder: String
+    @Binding var text: String
+    @Binding var isVisible: Bool
+    
+    var body: some View {
+        VStack(alignment: .leading, spacing: 8) {
+            Text(title)
+                .techFont(.subheadline)
+                .foregroundColor(Theme.Colors.neonCyan)
+
+            HStack {
+                Image(systemName: "lock.fill")
+                    .foregroundColor(Theme.Colors.neonCyan)
+                    .frame(width: 24)
+
+                if isVisible {
+                    TextField(placeholder, text: $text)
+                        .techFont(.body)
+                        .foregroundColor(.white)
+                } else {
+                    SecureField(placeholder, text: $text)
+                        .techFont(.body)
+                        .foregroundColor(.white)
+                }
+
+                Button(action: { isVisible.toggle() }) {
+                    Image(systemName: isVisible ? "eye.slash" : "eye")
+                        .foregroundColor(Theme.Colors.neonCyan)
+                }
+            }
+            .padding()
+            .themedCard(borderColor: Theme.Colors.neonCyan.opacity(0.3), borderWidth: 1)
         }
     }
 }
@@ -325,38 +406,62 @@ struct ForgotPasswordView: View {
 
     var body: some View {
         NavigationStack {
-            Form {
-                Section {
-                    TextField("Email", text: $email)
-                        .textInputAutocapitalization(.never)
-                        .autocorrectionDisabled()
-                        .keyboardType(.emailAddress)
-                } header: {
-                    Text("Enter your email address and we'll send you a link to reset your password.")
-                }
+            ScrollView {
+                VStack(spacing: 32) {
+                    // Header
+                    Text("OVERRIDE PROTOCOL")
+                        .techFont(.title2)
+                        .foregroundColor(Theme.Colors.neonMagenta)
+                        .tracking(2)
+                        .padding(.top, 24)
 
-                Section {
-                    Button("Send Reset Link") {
+                    Text("ENTER SYSTEM CREDENTIALS TO RECEIVE OVERRIDE LINK")
+                        .techFont(.caption)
+                        .foregroundColor(Theme.Colors.secondaryText)
+                        .multilineTextAlignment(.center)
+                        .padding(.horizontal, 32)
+                        .tracking(1)
+
+                    // Input Field
+                    NeonTextField(title: "CREDENTIAL (EMAIL)", placeholder: "INPUT DATA...", text: $email, icon: "terminal")
+                        .keyboardType(.emailAddress)
+                        .textInputAutocapitalization(.never)
+                        .padding(.horizontal, 24)
+
+                    // Submit Button
+                    Button {
                         showSuccess = true
+                    } label: {
+                        Text("TRANSMIT REQUEST")
+                            .techFont(.headline)
+                            .tracking(2)
+                            .foregroundColor(Theme.Colors.primaryBackground)
+                            .frame(maxWidth: .infinity)
+                            .padding()
+                            .background(Theme.buttonGradient(color: Theme.Colors.neonMagenta))
+                            .clipShape(RoundedRectangle(cornerRadius: Theme.Radius.lg))
+                            .neonGlow(color: Theme.Colors.neonMagenta, radius: .sm)
+                            .opacity(email.isEmpty ? 0.5 : 1.0)
                     }
                     .disabled(email.isEmpty)
+                    .padding(.horizontal, 24)
                 }
             }
-            .navigationTitle("Reset Password")
+            .background(Theme.Colors.primaryBackground)
+            .navigationTitle("RECOVERY")
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {
                 ToolbarItem(placement: .navigationBarTrailing) {
-                    Button("Cancel") {
-                        dismiss()
+                    Button(action: { dismiss() }) {
+                        Image(systemName: "xmark")
+                            .foregroundColor(Theme.Colors.neonMagenta)
                     }
                 }
             }
-            .alert("Email Sent", isPresented: $showSuccess) {
-                Button("OK") {
-                    dismiss()
-                }
+            .alert("TRANSMISSION SUCCESS", isPresented: $showSuccess) {
+                Button("ACKNOWLEDGE") { dismiss() }
             } message: {
-                Text("Check your email for the password reset link.")
+                Text("OVERRIDE LINK SENT TO DESIGNATED ADDRESS")
             }
         }
     }

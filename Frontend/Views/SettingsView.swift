@@ -23,51 +23,51 @@ struct SettingsView: View {
                         HStack {
                             ZStack {
                                 Circle()
-                                    .fill(LinearGradient(
-                                        colors: [.blue, .purple],
-                                        startPoint: .topLeading,
-                                        endPoint: .bottomTrailing
-                                    ))
+                                    .strokeBorder(Theme.Colors.neonCyan.opacity(0.8), lineWidth: 2)
+                                    .background(Circle().fill(Theme.Colors.secondaryBackground))
                                     .frame(width: 50, height: 50)
+                                    .neonGlow(color: Theme.Colors.neonCyan, radius: .sm)
 
                                 Text(String(viewModel.userInitials))
-                                    .font(.title2)
-                                    .fontWeight(.bold)
-                                    .foregroundColor(.white)
+                                    .techFont(.title2)
+                                    .foregroundColor(Theme.Colors.neonCyan)
                             }
 
-                            VStack(alignment: .leading, spacing: 2) {
-                                Text(viewModel.userName)
-                                    .font(.headline)
+                            VStack(alignment: .leading, spacing: 4) {
+                                Text(viewModel.userName.uppercased())
+                                    .techFont(.headline)
+                                    .foregroundColor(.white)
+                                    .tracking(1)
 
-                                Text(viewModel.userEmail)
-                                    .font(.caption)
-                                    .foregroundColor(.secondary)
+                                Text(viewModel.userEmail.uppercased())
+                                    .techFont(.caption)
+                                    .foregroundColor(Theme.Colors.neonCyan.opacity(0.8))
                             }
 
                             Spacer()
 
                             Image(systemName: "chevron.right")
-                                .foregroundColor(.secondary)
+                                .foregroundColor(Theme.Colors.neonCyan)
                         }
-                        .padding(.vertical, 4)
+                        .padding(.vertical, 8)
                     }
+                    .listRowBackground(Theme.Colors.secondaryBackground)
                 }
 
                 // VPN Settings
-                Section("VPN Settings") {
-                    Toggle("Auto-connect on launch", isOn: $viewModel.autoConnect)
-                    Toggle("Kill Switch", isOn: $viewModel.killSwitch)
-                    Toggle("Block LAN traffic", isOn: $viewModel.blockLAN)
+                Section(header: Text("UPLINK CONFIG").techFont(.footnote).foregroundColor(Theme.Colors.neonCyan)) {
+                    Toggle("AUTO-CONNECT ON LAUNCH", isOn: $viewModel.autoConnect)
+                    Toggle("KILL SWITCH", isOn: $viewModel.killSwitch)
+                    Toggle("BLOCK LAN TRAFFIC", isOn: $viewModel.blockLAN)
 
                     NavigationLink {
                         ProtocolSelectionView(selectedVPNProtocol: $viewModel.vpnProtocol)
                     } label: {
                         HStack {
-                            Text("Protocol")
+                            Text("PROTOCOL")
                             Spacer()
                             Text(viewModel.vpnProtocol.rawValue)
-                                .foregroundColor(.secondary)
+                                .foregroundColor(Theme.Colors.neonCyan)
                         }
                     }
 
@@ -75,24 +75,27 @@ struct SettingsView: View {
                         DNSSettingsView()
                     } label: {
                         HStack {
-                            Text("DNS Settings")
+                            Text("DNS ROUTING")
                             Spacer()
                             Image(systemName: "chevron.right")
-                                .foregroundColor(.secondary)
+                                .foregroundColor(Theme.Colors.neonCyan)
                         }
                     }
                 }
+                .listRowBackground(Theme.Colors.secondaryBackground)
+                .font(Theme.Typography.body.font.monospaced())
+                .foregroundColor(.white)
 
                 // General Settings
-                Section("General") {
+                Section(header: Text("SYSTEM").techFont(.footnote).foregroundColor(Theme.Colors.neonCyan)) {
                     NavigationLink {
                         AppearanceSettingsView()
                     } label: {
                         HStack {
-                            Text("Appearance")
+                            Text("APPEARANCE")
                             Spacer()
                             Image(systemName: "chevron.right")
-                                .foregroundColor(.secondary)
+                                .foregroundColor(Theme.Colors.neonCyan)
                         }
                     }
 
@@ -100,23 +103,27 @@ struct SettingsView: View {
                         NotificationsSettingsView()
                     } label: {
                         HStack {
-                            Text("Notifications")
+                            Text("NOTIFICATIONS")
                             Spacer()
                             Image(systemName: "chevron.right")
-                                .foregroundColor(.secondary)
+                                .foregroundColor(Theme.Colors.neonCyan)
                         }
                     }
                 }
+                .listRowBackground(Theme.Colors.secondaryBackground)
+                .font(Theme.Typography.body.font.monospaced())
+                .foregroundColor(.white)
 
                 // Support
-                Section("Support") {
+                Section(header: Text("SUPPORT").techFont(.footnote).foregroundColor(Theme.Colors.neonCyan)) {
                     NavigationLink {
                         SubscriptionView()
                     } label: {
                         HStack {
                             Image(systemName: "crown.fill")
-                                .foregroundColor(.yellow)
-                            Text("Subscription")
+                                .foregroundColor(Theme.Colors.neonOrange)
+                                .neonGlow(color: Theme.Colors.neonOrange, radius: .sm)
+                            Text("SUBSCRIPTION")
                         }
                     }
 
@@ -125,10 +132,10 @@ struct SettingsView: View {
                     } label: {
                         HStack {
                             Image(systemName: "questionmark.circle")
-                            Text("Help Center")
+                            Text("HELP CENTER")
                             Spacer()
-                            Image(systemName: "externalLink")
-                                .foregroundColor(.secondary)
+                            Image(systemName: "arrow.up.right.square")
+                                .foregroundColor(Theme.Colors.neonCyan)
                         }
                     }
 
@@ -137,31 +144,34 @@ struct SettingsView: View {
                     } label: {
                         HStack {
                             Image(systemName: "envelope")
-                            Text("Contact Support")
+                            Text("CONTACT SUPPORT")
                             Spacer()
-                            Image(systemName: "externalLink")
-                                .foregroundColor(.secondary)
+                            Image(systemName: "arrow.up.right.square")
+                                .foregroundColor(Theme.Colors.neonCyan)
                         }
                     }
                 }
+                .listRowBackground(Theme.Colors.secondaryBackground)
+                .font(Theme.Typography.body.font.monospaced())
+                .foregroundColor(.white)
 
                 // About
-                Section("About") {
+                Section(header: Text("ABOUT").techFont(.footnote).foregroundColor(Theme.Colors.neonCyan)) {
                     HStack {
-                        Text("Version")
+                        Text("VERSION")
                         Spacer()
                         Text(viewModel.appVersion)
-                            .foregroundColor(.secondary)
+                            .foregroundColor(Theme.Colors.neonCyan)
                     }
 
                     Button {
                         showAbout = true
                     } label: {
                         HStack {
-                            Text("Terms of Service")
+                            Text("TERMS OF SERVICE")
                             Spacer()
                             Image(systemName: "chevron.right")
-                                .foregroundColor(.secondary)
+                                .foregroundColor(Theme.Colors.neonCyan)
                         }
                     }
 
@@ -169,24 +179,37 @@ struct SettingsView: View {
                         // Privacy policy
                     } label: {
                         HStack {
-                            Text("Privacy Policy")
+                            Text("PRIVACY POLICY")
                             Spacer()
                             Image(systemName: "chevron.right")
-                                .foregroundColor(.secondary)
+                                .foregroundColor(Theme.Colors.neonCyan)
                         }
                     }
                 }
+                .listRowBackground(Theme.Colors.secondaryBackground)
+                .font(Theme.Typography.body.font.monospaced())
+                .foregroundColor(.white)
 
                 // Danger zone
                 Section {
                     Button(role: .destructive) {
                         viewModel.logout()
                     } label: {
-                        Text("Log Out")
+                        HStack {
+                            Spacer()
+                            Text("TERMINATE SESSION")
+                                .techFont(.headline)
+                                .foregroundColor(Theme.Colors.neonMagenta)
+                            Spacer()
+                        }
                     }
                 }
+                .listRowBackground(Theme.Colors.secondaryBackground)
             }
-            .navigationTitle("Settings")
+            .scrollContentBackground(.hidden)
+            .background(Theme.Colors.primaryBackground)
+            .navigationTitle("CONFIG")
+            .navigationBarTitleDisplayMode(.large)
         }
         .sheet(isPresented: $showAbout) {
             AboutView()
@@ -380,7 +403,7 @@ struct AboutView: View {
                     // Links
                     VStack(spacing: 16) {
                         LinkRow(icon: "globe", title: "Website", url: "https://safemesh.com")
-                        LinkRow(icon: "twitter", title: "Twitter", url: "https://twitter.com/safemesh")
+                        LinkRow(icon: "bird", title: "Twitter", url: "https://twitter.com/safemesh")
                         LinkRow(icon: "envelope", title: "Support", url: "mailto:support@safemesh.com")
                     }
 
@@ -429,17 +452,18 @@ struct LinkRow: View {
     var body: some View {
         HStack(spacing: 12) {
             Image(systemName: icon)
-                .foregroundColor(.blue)
+                .foregroundColor(Theme.Colors.neonCyan)
                 .frame(width: 24)
 
-            Text(title)
+            Text(title.uppercased())
+                .techFont(.body)
 
             Spacer()
 
             Image(systemName: "arrow.up.right.square")
-                .foregroundColor(.secondary)
+                .foregroundColor(Theme.Colors.neonCyan)
         }
-        .foregroundColor(.primary)
+        .foregroundColor(.white)
     }
 }
 

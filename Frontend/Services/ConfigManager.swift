@@ -68,6 +68,11 @@ class ConfigManager: ConfigManaging {
 
     func fetchConfiguration(for server: VPNServer) async throws -> VPNConfiguration
 {
+        // Return mock config when backend is unavailable (DEBUG with no local server)
+        if AppConfiguration.useMockData {
+            return .mock
+        }
+
         let deviceKeyPair = keyManager.getOrCreateDeviceKeyPair()
         let presharedKey = keyManager.generatePresharedKey()
 

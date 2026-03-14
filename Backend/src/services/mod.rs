@@ -209,6 +209,20 @@ impl UserService {
     ) -> Result<Option<User>, sqlx::Error> {
         crate::database::update_user_profile(pool, user_id, name, avatar_url).await
     }
+
+    pub async fn delete_account(
+        pool: &DbPool,
+        user_id: Uuid,
+    ) -> Result<(), Box<dyn std::error::Error>> {
+        // Revoke refresh tokens
+        crate::database::delete_user_refresh_tokens(pool, user_id).await?;
+        // Deactivate user record (soft delete)
+        sqlx::query("UPDATE users SET is_active = false, updated_at = NOW() WHERE id = $1")
+            .bind(user_id)
+            .execute(pool)
+            .await?;
+        Ok(())
+    }
 }
 
 // ─────────────────────────────────────────────
@@ -328,6 +342,60 @@ impl SubscriptionService {
         crate::database::get_user_subscription(pool, user_id).await
     }
 
+    pub fn get_available_plans() -> Vec<SubscriptionPlanInfo> {
+        vec![
+            SubscriptionPlanInfo {
+                id: "plan_free".to_string(),
+                name: "Free".to_string(),
+                plan_type: "free".to_string(),
+                price: 0.0,
+                currency: "USD".to_string(),
+                billing_period: "forever".to_string(),
+                max_bandwidth: 1_073_741_824,          // 1 GB
+                max_connections: 1,
+                features: vec!["basic_vpn".to_string()],
+                sort_order: 0,
+                is_free: true,
+            },
+            SubscriptionPlanInfo {
+                id: "plan_monthly".to_string(),
+                name: "Pro Monthly".to_string(),
+                plan_type: "pro".to_string(),
+                price: 9.99,
+                currency: "USD".to_string(),
+                billing_period: "month".to_string(),
+                max_bandwidth: 107_374_182_400,        // 100 GB
+                max_connections: 5,
+                features: vec![
+                    "basic_vpn".to_string(),
+                    "premium_servers".to_string(),
+                    "kill_switch".to_string(),
+                ],
+                sort_order: 1,
+                is_free: false,
+            },
+            SubscriptionPlanInfo {
+                id: "plan_yearly".to_string(),
+                name: "Premium Yearly".to_string(),
+                plan_type: "premium".to_string(),
+                price: 79.99,
+                currency: "USD".to_string(),
+                billing_period: "year".to_string(),
+                max_bandwidth: i64::MAX,
+                max_connections: 10,
+                features: vec![
+                    "basic_vpn".to_string(),
+                    "premium_servers".to_string(),
+                    "kill_switch".to_string(),
+                    "split_tunnel".to_string(),
+                    "dedicated_ip".to_string(),
+                ],
+                sort_order: 2,
+                is_free: false,
+            },
+        ]
+    }
+
     pub async fn purchase_subscription(
         pool: &DbPool,
         user_id: Uuid,
@@ -352,6 +420,36 @@ impl SubscriptionService {
         )
         .await?;
         Ok(sub)
+    }
+
+    pub async fn cancel_subscription(
+        pool: &DbPool,
+        user_id: Uuid,
+    ) -> Result<Option<Subscription>, Box<dyn std::error::Error>> {
+        // Set auto_renew to false and mark status as "canceled"
+        sqlx::query(
+            "UPDATE subscriptions SET auto_renew = false, status = 'canceled', updated_at = NOW() WHERE user_id = $1 AND is_active = true"
+        )
+        .bind(user_id)
+        .execute(pool)
+        .await?;
+
+        Ok(crate::database::get_user_subscription(pool, user_id).await?)
+    }
+
+    pub async fn restore_subscription(
+        pool: &DbPool,
+        user_id: Uuid,
+    ) -> Result<Option<Subscription>, Box<dyn std::error::Error>> {
+        // Re-enable auto_renew and set status back to "active"
+        sqlx::query(
+            "UPDATE subscriptions SET auto_renew = true, status = 'active', updated_at = NOW() WHERE user_id = $1 AND is_active = true"
+        )
+        .bind(user_id)
+        .execute(pool)
+        .await?;
+
+        Ok(crate::database::get_user_subscription(pool, user_id).await?)
     }
 }
 
