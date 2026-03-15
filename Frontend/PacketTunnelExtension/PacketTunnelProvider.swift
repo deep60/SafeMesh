@@ -9,6 +9,9 @@ import Foundation
 import NetworkExtension
 import WireGuardKit
 
+/// Alias to disambiguate WireGuardKit.TunnelConfiguration from the app's local TunnelConfiguration
+private typealias WGTunnelConfiguration = WireGuardKit.TunnelConfiguration
+
 class PacketTunnelProvider: NEPacketTunnelProvider {
     // MARK: - Properties
     private lazy var adapter: WireGuardAdapter = {
@@ -32,9 +35,9 @@ class PacketTunnelProvider: NEPacketTunnelProvider {
         }
         
         // 2. Parse into WireGuardKit's TunnelConfiguration
-        let tunnelConfig: TunnelConfiguration
+        let tunnelConfig: WGTunnelConfiguration
         do {
-            tunnelConfig = try TunnelConfiguration(fromWgQuickConfig: configString, called: "SafeMesh")
+            tunnelConfig = try WGTunnelConfiguration(fromWgQuickConfig: configString, called: "SafeMesh")
         } catch {
             wg_log(.error, message: "Failed to parse WireGuard config: \(error)")
             completionHandler(PacketTunnelProviderError.invalidConfiguration)

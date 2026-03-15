@@ -30,7 +30,6 @@
 		DCABF3F02F4C6BE3000FDF4E /* LoadingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DCABF3A22F4C6BE3000FDF4E /* LoadingView.swift */; };
 		DCABF3F12F4C6BE3000FDF4E /* SecureStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = DCABF3BD2F4C6BE3000FDF4E /* SecureStorage.swift */; };
 		DCABF3F22F4C6BE3000FDF4E /* ConfigManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = DCABF3B92F4C6BE3000FDF4E /* ConfigManager.swift */; };
-		DCABF3F32F4C6BE3000FDF4E /* PacketTunnelProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = DCABF3B32F4C6BE3000FDF4E /* PacketTunnelProvider.swift */; };
 		DCABF3F42F4C6BE3000FDF4E /* Theme.swift in Sources */ = {isa = PBXBuildFile; fileRef = DCABF3C52F4C6BE3000FDF4E /* Theme.swift */; };
 		DCABF3F52F4C6BE3000FDF4E /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = DCABF3C22F4C6BE3000FDF4E /* Constants.swift */; };
 		DCABF3F62F4C6BE3000FDF4E /* TunnelConfiguration.swift in Sources */ = {isa = PBXBuildFile; fileRef = DCABF3B42F4C6BE3000FDF4E /* TunnelConfiguration.swift */; };
@@ -55,7 +54,7 @@
 		DCABF40A2F4C6BE3000FDF4E /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = DCABF3C32F4C6BE3000FDF4E /* Extensions.swift */; };
 		DCABF40B2F4C6BE3000FDF4E /* APIServer.swift in Sources */ = {isa = PBXBuildFile; fileRef = DCABF3A72F4C6BE3000FDF4E /* APIServer.swift */; };
 		DCABF40C2F4C6BE3000FDF4E /* CountryFlag.swift in Sources */ = {isa = PBXBuildFile; fileRef = DCABF3A12F4C6BE3000FDF4E /* CountryFlag.swift */; };
-
+		DCACB1C82F65C100009C5667 /* WireGuardKit in Frameworks */ = {isa = PBXBuildFile; productRef = DCACB1C72F65C000009C5667 /* WireGuardKit */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -145,27 +144,9 @@
 		DCABF3D62F4C6BE3000FDF4E /* SettingsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsViewModel.swift; sourceTree = "<group>"; };
 		DCABF3D72F4C6BE3000FDF4E /* SubscriptionViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SubscriptionViewModel.swift; sourceTree = "<group>"; };
 		DCABF3D82F4C6BE3000FDF4E /* VPNViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VPNViewModel.swift; sourceTree = "<group>"; };
+		DCACB1C52F65BFDF009C5667 /* WireGuardKit */ = {isa = PBXFileReference; lastKnownFileType = wrapper; path = WireGuardKit; sourceTree = "<group>"; };
 		DCAE07972F63A1E500121298 /* SafeMesh.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SafeMesh.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		DCAE07A52F63A55300121298 /* SafeMesh.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = SafeMesh.entitlements; sourceTree = "<group>"; };
-		DCAE07A62F63B5B700121298 /* 20240307120000_init.sql */ = {isa = PBXFileReference; lastKnownFileType = text; path = 20240307120000_init.sql; sourceTree = "<group>"; };
-		DCAE07A92F63B5B700121298 /* mod.rs */ = {isa = PBXFileReference; lastKnownFileType = text; path = mod.rs; sourceTree = "<group>"; };
-		DCAE07AB2F63B5B700121298 /* mod.rs */ = {isa = PBXFileReference; lastKnownFileType = text; path = mod.rs; sourceTree = "<group>"; };
-		DCAE07AD2F63B5B700121298 /* mod.rs */ = {isa = PBXFileReference; lastKnownFileType = text; path = mod.rs; sourceTree = "<group>"; };
-		DCAE07AF2F63B5B700121298 /* mod.rs */ = {isa = PBXFileReference; lastKnownFileType = text; path = mod.rs; sourceTree = "<group>"; };
-		DCAE07B12F63B5B700121298 /* mod.rs */ = {isa = PBXFileReference; lastKnownFileType = text; path = mod.rs; sourceTree = "<group>"; };
-		DCAE07B32F63B5B700121298 /* mod.rs */ = {isa = PBXFileReference; lastKnownFileType = text; path = mod.rs; sourceTree = "<group>"; };
-		DCAE07B52F63B5B700121298 /* mod.rs */ = {isa = PBXFileReference; lastKnownFileType = text; path = mod.rs; sourceTree = "<group>"; };
-		DCAE07B72F63B5B700121298 /* mod.rs */ = {isa = PBXFileReference; lastKnownFileType = text; path = mod.rs; sourceTree = "<group>"; };
-		DCAE07B92F63B5B700121298 /* mod.rs */ = {isa = PBXFileReference; lastKnownFileType = text; path = mod.rs; sourceTree = "<group>"; };
-		DCAE07BB2F63B5B700121298 /* mod.rs */ = {isa = PBXFileReference; lastKnownFileType = text; path = mod.rs; sourceTree = "<group>"; };
-		DCAE07BD2F63B5B700121298 /* mod.rs */ = {isa = PBXFileReference; lastKnownFileType = text; path = mod.rs; sourceTree = "<group>"; };
-		DCAE07BF2F63B5B700121298 /* lib.rs */ = {isa = PBXFileReference; lastKnownFileType = text; path = lib.rs; sourceTree = "<group>"; };
-		DCAE07C02F63B5B700121298 /* main.rs */ = {isa = PBXFileReference; lastKnownFileType = text; path = main.rs; sourceTree = "<group>"; };
-		DCAE07C22F63B5B700121298 /* .env */ = {isa = PBXFileReference; lastKnownFileType = text; path = .env; sourceTree = "<group>"; };
-		DCAE07C32F63B5B700121298 /* .gitignore */ = {isa = PBXFileReference; lastKnownFileType = text; path = .gitignore; sourceTree = "<group>"; };
-		DCAE07C42F63B5B700121298 /* Cargo.lock */ = {isa = PBXFileReference; lastKnownFileType = text; path = Cargo.lock; sourceTree = "<group>"; };
-		DCAE07C52F63B5B700121298 /* Cargo.toml */ = {isa = PBXFileReference; lastKnownFileType = text; path = Cargo.toml; sourceTree = "<group>"; };
-		DCAE07C62F63B5B700121298 /* vpn.db */ = {isa = PBXFileReference; lastKnownFileType = file; path = vpn.db; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
@@ -194,6 +175,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				DCACB1C82F65C100009C5667 /* WireGuardKit in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -305,6 +287,7 @@
 		DCABF3862F4C6BBA000FDF4E = {
 			isa = PBXGroup;
 			children = (
+				DCACB1C62F65BFDF009C5667 /* LocalPackages */,
 				DCAE07A52F63A55300121298 /* SafeMesh.entitlements */,
 				DCABF3DC2F4C6BE3000FDF4E /* Frontend */,
 				DC92F0262F61725000D2F445 /* Database */,
@@ -454,142 +437,12 @@
 			path = Frontend;
 			sourceTree = "<group>";
 		};
-		DCAE07A72F63B5B700121298 /* migrations */ = {
+		DCACB1C62F65BFDF009C5667 /* LocalPackages */ = {
 			isa = PBXGroup;
 			children = (
-				DCAE07A62F63B5B700121298 /* 20240307120000_init.sql */,
+				DCACB1C52F65BFDF009C5667 /* WireGuardKit */,
 			);
-			path = migrations;
-			sourceTree = "<group>";
-		};
-		DCAE07A82F63B5B700121298 /* scripts */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = scripts;
-			sourceTree = "<group>";
-		};
-		DCAE07AA2F63B5B700121298 /* v1 */ = {
-			isa = PBXGroup;
-			children = (
-				DCAE07A92F63B5B700121298 /* mod.rs */,
-			);
-			path = v1;
-			sourceTree = "<group>";
-		};
-		DCAE07AC2F63B5B700121298 /* api */ = {
-			isa = PBXGroup;
-			children = (
-				DCAE07AA2F63B5B700121298 /* v1 */,
-				DCAE07AB2F63B5B700121298 /* mod.rs */,
-			);
-			path = api;
-			sourceTree = "<group>";
-		};
-		DCAE07AE2F63B5B700121298 /* auth */ = {
-			isa = PBXGroup;
-			children = (
-				DCAE07AD2F63B5B700121298 /* mod.rs */,
-			);
-			path = auth;
-			sourceTree = "<group>";
-		};
-		DCAE07B02F63B5B700121298 /* config */ = {
-			isa = PBXGroup;
-			children = (
-				DCAE07AF2F63B5B700121298 /* mod.rs */,
-			);
-			path = config;
-			sourceTree = "<group>";
-		};
-		DCAE07B22F63B5B700121298 /* database */ = {
-			isa = PBXGroup;
-			children = (
-				DCAE07B12F63B5B700121298 /* mod.rs */,
-			);
-			path = database;
-			sourceTree = "<group>";
-		};
-		DCAE07B42F63B5B700121298 /* email */ = {
-			isa = PBXGroup;
-			children = (
-				DCAE07B32F63B5B700121298 /* mod.rs */,
-			);
-			path = email;
-			sourceTree = "<group>";
-		};
-		DCAE07B62F63B5B700121298 /* handlers */ = {
-			isa = PBXGroup;
-			children = (
-				DCAE07B52F63B5B700121298 /* mod.rs */,
-			);
-			path = handlers;
-			sourceTree = "<group>";
-		};
-		DCAE07B82F63B5B700121298 /* middleware */ = {
-			isa = PBXGroup;
-			children = (
-				DCAE07B72F63B5B700121298 /* mod.rs */,
-			);
-			path = middleware;
-			sourceTree = "<group>";
-		};
-		DCAE07BA2F63B5B700121298 /* models */ = {
-			isa = PBXGroup;
-			children = (
-				DCAE07B92F63B5B700121298 /* mod.rs */,
-			);
-			path = models;
-			sourceTree = "<group>";
-		};
-		DCAE07BC2F63B5B700121298 /* services */ = {
-			isa = PBXGroup;
-			children = (
-				DCAE07BB2F63B5B700121298 /* mod.rs */,
-			);
-			path = services;
-			sourceTree = "<group>";
-		};
-		DCAE07BE2F63B5B700121298 /* utils */ = {
-			isa = PBXGroup;
-			children = (
-				DCAE07BD2F63B5B700121298 /* mod.rs */,
-			);
-			path = utils;
-			sourceTree = "<group>";
-		};
-		DCAE07C12F63B5B700121298 /* src */ = {
-			isa = PBXGroup;
-			children = (
-				DCAE07AC2F63B5B700121298 /* api */,
-				DCAE07AE2F63B5B700121298 /* auth */,
-				DCAE07B02F63B5B700121298 /* config */,
-				DCAE07B22F63B5B700121298 /* database */,
-				DCAE07B42F63B5B700121298 /* email */,
-				DCAE07B62F63B5B700121298 /* handlers */,
-				DCAE07B82F63B5B700121298 /* middleware */,
-				DCAE07BA2F63B5B700121298 /* models */,
-				DCAE07BC2F63B5B700121298 /* services */,
-				DCAE07BE2F63B5B700121298 /* utils */,
-				DCAE07BF2F63B5B700121298 /* lib.rs */,
-				DCAE07C02F63B5B700121298 /* main.rs */,
-			);
-			path = src;
-			sourceTree = "<group>";
-		};
-		DCAE07C72F63B5B700121298 /* Backend */ = {
-			isa = PBXGroup;
-			children = (
-				DCAE07A72F63B5B700121298 /* migrations */,
-				DCAE07A82F63B5B700121298 /* scripts */,
-				DCAE07C12F63B5B700121298 /* src */,
-				DCAE07C22F63B5B700121298 /* .env */,
-				DCAE07C32F63B5B700121298 /* .gitignore */,
-				DCAE07C42F63B5B700121298 /* Cargo.lock */,
-				DCAE07C52F63B5B700121298 /* Cargo.toml */,
-				DCAE07C62F63B5B700121298 /* vpn.db */,
-			);
-			path = Backend;
+			path = LocalPackages;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -632,6 +485,7 @@
 			);
 			name = PacketTunnelExtension;
 			packageProductDependencies = (
+				DCACB1C72F65C000009C5667 /* WireGuardKit */,
 			);
 			productName = PacketTunnelExtension;
 			productReference = DC92F0422F6174E100D2F445 /* PacketTunnelExtension.appex */;
@@ -687,7 +541,7 @@
 			mainGroup = DCABF3862F4C6BBA000FDF4E;
 			minimizedProjectReferenceProxies = 1;
 			packageReferences = (
-				DC92F0572F617AD100D2F445 /* XCRemoteSwiftPackageReference "wireguard-apple" */,
+				DC92F0572F617AD100D2F445 /* XCLocalSwiftPackageReference "LocalPackages/WireGuardKit" */,
 			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = DCABF3862F4C6BBA000FDF4E;
@@ -745,7 +599,6 @@
 				DCABF3F02F4C6BE3000FDF4E /* LoadingView.swift in Sources */,
 				DCABF3F12F4C6BE3000FDF4E /* SecureStorage.swift in Sources */,
 				DCABF3F22F4C6BE3000FDF4E /* ConfigManager.swift in Sources */,
-				DCABF3F32F4C6BE3000FDF4E /* PacketTunnelProvider.swift in Sources */,
 				DCABF3F42F4C6BE3000FDF4E /* Theme.swift in Sources */,
 				DCABF3F52F4C6BE3000FDF4E /* Constants.swift in Sources */,
 				DCABF3F62F4C6BE3000FDF4E /* TunnelConfiguration.swift in Sources */,
@@ -990,9 +843,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 26.2;
 				LD_RUNPATH_SEARCH_PATHS = "@executable_path/Frameworks";
 				"LD_RUNPATH_SEARCH_PATHS[sdk=macosx*]" = "@executable_path/../Frameworks";
-				LIBRARY_SEARCH_PATHS = (
-					"$(inherited)",
-				);
+				LIBRARY_SEARCH_PATHS = "$(inherited)";
 				MACOSX_DEPLOYMENT_TARGET = 26.2;
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.SafeMesh;
@@ -1041,9 +892,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 26.2;
 				LD_RUNPATH_SEARCH_PATHS = "@executable_path/Frameworks";
 				"LD_RUNPATH_SEARCH_PATHS[sdk=macosx*]" = "@executable_path/../Frameworks";
-				LIBRARY_SEARCH_PATHS = (
-					"$(inherited)",
-				);
+				LIBRARY_SEARCH_PATHS = "$(inherited)";
 				MACOSX_DEPLOYMENT_TARGET = 26.2;
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.SafeMesh;
@@ -1133,16 +982,19 @@
 		};
 /* End XCConfigurationList section */
 
-/* Begin XCRemoteSwiftPackageReference section */
-		DC92F0572F617AD100D2F445 /* XCRemoteSwiftPackageReference "wireguard-apple" */ = {
-			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/WireGuard/wireguard-apple";
-			requirement = {
-				branch = master;
-				kind = branch;
-			};
+/* Begin XCLocalSwiftPackageReference section */
+		DC92F0572F617AD100D2F445 /* XCLocalSwiftPackageReference "LocalPackages/WireGuardKit" */ = {
+			isa = XCLocalSwiftPackageReference;
+			relativePath = LocalPackages/WireGuardKit;
 		};
-/* End XCRemoteSwiftPackageReference section */
+/* End XCLocalSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		DCACB1C72F65C000009C5667 /* WireGuardKit */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = WireGuardKit;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = DCABF3872F4C6BBA000FDF4E /* Project object */;
 }

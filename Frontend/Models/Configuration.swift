@@ -180,6 +180,8 @@ extension VPNConfiguration {
       static let mock = VPNConfiguration(
           server: .mock,
           vpnProtocol: .wireGuard,
+          interfaceAddressV4: "10.0.0.2/32",
+          interfaceAddressV6: "fd00::2/128",
           privateKey: "private_key_placeholder",
           publicKey: "public_key_placeholder",
           presharedKey: nil,

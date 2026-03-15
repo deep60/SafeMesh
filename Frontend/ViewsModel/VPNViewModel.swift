@@ -119,7 +119,7 @@ class VPNViewModel: ObservableObject {
                 configManager.saveSelectedServerId(targetServer.id)
 
                 // Connect via VPN manager
-                try await vpnManager.connect(with: config)
+                try await vpnManager.connect(with: config, killSwitchEnabled: true)
 
             } catch {
                 withAnimation {
