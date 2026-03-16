@@ -13,6 +13,7 @@ struct MainTabView: View {
 
     enum Tab: String, CaseIterable {
         case home = "house.fill"
+        case speedTest = "gauge.with.dots.needle.50percent"
         case servers = "globe"
         case settings = "gearshape.fill"
     }
@@ -31,6 +32,12 @@ struct MainTabView: View {
                         Label("System", systemImage: Tab.home.rawValue)
                     }
                     .tag(Tab.home)
+
+                SpeedTestView()
+                    .tabItem {
+                        Label("Speed", systemImage: Tab.speedTest.rawValue)
+                    }
+                    .tag(Tab.speedTest)
 
                 ServerListView()
                     .tabItem {

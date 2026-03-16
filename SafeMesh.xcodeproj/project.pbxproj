@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		DC850FA82F679BDA003B5BBB /* SpeedTestService.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC850FA72F679BD9003B5BBB /* SpeedTestService.swift */; };
+		DC850FAA2F679BF3003B5BBB /* SpeedTestView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC850FA92F679BF3003B5BBB /* SpeedTestView.swift */; };
 		DC92F04E2F6174E200D2F445 /* PacketTunnelExtension.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = DC92F0422F6174E100D2F445 /* PacketTunnelExtension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		DCABF3932F4C6BBA000FDF4E /* SafeMeshApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = DCABF3922F4C6BBA000FDF4E /* SafeMeshApp.swift */; };
 		DCABF3952F4C6BBA000FDF4E /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DCABF3942F4C6BBA000FDF4E /* ContentView.swift */; };
@@ -82,6 +84,8 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		DC850FA72F679BD9003B5BBB /* SpeedTestService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpeedTestService.swift; sourceTree = "<group>"; };
+		DC850FA92F679BF3003B5BBB /* SpeedTestView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpeedTestView.swift; sourceTree = "<group>"; };
 		DC92F0232F61725000D2F445 /* 001_initial_schema.sql */ = {isa = PBXFileReference; lastKnownFileType = text; path = 001_initial_schema.sql; sourceTree = "<group>"; };
 		DC92F0242F61725000D2F445 /* 002_seed_servers.sql */ = {isa = PBXFileReference; lastKnownFileType = text; path = 002_seed_servers.sql; sourceTree = "<group>"; };
 		DC92F0272F61725A00D2F445 /* ci-cd.yml */ = {isa = PBXFileReference; lastKnownFileType = text.yaml; path = "ci-cd.yml"; sourceTree = "<group>"; };
@@ -357,6 +361,7 @@
 				DCABF3BD2F4C6BE3000FDF4E /* SecureStorage.swift */,
 				DCABF3BE2F4C6BE3000FDF4E /* StatusObserver.swift */,
 				DCABF3BF2F4C6BE3000FDF4E /* VPNManager.swift */,
+				DC850FA72F679BD9003B5BBB /* SpeedTestService.swift */,
 			);
 			path = Services;
 			sourceTree = "<group>";
@@ -393,6 +398,7 @@
 				DCABF3CF2F4C6BE3000FDF4E /* ServerListView.swift */,
 				DCABF3D02F4C6BE3000FDF4E /* SettingsView.swift */,
 				DCABF3D12F4C6BE3000FDF4E /* SubscriptionView.swift */,
+				DC850FA92F679BF3003B5BBB /* SpeedTestView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -593,6 +599,7 @@
 				DCABF3E82F4C6BE3000FDF4E /* VPNStatus.swift in Sources */,
 				DCABF3E92F4C6BE3000FDF4E /* VPNServer.swift in Sources */,
 				DCABF3EA2F4C6BE3000FDF4E /* StatusObserver.swift in Sources */,
+				DC850FA82F679BDA003B5BBB /* SpeedTestService.swift in Sources */,
 				DCABF3EC2F4C6BE3000FDF4E /* Formatter.swift in Sources */,
 				DCABF3ED2F4C6BE3000FDF4E /* Validator.swift in Sources */,
 				DCABF3EF2F4C6BE3000FDF4E /* MainTabView.swift in Sources */,
@@ -602,6 +609,7 @@
 				DCABF3F42F4C6BE3000FDF4E /* Theme.swift in Sources */,
 				DCABF3F52F4C6BE3000FDF4E /* Constants.swift in Sources */,
 				DCABF3F62F4C6BE3000FDF4E /* TunnelConfiguration.swift in Sources */,
+				DC850FAA2F679BF3003B5BBB /* SpeedTestView.swift in Sources */,
 				DCABF3F72F4C6BE3000FDF4E /* SettingsViewModel.swift in Sources */,
 				DCABF3F82F4C6BE3000FDF4E /* ProfileViewModel.swift in Sources */,
 				DCABF3F92F4C6BE3000FDF4E /* APIClient.swift in Sources */,
